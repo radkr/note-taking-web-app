@@ -1,0 +1,103 @@
+:root {
+  /*Colors*/
+  --color-neutral-950: #0e121b;
+  --color-neutral-900: #191b25;
+  --color-neutral-800: #232530;
+  --color-neutral-700: #2b303b;
+  --color-neutral-600: #525866;
+  --color-neutral-500: #717784;
+  --color-neutral-400: #99a0ae;
+  --color-neutral-300: #cacfd8;
+  --color-neutral-200: #e0e4ea;
+  --color-neutral-100: #f3f5f8;
+  --color-neutral-50: #f5f7fa;
+  --color-neutral-0: #ffffff;
+  --color-blue-700: #2547d0;
+  --color-blue-500: #335cff;
+  --color-blue-50: #ebf1ff;
+  --color-green-500: #21c16b;
+  --color-green-100: #d1fbe9;
+  --color-red-500: #fb3748;
+  --color-red-100: #ffd5d8;
+
+  /*Text presets*/
+  --text-font-size-1: 1.5rem;
+  --text-text-line-height-1: 120%;
+  --text-text-letter-spacing-1: -0.5px;
+  --text-font-weight-1: 700;
+  /**/
+  --text-font-size-2: 1.25rem;
+  --text-text-line-height-2: 120%;
+  --text-text-letter-spacing-2: -0.5px;
+  --text-font-weight-2: 700;
+  /**/
+  --text-font-size-3: 1rem;
+  --text-text-line-height-3: 120%;
+  --text-text-letter-spacing-3: -0.3px;
+  --text-font-weight-3: 600;
+  /**/
+  --text-font-size-4: 0.875rem;
+  --text-text-line-height-4: 120%;
+  --text-text-letter-spacing-4: -0.2px;
+  --text-font-weight-4: 500;
+  /**/
+  --text-font-size-5: 0.875rem;
+  --text-text-line-height-5: 120%;
+  --text-text-letter-spacing-5: -0.2px;
+  --text-font-weight-5: 400;
+  /**/
+  --text-font-size-6: 0.75rem;
+  --text-text-line-height-6: 120%;
+  --text-text-letter-spacing-6: -0.2px;
+  --text-font-weight-6: 400;
+  /**/
+
+  /*Spacing*/
+  --spacing-0: 0px;
+  --spacing-025: 2px;
+  --spacing-50: 4px;
+  --spacing-75: 6px;
+  --spacing-100: 8px;
+  --spacing-150: 12px;
+  --spacing-200: 16px;
+  --spacing-250: 20px;
+  --spacing-300: 24px;
+  --spacing-400: 32px;
+  --spacing-500: 40px;
+  --spacing-600: 48px;
+  --spacing-800: 64px;
+  --spacing-1000: 80px;
+
+  /*Radius*/
+  --radius-0: 0;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-24: 24px;
+  --radius-full: 999px;
+
+  /*Shadow*/
+  --shadow-small: 0px 4px 6px 0px rgba(240, 240, 240, 0.6);
+  --shadow-large: 0px 8px 12px 0px rgba(240, 240, 240, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  --text-font-family: var(--font-inter-sans-serif);
+  /**/
+  font-family: var(--font-source-mono);
+  font-family: var(--font-noto-sans);
+  font-family: var(--text-font-family);
+}
