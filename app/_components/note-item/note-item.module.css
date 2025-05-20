@@ -1,0 +1,44 @@
+.note {
+  background-color: white;
+}
+
+.noteCard {
+  padding: var(--spacing-100);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  row-gap: var(--spacing-150);
+}
+
+.selected.note {
+  outline: 1px solid white;
+}
+
+.selected .noteCard {
+  border-radius: var(--radius-6);
+  background-color: var(--color-neutral-100);
+}
+
+@media (prefers-color-scheme: dark) {
+  .noteList {
+    background-color: var(--color-neutral-800);
+  }
+
+  .note {
+    background-color: black;
+  }
+
+  .noteCard {
+    background-color: black;
+  }
+
+  .selected.note {
+    outline: 1px solid black;
+  }
+
+  .selected .noteCard {
+    border-radius: var(--radius-6);
+    background-color: var(--color-neutral-800);
+  }
+}

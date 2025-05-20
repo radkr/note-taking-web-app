@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import styles from "./portable-page-header.module.css";
 import Logo from "@/assets/images/logo.svg";
 

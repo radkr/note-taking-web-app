@@ -115,10 +115,11 @@ body {
 }
 
 main {
-  position: relative;
+  height: 100%;
+  min-height: 0;
+  display: block;
   border-radius: var(--radius-8) var(--radius-8) 0 0;
   background-color: var(--color-neutral-0);
-  z-index: -1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -285,8 +286,15 @@ main {
   color: var(--color-neutral-950);
 }
 
+.text-color-neutral-700 {
+  color: var(--color-neutral-700);
+}
+
 @media (prefers-color-scheme: dark) {
   .text-color-neutral-950 {
     color: white;
+  }
+  .text-color-neutral-700 {
+    color: var(--color-neutral-300);
   }
 }

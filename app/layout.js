@@ -5,7 +5,7 @@ import PortablePageHeader from "@/app/_components/portable-page-header/portable-
 import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
-import ApplicationProvider, { HOME } from "@/app/_lib/application";
+import ApplicationProvider, { HOME } from "@/app/_lib/application/application";
 
 const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",
@@ -28,7 +28,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="dar">
+    <html lang="en">
       <body
         className={`${interSansSerif.variable} ${notoSans.variable}  ${sourceCodeProMono.variable}`}
       >

@@ -1,0 +1,17 @@
+.header {
+  display: block;
+}
+
+.home {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    display: none;
+  }
+}

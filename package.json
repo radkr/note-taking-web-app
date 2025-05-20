@@ -11,6 +11,7 @@
     "test:watch": "jest --watchAll"
   },
   "dependencies": {
+    "mongoose": "^8.15.0",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
