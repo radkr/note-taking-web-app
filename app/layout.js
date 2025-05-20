@@ -2,9 +2,10 @@ import { Inter, Noto_Sans, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 
 import PortablePageHeader from "@/app/_components/portable-page-header/portable-page-header";
-import BottomNavigation, {
-  HOME,
-} from "@/app/_components/bottom-navigation/bottom-navigation";
+import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
+import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
+import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
+import ApplicationProvider, { HOME } from "@/app/_lib/application";
 
 const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",
@@ -31,13 +32,26 @@ export default function RootLayout({ children }) {
       <body
         className={`${interSansSerif.variable} ${notoSans.variable}  ${sourceCodeProMono.variable}`}
       >
-        <header>
-          <PortablePageHeader />
-        </header>
-        <main>{children}</main>
-        <nav>
-          <BottomNavigation select={HOME} />
-        </nav>
+        <ApplicationProvider>
+          <div className="desktop-sidebar">
+            <div className="desktop-sidebar_panel">
+              <nav className="desktop-navigation">
+                <DesktopNavigation />
+              </nav>
+              <aside className="all-tags"></aside>
+            </div>
+          </div>
+          <header className="portable-header">
+            <PortablePageHeader />
+          </header>
+          <header className="desktop-header">
+            <DesktopPageHeader />
+          </header>
+          <main>{children}</main>
+          <nav className="bottom-navigation">
+            <BottomNavigation select={HOME} />
+          </nav>
+        </ApplicationProvider>
       </body>
     </html>
   );

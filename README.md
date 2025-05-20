@@ -48,7 +48,7 @@ This is a solution to the [Note-taking web app challenge on Frontend Mentor](htt
 
 ### Iteration 1
 
-TODO
+Enabler: Prepare the layout
 
 ## What I learned
 

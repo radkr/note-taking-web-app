@@ -16,3 +16,9 @@
     color: white;
   }
 }
+
+@media (min-width: 768px) {
+  .header {
+    height: 4.625rem; /*74px*/
+  }
+}

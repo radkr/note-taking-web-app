@@ -55,3 +55,20 @@
   background-color: var(--color-blue-50);
   color: var(--color-blue-500);
 }
+
+.item.selected p {
+  color: var(--color-blue-500);
+}
+
+@media (prefers-color-scheme: dark) {
+  .item.selected {
+    background-color: var(--color-neutral-700);
+    color: var(--color-blue-500);
+  }
+}
+
+@media (min-width: 768px) {
+  .item p {
+    display: block;
+  }
+}
