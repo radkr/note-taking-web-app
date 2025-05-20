@@ -6,6 +6,7 @@ import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigat
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
 import ApplicationProvider, { HOME } from "@/app/_lib/application/application";
+import NotesPage from "@/app/_components/notes-page/notes-page";
 
 const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",
@@ -47,7 +48,9 @@ export default function RootLayout({ children }) {
           <header className="desktop-header">
             <DesktopPageHeader />
           </header>
-          <main>{children}</main>
+          <main>
+            <NotesPage />
+          </main>
           <nav className="bottom-navigation">
             <BottomNavigation select={HOME} />
           </nav>

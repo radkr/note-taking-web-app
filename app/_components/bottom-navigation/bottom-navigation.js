@@ -16,7 +16,7 @@ export default function BottomNavigation({ className, select }) {
         <Link
           href="/notes"
           className={`${styles.item} ${
-            application.activeFragment === HOME ? styles.selected : ""
+            application.pageState.activeFragment === HOME ? styles.selected : ""
           }`}
         >
           <IconHome />

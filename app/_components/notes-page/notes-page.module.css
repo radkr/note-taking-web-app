@@ -1,0 +1,67 @@
+.page {
+  height: 100%;
+  min-height: 0;
+}
+
+.allNotes {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: none;
+  background-color: white;
+  overflow: auto;
+}
+
+.note {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: none;
+  background-color: white;
+}
+
+.active {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  .allNotes {
+    background-color: black;
+  }
+
+  .note {
+    background-color: black;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: auto 1fr;
+    column-gap: 1px;
+    background-color: var(--color-neutral-200);
+  }
+
+  .allNotes {
+    width: 18.125rem; /*290px*/
+    height: 100%;
+    position: relative;
+    display: block;
+  }
+
+  .note {
+    width: auto;
+    height: 100%;
+    position: relative;
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .page {
+      background-color: var(--color-neutral-800);
+    }
+  }
+}

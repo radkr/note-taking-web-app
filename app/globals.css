@@ -120,6 +120,7 @@ main {
   display: block;
   border-radius: var(--radius-8) var(--radius-8) 0 0;
   background-color: var(--color-neutral-0);
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

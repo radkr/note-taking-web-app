@@ -3,6 +3,7 @@
 }
 
 .noteCard {
+  text-decoration: none;
   padding: var(--spacing-100);
   background-color: white;
   display: flex;
