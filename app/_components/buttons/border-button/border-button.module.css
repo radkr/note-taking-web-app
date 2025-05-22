@@ -1,0 +1,48 @@
+.button {
+  appearance: none;
+  padding: var(--spacing-150) var(--spacing-200);
+  border: none;
+  border-radius: var(--radius-8);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: var(--spacing-100);
+  border: 1px solid var(--color-neutral-300);
+  background-color: white;
+  color: var(--color-neutral-950);
+  overflow: hidden;
+}
+
+.icon {
+  width: 1.25rem; /*20px*/
+  height: 1.25rem; /*20px*/
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-neutral-400);
+  outline-offset: 2px;
+}
+
+.button:active {
+  border: 1px solid var(--color-neutral-100);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-600);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    border: 1px solid var(--color-neutral-100);
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-600);
+    cursor: pointer;
+  }
+}
+
+.button:disabled {
+  border: 1px solid var(--color-neutral-100);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-300);
+  cursor: auto;
+}

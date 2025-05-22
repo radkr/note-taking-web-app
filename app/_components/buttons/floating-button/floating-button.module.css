@@ -1,0 +1,68 @@
+.button {
+  appearance: none;
+  width: var(--spacing-600);
+  height: var(--spacing-600);
+  border: none;
+  border-radius: var(--radius-full);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-blue-500);
+  background-color: var(--color-blue-500);
+  color: white;
+  overflow: hidden;
+}
+
+.icon {
+  width: 2rem; /*32px*/
+  height: 2rem; /*32px*/
+}
+
+.variant {
+  border: 1px solid var(--color-red-500);
+  background-color: var(--color-red-500);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-neutral-400);
+  outline-offset: 2px;
+}
+
+.button:active {
+  border: 1px solid var(--color-blue-700);
+  background-color: var(--color-blue-700);
+}
+
+.variant:active {
+  border: 1px solid var(--color-red-100);
+  background-color: var(--color-red-100);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    border: 1px solid var(--color-blue-700);
+    background-color: var(--color-blue-700);
+    cursor: pointer;
+  }
+
+  .variant:hover {
+    border: 1px solid var(--color-red-100);
+    background-color: var(--color-red-100);
+  }
+}
+
+.button:disabled {
+  border: 1px solid var(--color-neutral-100);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-300);
+  cursor: auto;
+}
+
+@media (min-width: 768px) {
+  .button {
+    width: var(--spacing-800);
+    height: var(--spacing-800);
+  }
+}

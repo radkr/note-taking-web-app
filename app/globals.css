@@ -283,6 +283,10 @@ main {
   letter-spacing: var(--text-letter-spacing-6);
 }
 
+.text-color-neutral-0 {
+  color: var(--color-neutral-0);
+}
+
 .text-color-neutral-950 {
   color: var(--color-neutral-950);
 }
@@ -300,6 +304,10 @@ main {
 }
 
 @media (prefers-color-scheme: dark) {
+  .text-color-neutral-0 {
+    color: var(--color-neutral-950);
+  }
+
   .text-color-neutral-950 {
     color: white;
   }
