@@ -54,6 +54,7 @@
   outline: none;
   border: none;
   resize: none;
+  background-color: white;
 }
 
 .property {
@@ -120,6 +121,13 @@
   }
 
   .alternative {
+    background-color: var(--color-neutral-950);
+  }
+
+  .title {
+    background-color: var(--color-neutral-950);
+  }
+  .content {
     background-color: var(--color-neutral-950);
   }
 
