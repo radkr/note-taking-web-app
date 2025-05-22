@@ -37,6 +37,16 @@
   row-gap: var(--spacing-150);
 }
 
+.alternative {
+  display: block;
+  width: 100%;
+  height: inherit;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background-color: white;
+}
+
 .title {
   appearance: none;
   display: block;
@@ -106,6 +116,10 @@
   }
 
   .details {
+    background-color: var(--color-neutral-950);
+  }
+
+  .alternative {
     background-color: var(--color-neutral-950);
   }
 

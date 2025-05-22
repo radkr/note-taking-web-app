@@ -5,10 +5,10 @@ import Link from "next/link";
 
 import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
-import { Application, NOTES } from "@/app/_lib/application/application";
+import { AppCtx, NOTES } from "@/app/_lib/application/app-ctx";
 
 export default function BottomNavigation({ className, select }) {
-  const { activePage } = use(Application);
+  const { activePage } = use(AppCtx);
 
   return (
     <ul className={`${className} ${styles.menu}`}>

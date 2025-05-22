@@ -1,34 +1,63 @@
 "use client";
 
-import { createContext, useState, useEffect, useTransition, use } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useTransition,
+  use,
+  useCallback,
+} from "react";
 
-import { getAllNotes } from "@/app/_lib/notes/all-notes-db";
-import { Application } from "@/app/_lib/application/application";
-import App from "next/app";
+import { getAllNotes, getNoteWithId } from "@/app/_lib/notes/all-notes-db";
+import { AppCtx } from "@/app/_lib/application/app-ctx";
 
 export const AllNotesCtx = createContext({
   notes: [],
-  isLoading: true,
-  currentNote: undefined,
+  note: {},
 });
 
 export default function AllNotesProvider({ children }) {
-  const [notes, setNotes] = useState([]);
-  const [isLoading, startTransition] = useTransition();
-  const { noteId } = use(Application);
-  const currentNote = noteId || (0 < notes?.length ? notes[0]._id : undefined);
+  const { noteId } = use(AppCtx);
+  const [allNotes, setAllNotes] = useState(undefined);
+  const [isAllNotesLoading, startAllNotesTransition] = useTransition();
+  const [note, setNote] = useState(undefined);
+  const [isNoteLoading, startNoteTransition] = useTransition();
+
+  const updateNote = useCallback(
+    (noteId) => {
+      if (allNotes) {
+        const note = allNotes.find((note) => note._id === noteId);
+        if (note) {
+          setNote(note);
+          return;
+        }
+      }
+      startNoteTransition(async () => {
+        const note = await getNoteWithId(noteId);
+        setNote(note);
+      });
+    },
+    [allNotes]
+  );
 
   useEffect(() => {
-    startTransition(async () => {
-      const notes = await getAllNotes();
-      setNotes(notes);
+    const id = noteId || note?._id || allNotes?.[0]?._id;
+    if (id && !(note?._id === id)) {
+      updateNote(id);
+    }
+  }, [allNotes, noteId, note?._id, updateNote]);
+
+  useEffect(() => {
+    startAllNotesTransition(async () => {
+      const allNotes = await getAllNotes();
+      setAllNotes(allNotes);
     });
   }, []);
 
   const AllNotesValue = {
-    notes: notes,
-    isLoading: isLoading,
-    currentNote: currentNote,
+    notes: allNotes,
+    note: note,
   };
   return <AllNotesCtx value={AllNotesValue}>{children}</AllNotesCtx>;
 }

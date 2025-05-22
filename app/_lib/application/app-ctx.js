@@ -37,7 +37,7 @@ function getPageState(path) {
   };
 }
 
-export const Application = createContext({
+export const AppCtx = createContext({
   activePage: "",
   noteId: "",
 });
@@ -47,5 +47,5 @@ export default function ApplicationProvider({ children }) {
 
   const applicationValue = { ...pageState };
 
-  return <Application value={applicationValue}>{children}</Application>;
+  return <AppCtx value={applicationValue}>{children}</AppCtx>;
 }

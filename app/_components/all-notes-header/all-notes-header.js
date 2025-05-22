@@ -3,10 +3,10 @@
 import { use } from "react";
 
 import styles from "./all-notes-header.module.css";
-import { Application, NOTES } from "@/app/_lib/application/application";
+import { AppCtx, NOTES } from "@/app/_lib/application/app-ctx";
 
 export default function AllNotesHeader() {
-  const { activePage } = use(Application);
+  const { activePage } = use(AppCtx);
 
   return (
     <div className={styles.header}>

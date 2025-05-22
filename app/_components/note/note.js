@@ -6,10 +6,12 @@ import NoteHeader from "@/app/_components/note-header/note-header";
 import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import IconClock from "@/assets/images/icon-clock.svg";
-import { NoteCtx } from "@/app/_lib/notes/note-ctx";
+import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
 export default function Note() {
-  const { isLoading, note } = use(NoteCtx);
+  const { note } = use(AllNotesCtx);
+
+  console.log("note: ", note);
 
   return (
     <div className={styles.note}>
@@ -18,9 +20,11 @@ export default function Note() {
           <header className={styles.header}>
             <NoteHeader />
           </header>
-          {isLoading ? (
-            <div className={styles.details}>
-              <p>Loading...</p>
+          {note?.error ? (
+            <div className={styles.alternative}>
+              <p className="text-preset-5 text-color-neutral-800">
+                {note.error}
+              </p>
             </div>
           ) : note ? (
             <section className={styles.details}>
@@ -45,7 +49,11 @@ export default function Note() {
                 onChange={() => {}}
               />
             </section>
-          ) : null}
+          ) : (
+            <div className={styles.alternative}>
+              <p className="text-preset-5 text-color-neutral-800">Loading...</p>
+            </div>
+          )}
           <footer className={styles.footer}>
             <NoteFooter />
           </footer>

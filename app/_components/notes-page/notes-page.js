@@ -3,14 +3,13 @@
 import { use } from "react";
 
 import styles from "./notes-page.module.css";
-import { Application, NOTES, NOTE } from "@/app/_lib/application/application";
+import { AppCtx, NOTES, NOTE } from "@/app/_lib/application/app-ctx";
 import AllNotes from "@/app/_components/all-notes/all-notes";
 import AllNotesProvider from "@/app/_lib/notes/all-notes-ctx";
 import Note from "@/app/_components/note/note";
-import NoteProvider from "@/app/_lib/notes/note-ctx";
 
 export default function NotesPage({}) {
-  const { activePage } = use(Application);
+  const { activePage } = use(AppCtx);
 
   return (
     <div className={styles.page}>
@@ -27,9 +26,7 @@ export default function NotesPage({}) {
             activePage === NOTE ? styles.active : ""
           }`}
         >
-          <NoteProvider>
-            <Note />
-          </NoteProvider>
+          <Note />
         </article>
       </AllNotesProvider>
     </div>

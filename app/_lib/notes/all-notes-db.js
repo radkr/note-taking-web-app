@@ -39,8 +39,12 @@ export async function getAllNotes() {
 
 export async function getNoteWithId(id) {
   await dbConnect();
-  const note = await Note.findById(id).lean();
-  if (!note) return;
-  const plainNote = { ...note, _id: note._id.toString() };
-  return plainNote;
+  try {
+    const note = await Note.findById(id).lean();
+    if (!note) throw new Error();
+    const plainNote = { ...note, _id: note._id.toString() };
+    return plainNote;
+  } catch (error) {
+    return { _id: id, error: "The note can not be found." };
+  }
 }

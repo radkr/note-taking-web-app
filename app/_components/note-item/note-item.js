@@ -5,8 +5,8 @@ import styles from "./note-item.module.css";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
 export default function NoteItem({ note }) {
-  const { currentNote } = use(AllNotesCtx);
-  const isSelected = note._id == currentNote;
+  const { note: selectedNote } = use(AllNotesCtx);
+  const isSelected = note._id == selectedNote?._id;
 
   return (
     <li className={`${styles.note} ${isSelected ? styles.selected : ""}`}>
