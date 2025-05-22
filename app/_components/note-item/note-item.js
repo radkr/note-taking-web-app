@@ -2,11 +2,11 @@ import Link from "next/link";
 import { use } from "react";
 
 import styles from "./note-item.module.css";
-import { Application } from "@/app/_lib/application/application";
+import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
 export default function NoteItem({ note }) {
-  const { pageState } = use(Application);
-  const isSelected = note._id == pageState.noteId;
+  const { currentNote } = use(AllNotesCtx);
+  const isSelected = note._id == currentNote;
 
   return (
     <li className={`${styles.note} ${isSelected ? styles.selected : ""}`}>

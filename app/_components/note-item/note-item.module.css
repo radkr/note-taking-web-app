@@ -12,34 +12,38 @@
   row-gap: var(--spacing-150);
 }
 
-.selected.note {
-  outline: 1px solid white;
-}
-
-.selected .noteCard {
-  border-radius: var(--radius-6);
-  background-color: var(--color-neutral-100);
-}
-
 @media (prefers-color-scheme: dark) {
   .noteList {
     background-color: var(--color-neutral-800);
   }
 
   .note {
-    background-color: black;
+    background-color: var(--color-neutral-950);
   }
 
   .noteCard {
-    background-color: black;
+    background-color: var(--color-neutral-950);
   }
+}
 
+@media (min-width: 1024px) {
   .selected.note {
-    outline: 1px solid black;
+    outline: 1px solid white;
   }
 
   .selected .noteCard {
     border-radius: var(--radius-6);
-    background-color: var(--color-neutral-800);
+    background-color: var(--color-neutral-100);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .selected.note {
+      outline: 1px solid var(--color-neutral-950);
+    }
+
+    .selected .noteCard {
+      border-radius: var(--radius-6);
+      background-color: var(--color-neutral-800);
+    }
   }
 }

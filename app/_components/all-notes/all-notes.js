@@ -8,7 +8,7 @@ import NoteItem from "@/app/_components/note-item/note-item";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
 export default function AllNotes() {
-  const { notes, notesPending } = use(AllNotesCtx);
+  const { notes, isLoading: notesPending } = use(AllNotesCtx);
 
   return (
     <div className={styles.allNotes}>

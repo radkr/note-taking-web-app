@@ -36,3 +36,11 @@ export async function getAllNotes() {
   });
   return plainNotes;
 }
+
+export async function getNoteWithId(id) {
+  await dbConnect();
+  const note = await Note.findById(id).lean();
+  if (!note) return;
+  const plainNote = { ...note, _id: note._id.toString() };
+  return plainNote;
+}

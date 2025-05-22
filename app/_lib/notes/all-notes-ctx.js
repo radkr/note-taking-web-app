@@ -1,17 +1,22 @@
 "use client";
 
-import { createContext, useState, useEffect, useTransition } from "react";
+import { createContext, useState, useEffect, useTransition, use } from "react";
 
 import { getAllNotes } from "@/app/_lib/notes/all-notes-db";
+import { Application } from "@/app/_lib/application/application";
+import App from "next/app";
 
 export const AllNotesCtx = createContext({
   notes: [],
-  notesPending: true,
+  isLoading: true,
+  currentNote: undefined,
 });
 
 export default function AllNotesProvider({ children }) {
   const [notes, setNotes] = useState([]);
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, startTransition] = useTransition();
+  const { noteId } = use(Application);
+  const currentNote = noteId || (0 < notes?.length ? notes[0]._id : undefined);
 
   useEffect(() => {
     startTransition(async () => {
@@ -22,7 +27,8 @@ export default function AllNotesProvider({ children }) {
 
   const AllNotesValue = {
     notes: notes,
-    notesPending: isPending,
+    isLoading: isLoading,
+    currentNote: currentNote,
   };
   return <AllNotesCtx value={AllNotesValue}>{children}</AllNotesCtx>;
 }

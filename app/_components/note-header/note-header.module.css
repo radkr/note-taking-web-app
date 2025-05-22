@@ -1,0 +1,10 @@
+.header {
+  padding-bottom: var(--spacing-150);
+  color: var(--color-neutral-600);
+}
+
+@media (prefer-color-schema-dark) {
+  .header {
+    color: var(--color-neutral-300);
+  }
+}

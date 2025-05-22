@@ -3,28 +3,28 @@
 import { createContext } from "react";
 import { usePathname } from "next/navigation";
 
-export const HOME = "HOME";
+export const NOTES = "HOME";
 export const NOTE = "NOTE";
 
 function getPageState(path) {
   const pathSegments = path.substring(1, path.length).split("/");
-  let activeFragment;
+  let activePage;
   let noteId;
 
   if (pathSegments.length == 1 && pathSegments[0] === "notes") {
-    activeFragment = HOME;
+    activePage = NOTES;
   }
 
   if (0 < pathSegments.length) {
     switch (pathSegments[0]) {
       case "notes":
-        activeFragment = HOME;
+        activePage = NOTES;
         if (pathSegments.length == 1) {
           break;
         } else {
           switch (pathSegments[1]) {
             default:
-              activeFragment = NOTE;
+              activePage = NOTE;
               noteId = pathSegments[1];
           }
         }
@@ -32,24 +32,20 @@ function getPageState(path) {
   }
 
   return {
-    activeFragment,
+    activePage,
     noteId,
   };
 }
 
 export const Application = createContext({
-  pageState: {
-    activeFragment: "",
-    noteId: "",
-  },
+  activePage: "",
+  noteId: "",
 });
 
 export default function ApplicationProvider({ children }) {
   const pageState = getPageState(usePathname());
 
-  const applicationValue = {
-    pageState: pageState,
-  };
+  const applicationValue = { ...pageState };
 
   return <Application value={applicationValue}>{children}</Application>;
 }

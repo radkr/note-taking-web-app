@@ -3,30 +3,33 @@
 import { use } from "react";
 
 import styles from "./notes-page.module.css";
-import { Application, HOME, NOTE } from "@/app/_lib/application/application";
+import { Application, NOTES, NOTE } from "@/app/_lib/application/application";
 import AllNotes from "@/app/_components/all-notes/all-notes";
 import AllNotesProvider from "@/app/_lib/notes/all-notes-ctx";
 import Note from "@/app/_components/note/note";
+import NoteProvider from "@/app/_lib/notes/note-ctx";
 
 export default function NotesPage({}) {
-  const { pageState } = use(Application);
+  const { activePage } = use(Application);
 
   return (
     <div className={styles.page}>
       <AllNotesProvider>
         <aside
           className={`${styles.allNotes} ${
-            pageState.activeFragment === HOME ? styles.active : ""
+            activePage === NOTES ? styles.active : ""
           }`}
         >
           <AllNotes />
         </aside>
         <article
           className={`${styles.note} ${
-            pageState.activeFragment === NOTE ? styles.active : ""
+            activePage === NOTE ? styles.active : ""
           }`}
         >
-          <Note />
+          <NoteProvider>
+            <Note />
+          </NoteProvider>
         </article>
       </AllNotesProvider>
     </div>

@@ -1,0 +1,20 @@
+.back {
+  text-decoration: none;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  color: var(--color-neutral-600);
+}
+
+.arrow {
+  width: 1.125rem; /*18px*/
+  height: 1.125rem; /*18px*/
+}
+
+@media (prefer-color-schema-dark) {
+  .back {
+    color: var(--color-neutral-300);
+  }
+}

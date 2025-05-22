@@ -5,10 +5,10 @@ import Link from "next/link";
 
 import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
-import { Application, HOME } from "@/app/_lib/application/application";
+import { Application, NOTES } from "@/app/_lib/application/application";
 
 export default function BottomNavigation({ className, select }) {
-  const application = use(Application);
+  const { activePage } = use(Application);
 
   return (
     <ul className={`${className} ${styles.menu}`}>
@@ -16,7 +16,7 @@ export default function BottomNavigation({ className, select }) {
         <Link
           href="/notes"
           className={`${styles.item} ${
-            application.pageState.activeFragment === HOME ? styles.selected : ""
+            activePage === NOTES ? styles.selected : ""
           }`}
         >
           <IconHome />

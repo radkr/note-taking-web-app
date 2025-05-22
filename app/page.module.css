@@ -24,11 +24,11 @@
 
 @media (prefers-color-scheme: dark) {
   .allNotes {
-    background-color: black;
+    background-color: var(--color-neutral-950);
   }
 
   .note {
-    background-color: black;
+    background-color: var(--color-neutral-950);
   }
 }
 

@@ -5,7 +5,7 @@ import PortablePageHeader from "@/app/_components/portable-page-header/portable-
 import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
-import ApplicationProvider, { HOME } from "@/app/_lib/application/application";
+import ApplicationProvider, { NOTES } from "@/app/_lib/application/application";
 import NotesPage from "@/app/_components/notes-page/notes-page";
 
 const interSansSerif = Inter({
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
             <NotesPage />
           </main>
           <nav className="bottom-navigation">
-            <BottomNavigation select={HOME} />
+            <BottomNavigation select={NOTES} />
           </nav>
         </ApplicationProvider>
       </body>
