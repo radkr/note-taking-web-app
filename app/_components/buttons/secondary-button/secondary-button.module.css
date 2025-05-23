@@ -1,38 +1,79 @@
 .button {
+  /*Normal*/
+  --color-bg: var(--color-neutral-100);
+  --color-border: var(--color-neutral-100);
+  --color-text: var(--color-neutral-600);
+  /*Focus*/
+  --color-outline_focus: var(--color-neutral-400);
+  --color-border_focus: var(--color-neutral-950);
+  --color-bg_focus: white;
+  --color-text_focus: var(--color-neutral-950);
+  /*Active*/
+  --color-border_active: var(--color-neutral-300);
+  --color-bg_active: white;
+  --color-text_active: var(--color-neutral-950);
+  /*Disabled*/
+  --color-border_disabled: var(--color-neutral-100);
+  --color-bg_disabled: var(--color-neutral-100);
+  --color-text_disabled: var(--color-neutral-300);
+
   appearance: none;
   padding: var(--spacing-150) var(--spacing-200);
-  border: none;
   border-radius: var(--radius-8);
-  border: 1px solid var(--color-neutral-100);
-  background-color: var(--color-neutral-100);
-  color: var(--color-neutral-600);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow: hidden;
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-neutral-400);
+  outline: 2px solid var(--color-outline_focus);
   outline-offset: 2px;
+  border: 1px solid var(--color-border_focus);
+  background-color: var(--color-bg_focus);
+  color: var(--color-text_focus);
 }
 
 .button:active {
-  border: 1px solid var(--color-neutral-300);
-  background-color: white;
-  color: var(--color-neutral-950);
-  cursor: pointer;
+  border: 1px solid var(--color-border_active);
+  background-color: var(--color-bg_active);
+  color: var(--color-text_active);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    border: 1px solid var(--color-neutral-300);
-    background-color: white;
-    color: var(--color-neutral-950);
+    border: 1px solid var(--color-border_active);
+    background-color: var(--color-bg_active);
+    color: var(--color-text_active);
     cursor: pointer;
   }
 }
 
 .button:disabled {
-  border: 1px solid var(--color-neutral-100);
-  background-color: var(--color-neutral-100);
-  color: var(--color-neutral-300);
+  border: 1px solid var(--color-border_disabled);
+  background-color: var(--color-bg_disabled);
+  color: var(--color-text_disabled);
   cursor: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .button {
+    /*Normal*/
+    --color-bg: var(--color-neutral-500);
+    --color-border: var(--color-neutral-500);
+    --color-text: var(--color-neutral-200);
+    /*Focus*/
+    --color-outline_focus: var(--color-neutral-400);
+    --color-border_focus: var(--color-neutral-950);
+    --color-bg_focus: white;
+    --color-text_focus: var(--color-neutral-950);
+    /*Active*/
+    --color-border_active: var(--color-neutral-300);
+    --color-bg_active: white;
+    --color-text_active: var(--color-neutral-950);
+    /*Disabled*/
+    --color-border_disabled: var(--color-neutral-100);
+    --color-bg_disabled: var(--color-neutral-100);
+    --color-text_disabled: var(--color-neutral-300);
+  }
 }

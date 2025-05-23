@@ -1,6 +1,7 @@
 :root {
   /*Colors*/
   --color-neutral-950: #0e121b;
+  --color-neutral-950-a60: #0e121b99;
   --color-neutral-900: #191b25;
   --color-neutral-800: #232530;
   --color-neutral-700: #2b303b;
@@ -100,7 +101,9 @@ body {
   font-family: var(--font-source-mono);
   font-family: var(--font-noto-sans);
   font-family: var(--text-font-family);
-  /**/
+}
+
+.app-root {
   width: 100vw;
   height: 100vh;
   background-color: var(--color-neutral-100);
@@ -108,8 +111,12 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+.modal-root {
+  grid-area: unset;
+}
+
 @media (prefers-color-scheme: dark) {
-  body {
+  .app-root {
     background-color: var(--color-neutral-800);
   }
 }
@@ -148,7 +155,7 @@ main {
 }
 
 @media (min-width: 1024px) {
-  body {
+  .app-root {
     display: grid;
     grid-template-columns: 17rem 1fr; /*272px 1fr*/
     grid-template-rows: auto 1fr;
@@ -203,7 +210,7 @@ main {
   }
 
   @media (prefers-color-scheme: dark) {
-    body {
+    .app-root {
       background-color: var(--color-neutral-800);
     }
 

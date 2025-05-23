@@ -34,26 +34,29 @@ export default function RootLayout({ children }) {
         className={`${interSansSerif.variable} ${notoSans.variable}  ${sourceCodeProMono.variable}`}
       >
         <ApplicationProvider>
-          <div className="desktop-sidebar">
-            <div className="desktop-sidebar_panel">
-              <nav className="desktop-navigation">
-                <DesktopNavigation />
-              </nav>
-              <aside className="all-tags"></aside>
+          <div id="modal-root" className="modal-root" />
+          <div className="app-root">
+            <div className="desktop-sidebar">
+              <div className="desktop-sidebar_panel">
+                <nav className="desktop-navigation">
+                  <DesktopNavigation />
+                </nav>
+                <aside className="all-tags"></aside>
+              </div>
             </div>
+            <header className="portable-header">
+              <PortablePageHeader />
+            </header>
+            <header className="desktop-header">
+              <DesktopPageHeader />
+            </header>
+            <main>
+              <NotesPage />
+            </main>
+            <nav className="bottom-navigation">
+              <BottomNavigation select={NOTES} />
+            </nav>
           </div>
-          <header className="portable-header">
-            <PortablePageHeader />
-          </header>
-          <header className="desktop-header">
-            <DesktopPageHeader />
-          </header>
-          <main>
-            <NotesPage />
-          </main>
-          <nav className="bottom-navigation">
-            <BottomNavigation select={NOTES} />
-          </nav>
         </ApplicationProvider>
       </body>
     </html>

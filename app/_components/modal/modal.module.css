@@ -1,0 +1,115 @@
+.modal {
+  --color-bg: white;
+  --color-border: var(--color-neutral-200);
+  --color-icon-bg: var(--color-neutral-100);
+  --color-icon: var(--color-neutral-950);
+
+  font-size: 1rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  outline: none;
+  width: 100%;
+  max-width: 21.4375rem; /*343px*/
+  max-height: none;
+  border-radius: 1.25em; /*20px at default font-size*/
+  overflow: hidden;
+  animation: fadeOutAnimation 0.1s ease-out forwards;
+}
+
+.modal::backdrop {
+  background-color: var(--color-neutral-950-a60);
+}
+
+.modal[open] {
+  animation: fadeInAnimation 0.1s ease-out forwards;
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fadeOutAnimation {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    display: block;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.info {
+  padding: var(--spacing-250);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: var(--spacing-200);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.iconBg {
+  min-width: var(--spacing-500);
+  height: var(--spacing-500);
+  border-radius: var(--radius-8);
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-icon-bg);
+  color: var(--color-icon);
+}
+
+.icon {
+  width: 1.5rem; /*24px*/
+  height: 1.5625rem; /*25px*/
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  row-gap: var(--spacing-75);
+}
+
+.control {
+  padding: var(--spacing-200) var(--spacing-250);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: var(--spacing-200);
+  justify-content: end;
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal {
+    --color-bg: var(--color-neutral-700);
+    --color-border: var(--color-neutral-600);
+    --color-icon-bg: var(--color-neutral-600);
+    --color-icon: white;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal {
+    max-width: 27.5rem; /*440px*/
+  }
+}

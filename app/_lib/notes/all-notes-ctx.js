@@ -11,6 +11,9 @@ import {
 
 import { getAllNotes, getNoteWithId } from "@/app/_lib/notes/all-notes-db";
 import { AppCtx } from "@/app/_lib/application/app-ctx";
+import Modal from "@/app/_components/modal/modal";
+import IconDelete from "@/assets/images/icon-delete.svg";
+import IconArchive from "@/assets/images/icon-archive.svg";
 
 export const AllNotesCtx = createContext({
   notes: [],
@@ -59,5 +62,24 @@ export default function AllNotesProvider({ children }) {
     notes: allNotes,
     note: note,
   };
-  return <AllNotesCtx value={AllNotesValue}>{children}</AllNotesCtx>;
+  return (
+    <AllNotesCtx value={AllNotesValue}>
+      {children}
+      <Modal
+        onClose={() => {}}
+        variant
+        Icon={IconDelete}
+        title="Delete Note"
+        content="Are you sure you want to permanently delete this note? This action cannot be undone."
+        onConfirm={() => {}}
+      />
+      <Modal
+        onClose={() => {}}
+        Icon={IconArchive}
+        title="Archive Note"
+        content="Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime."
+        onConfirm={() => {}}
+      />
+    </AllNotesCtx>
+  );
 }
