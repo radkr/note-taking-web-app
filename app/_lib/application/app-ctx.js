@@ -2,6 +2,7 @@
 
 import { createContext } from "react";
 import { usePathname } from "next/navigation";
+import Toast from "@/app/_components/toast/toast";
 
 export const NOTES = "HOME";
 export const NOTE = "NOTE";
@@ -47,5 +48,15 @@ export default function ApplicationProvider({ children }) {
 
   const applicationValue = { ...pageState };
 
-  return <AppCtx value={applicationValue}>{children}</AppCtx>;
+  return (
+    <AppCtx value={applicationValue}>
+      {children}
+      <Toast
+        onClose={() => {}}
+        message="Note restored to active notes."
+        link="All Notes"
+        href="#"
+      />
+    </AppCtx>
+  );
 }

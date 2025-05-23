@@ -85,6 +85,7 @@
   height: 100%;
   outline: none;
   border: none;
+  resize: none;
 }
 
 .footer {
