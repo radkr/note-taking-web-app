@@ -46,7 +46,7 @@ export default function AllNotesProvider({ children }) {
 
   useEffect(() => {
     const id = noteId || note?._id || allNotes?.[0]?._id;
-    if (id && !(note?._id === id)) {
+    if (id != undefined && !(note?._id === id)) {
       updateNote(id);
     }
   }, [allNotes, noteId, note?._id, updateNote]);

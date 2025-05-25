@@ -1,38 +1,29 @@
 "use server";
 
 import dbConnect from "@/app/_lib/database/database";
-import mongoose from "mongoose";
+import Note from "./all-notes-model";
 
-const NoteSchema = new mongoose.Schema(
-  {
-    title: String,
-    tags: [String],
-    content: String,
-    isArchived: Boolean,
-  },
-  { timestamps: true }
-);
+function formatDate(date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
 
-const Note = mongoose.models.Note || mongoose.model("Note", NoteSchema);
-
-export default Note;
+function getPlainNote(note) {
+  return {
+    ...note.toObject(),
+    _id: note._id.toString(),
+    lastEdited: formatDate(new Date(note.toObject().lastEdited)),
+  };
+}
 
 export async function getAllNotes() {
   await dbConnect();
   const notes = await Note.find();
-
   const plainNotes = notes.map((note) => {
-    const date = new Date(note.toObject().lastEdited);
-    const formattedDate = new Intl.DateTimeFormat("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }).format(date);
-    return {
-      ...note.toObject(),
-      _id: note._id.toString(),
-      lastEdited: formattedDate,
-    };
+    return getPlainNote(note);
   });
   return plainNotes;
 }
@@ -40,10 +31,9 @@ export async function getAllNotes() {
 export async function getNoteWithId(id) {
   await dbConnect();
   try {
-    const note = await Note.findById(id).lean();
+    const note = await Note.findById(id);
     if (!note) throw new Error();
-    const plainNote = { ...note, _id: note._id.toString() };
-    return plainNote;
+    return getPlainNote(note);
   } catch (error) {
     return { _id: id, error: "The note can not be found." };
   }
