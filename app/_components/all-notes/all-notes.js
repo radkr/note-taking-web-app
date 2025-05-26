@@ -13,7 +13,14 @@ export default function AllNotes() {
   return (
     <div className={styles.allNotes}>
       <AllNotesHeader />
-      {notes ? (
+      {notes && notes.length == 0 ? (
+        <div className={styles.emptyList}>
+          <p className="text-preset-5 text-color-neutral-950">
+            You don’t have any notes yet. Start a new note to capture your
+            thoughts and ideas.
+          </p>
+        </div>
+      ) : notes ? (
         <ul className={styles.noteList}>
           {notes.map((note, index) => {
             return <NoteItem key={note._id} note={note} />;

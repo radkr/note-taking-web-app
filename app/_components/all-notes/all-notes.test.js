@@ -21,6 +21,22 @@ describe("AllNotes static test", () => {
     expect(screen.queryByRole("listitem")).not.toBeInTheDocument();
   });
 
+  it("renders empty note list", () => {
+    const allNotesCtxValue = {
+      notes: [],
+    };
+    render(
+      <AllNotesCtx value={allNotesCtxValue}>
+        <AllNotes />
+      </AllNotesCtx>
+    );
+    const listitems = screen.queryAllByRole("listitem");
+    expect(listitems.length).toBe(0);
+    expect(
+      screen.getByText(/You don’t have any notes yet./i)
+    ).toBeInTheDocument();
+  });
+
   it("renders one note", () => {
     const allNotesCtxValue = {
       notes: mockPlainNotes.slice(0, 1),
@@ -30,6 +46,10 @@ describe("AllNotes static test", () => {
         <AllNotes />
       </AllNotesCtx>
     );
+    expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/You don’t have any notes yet./i)
+    ).not.toBeInTheDocument();
     const listitems = screen.getAllByRole("listitem");
     expect(listitems.length).toBe(1);
     const title = screen.getByText(mockPlainNotes[0].title);
