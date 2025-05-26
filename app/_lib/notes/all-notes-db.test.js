@@ -70,7 +70,7 @@ describe("getNoteWithId", () => {
 
   it("returns note with lastEdited of proper format", async () => {
     const note = await getNoteWithId("0");
-    expect(note.lastEdited).toBe("29 Oct 2024");
+    expect(note.lastEdited).toBe(mockPlainNotes[0].lastEdited);
   });
 });
 

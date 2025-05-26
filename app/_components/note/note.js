@@ -11,8 +11,6 @@ import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 export default function Note() {
   const { note } = use(AllNotesCtx);
 
-  console.log("note: ", note);
-
   return (
     <div className={styles.note}>
       <div className={styles.panel}>
@@ -34,6 +32,7 @@ export default function Note() {
                 value={note.title}
                 className={`text-preset-1 text-color-neutral-950 ${styles.title}`}
                 onChange={() => {}}
+                aria-label="Title"
               />
               <div className={styles.property}>
                 <div className={styles.propertyName}>
@@ -47,6 +46,7 @@ export default function Note() {
                 value={note.content}
                 className={`text-preset-5 text-color-neutral-800 ${styles.content}`}
                 onChange={() => {}}
+                aria-label="Content"
               />
             </section>
           ) : (
