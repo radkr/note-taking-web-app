@@ -38,3 +38,7 @@ export async function getNoteWithId(id) {
     return { _id: id, error: "The note can not be found." };
   }
 }
+
+export async function deleteNoteWithId(id) {
+  await Note.findByIdAndDelete(id);
+}

@@ -24,6 +24,8 @@ export default function Note() {
                 {note.error}
               </p>
             </div>
+          ) : note && !note._id ? (
+            <div className={styles.alternative}></div>
           ) : note ? (
             <section className={styles.details}>
               <TextareaAutosize

@@ -8,8 +8,13 @@ import {
   use,
   useCallback,
 } from "react";
+import { useRouter } from "next/navigation";
 
-import { getAllNotes, getNoteWithId } from "@/app/_lib/notes/all-notes-db";
+import {
+  getAllNotes,
+  getNoteWithId,
+  deleteNoteWithId,
+} from "@/app/_lib/notes/all-notes-db";
 import { AppCtx } from "@/app/_lib/application/app-ctx";
 import Modal from "@/app/_components/modal/modal";
 import IconDelete from "@/assets/images/icon-delete.svg";
@@ -18,14 +23,22 @@ import IconArchive from "@/assets/images/icon-archive.svg";
 export const AllNotesCtx = createContext({
   notes: [],
   note: {},
+  deleteNote: () => {},
 });
 
 export default function AllNotesProvider({ children }) {
   const { noteId } = use(AppCtx);
+  const router = useRouter();
+  //
   const [allNotes, setAllNotes] = useState(undefined);
   const [isAllNotesLoading, startAllNotesTransition] = useTransition();
+  const [isAllNotesInvalid, setIsAllNotesInvalid] = useState(true);
+  //
   const [note, setNote] = useState(undefined);
   const [isNoteLoading, startNoteTransition] = useTransition();
+  const [isNoteInvalid, setIsNoteInvalid] = useState(true);
+  //
+  const [toDelete, setToDelete] = useState();
 
   const updateNote = useCallback(
     (noteId) => {
@@ -33,45 +46,71 @@ export default function AllNotesProvider({ children }) {
         const note = allNotes.find((note) => note._id === noteId);
         if (note) {
           setNote(note);
+          setIsNoteInvalid(false);
           return;
         }
       }
       startNoteTransition(async () => {
         const note = await getNoteWithId(noteId);
         setNote(note);
+        setIsNoteInvalid(false);
       });
     },
     [allNotes]
   );
 
   useEffect(() => {
-    const id = noteId || note?._id || allNotes?.[0]?._id;
+    const id = noteId || (!isNoteInvalid && note?._id) || allNotes?.[0]?._id;
     if (id != undefined && !(note?._id === id)) {
       updateNote(id);
     }
-  }, [allNotes, noteId, note?._id, updateNote]);
+    if (id == undefined && allNotes && allNotes.length == 0) {
+      setNote({});
+      setIsNoteInvalid(false);
+    }
+  }, [allNotes, note?._id, noteId, updateNote, isNoteInvalid]);
 
   useEffect(() => {
-    startAllNotesTransition(async () => {
-      const allNotes = await getAllNotes();
-      setAllNotes(allNotes);
-    });
-  }, []);
+    if (isAllNotesInvalid) {
+      startAllNotesTransition(async () => {
+        const allNotes = await getAllNotes();
+        setAllNotes(allNotes);
+        setIsAllNotesInvalid(false);
+      });
+    }
+  }, [isAllNotesInvalid]);
+
+  function deleteNote() {
+    setToDelete(note);
+  }
 
   const AllNotesValue = {
     notes: allNotes,
     note: note,
+    deleteNote: deleteNote,
   };
+
+  async function confirmDelete() {
+    setIsAllNotesInvalid(true);
+    setIsNoteInvalid(true);
+    await deleteNoteWithId(toDelete._id);
+    setToDelete(undefined);
+    router.push("/notes");
+  }
+
   return (
     <AllNotesCtx value={AllNotesValue}>
       {children}
       <Modal
-        onClose={() => {}}
+        open={toDelete}
+        onClose={() => {
+          setToDelete(undefined);
+        }}
         variant
         Icon={IconDelete}
         title="Delete Note"
         content="Are you sure you want to permanently delete this note? This action cannot be undone."
-        onConfirm={() => {}}
+        onConfirm={confirmDelete}
       />
       <Modal
         onClose={() => {}}

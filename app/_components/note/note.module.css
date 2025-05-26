@@ -159,7 +159,7 @@
 
 @media (min-width: 1024px) {
   .note {
-    grid-template-columns: 1fr 16.125rem; /*1fr 258px*/
+    grid-template-columns: 1fr 18.125rem; /*1fr 258px+32px*/
   }
   .panel {
     padding: var(--spacing-250) var(--spacing-300) var(--spacing-250)

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
+  /*async redirects() {
     return [
       {
         source: "/",
@@ -8,7 +8,7 @@ const nextConfig = {
         permanent: true, // Set to false for a temporary redirect
       },
     ];
-  },
+  },*/
   turbopack: {
     rules: {
       "*.svg": {

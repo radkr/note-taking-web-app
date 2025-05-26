@@ -13,7 +13,7 @@
   height: 1.125rem; /*18px*/
 }
 
-@media (prefer-color-schema-dark) {
+@media (prefers-color-scheme: dark) {
   .back {
     color: var(--color-neutral-300);
   }

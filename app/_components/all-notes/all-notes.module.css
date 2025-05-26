@@ -9,12 +9,14 @@
 }
 
 .noteList {
-  height: 100%;
+  height: fit-content;
   min-height: 0;
   list-style: none;
   background-color: var(--color-neutral-200);
   display: grid;
   grid-template-columns: 1fr;
+  align-items: start;
+  align-content: start;
   row-gap: 1px;
   overflow: auto;
   scrollbar-width: thin;
