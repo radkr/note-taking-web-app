@@ -32,7 +32,7 @@ export const mockNotes = [
 
 export const mockPlainNotes = [
   {
-    _id: 0,
+    _id: "0",
     title: "React Performance Optimization",
     tags: ["Dev", "React"],
     content:
@@ -41,7 +41,7 @@ export const mockPlainNotes = [
     isArchived: false,
   },
   {
-    _id: 1,
+    _id: "1",
     title: "Japan Travel Planning",
     tags: ["Travel", "Personal"],
     content:

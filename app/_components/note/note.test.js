@@ -32,7 +32,7 @@ beforeAll(() => {
   usePathname.mockReturnValue("/notes");
 });
 
-describe("NoteItem static test", () => {
+describe("Note static test", () => {
   it("renders 'Loading...'", () => {
     render(
       <AllNotesCtx value={defaultAllNotesCtxValue}>
