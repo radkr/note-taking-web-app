@@ -140,8 +140,10 @@ describe("AllNotesCtx delete notes", () => {
       expect(router.push).toHaveBeenCalled();
     });
 
-    appCtxValue.activePage = NOTES;
-    appCtxValue.noteId = undefined;
+    appCtxValue = {
+      activePage: NOTES,
+      noteId: undefined,
+    };
     allNotes.rerender();
 
     await waitFor(() => {

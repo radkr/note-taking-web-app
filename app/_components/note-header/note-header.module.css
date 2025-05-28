@@ -10,11 +10,11 @@
 
 .controls {
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: auto auto;
   column-gap: var(--spacing-200);
 }
 
-.iconButton {
+.button {
   appearance: none;
   background-color: transparent;
   border: none;

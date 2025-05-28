@@ -5,8 +5,8 @@ import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-butto
 import IconDelete from "@/assets/images/icon-delete.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
-export default function NoteHeader() {
-  const { note, deleteNote } = use(AllNotesCtx);
+export default function NoteHeader({ onSave }) {
+  const { deleteNote } = use(AllNotesCtx);
 
   return (
     <div className={styles.header}>
@@ -14,11 +14,16 @@ export default function NoteHeader() {
       <div className={styles.controls}>
         <button
           aria-label="Delete Note"
-          className={styles.iconButton}
+          className={styles.button}
           onClick={deleteNote}
-          disabled={note?.error}
         >
           <IconDelete className={styles.icon} />
+        </button>
+        <button
+          className={`text-preset-5 text-color-blue-500 ${styles.button}`}
+          onClick={onSave}
+        >
+          Save Note
         </button>
       </div>
     </div>

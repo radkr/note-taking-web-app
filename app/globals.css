@@ -310,6 +310,10 @@ main {
   color: var(--color-neutral-700);
 }
 
+.text-color-blue-500 {
+  color: var(--color-blue-700);
+}
+
 @media (prefers-color-scheme: dark) {
   .text-color-neutral-0 {
     color: var(--color-neutral-950);

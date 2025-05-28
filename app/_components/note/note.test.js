@@ -1,9 +1,10 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { mockPlainNotes } from "@/__test__/utils";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import Note from "./note";
 import { usePathname } from "next/navigation";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("next/navigation");
 jest.mock("@/app/_lib/notes/all-notes-model");
@@ -26,6 +27,7 @@ const errorAllNotesCtxValue = {
 
 const allNotesCtxValue = {
   note: mockPlainNotes[0],
+  saveNote: jest.fn(),
 };
 
 beforeAll(() => {
@@ -88,5 +90,21 @@ describe("Note static test", () => {
     expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
     const date = screen.getByText(mockPlainNotes[0].lastEdited);
     expect(date).toBeInTheDocument();
+  });
+});
+
+describe("Save Note", () => {
+  it("saves the note with modified title", async () => {
+    render(
+      <AllNotesCtx value={allNotesCtxValue}>
+        <Note />
+      </AllNotesCtx>
+    );
+    const title = screen.getByLabelText("Title");
+    await userEvent.click(title);
+    await userEvent.type(title, " mod");
+    expect(title.value).toBe(`${mockPlainNotes[0].title} mod`);
+    const footer = screen.getByTestId("NoteFooter");
+    within(footer).getByText("Save Note", { selector: "button" });
   });
 });

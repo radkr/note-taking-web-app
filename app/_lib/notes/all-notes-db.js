@@ -42,3 +42,7 @@ export async function getNoteWithId(id) {
 export async function deleteNoteWithId(id) {
   await Note.findByIdAndDelete(id);
 }
+
+export async function updateNoteInDb(note) {
+  await Note.findOneAndUpdate({ _id: note._id }, note);
+}

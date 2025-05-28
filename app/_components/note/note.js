@@ -1,4 +1,4 @@
-import { use } from "react";
+import { use, useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import styles from "./note.module.css";
@@ -9,7 +9,27 @@ import IconClock from "@/assets/images/icon-clock.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
 export default function Note() {
-  const { note } = use(AllNotesCtx);
+  const { saveNote, note } = use(AllNotesCtx);
+  const title = useRef();
+  const content = useRef();
+
+  useEffect(() => {
+    if (note?.title) {
+      title.current.value = note.title;
+    }
+    if (note?.content) {
+      content.current.value = note.content;
+    }
+  }, [note]);
+
+  function handleSave() {
+    const noteToSave = {
+      ...note,
+      title: title.current.value,
+      content: content.current.value,
+    };
+    saveNote(noteToSave);
+  }
 
   return (
     <>
@@ -24,13 +44,14 @@ export default function Note() {
           <div className={styles.panel}>
             <div className={styles.container}>
               <header className={styles.header}>
-                <NoteHeader />
+                <NoteHeader onSave={handleSave} />
               </header>
               <section className={styles.details}>
                 <TextareaAutosize
+                  ref={title}
                   minRows={1}
                   maxRows={3}
-                  value={note.title}
+                  placeholder="Enter a title…"
                   className={`text-preset-1 text-color-neutral-950 ${styles.title}`}
                   onChange={() => {}}
                   aria-label="Title"
@@ -44,14 +65,15 @@ export default function Note() {
                 </div>
                 <hr />
                 <textarea
-                  value={note.content}
+                  ref={content}
+                  placeholder="Start typing your note here…"
                   className={`text-preset-5 text-color-neutral-800 ${styles.content}`}
                   onChange={() => {}}
                   aria-label="Content"
                 />
               </section>
               <footer className={styles.footer}>
-                <NoteFooter />
+                <NoteFooter onSave={handleSave} />
               </footer>
             </div>
           </div>
