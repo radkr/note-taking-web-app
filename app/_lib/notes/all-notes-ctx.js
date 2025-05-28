@@ -105,10 +105,10 @@ export default function AllNotesProvider({ children }) {
   function saveNote(note) {
     console.log("Save note: ", note);
     startNoteTransition(async () => {
-      await updateNoteInDb(note);
+      const updatedNote = await updateNoteInDb(note);
       const allNotes = await getAllNotes();
       setAllNotes(allNotes);
-      setNote(note);
+      setNote(updatedNote);
       setToast({
         message: "Note saved successfully!",
       });

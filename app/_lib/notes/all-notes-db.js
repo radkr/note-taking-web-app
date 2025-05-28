@@ -3,19 +3,10 @@
 import dbConnect from "@/app/_lib/database/database";
 import Note from "./all-notes-model";
 
-function formatDate(date) {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(date);
-}
-
 function getPlainNote(note) {
   return {
     ...note.toObject(),
     _id: note._id.toString(),
-    lastEdited: formatDate(new Date(note.toObject().lastEdited)),
   };
 }
 
@@ -44,5 +35,8 @@ export async function deleteNoteWithId(id) {
 }
 
 export async function updateNoteInDb(note) {
-  await Note.findOneAndUpdate({ _id: note._id }, note);
+  const updatedNote = await Note.findOneAndUpdate({ _id: note._id }, note, {
+    new: true,
+  });
+  return getPlainNote(updatedNote);
 }

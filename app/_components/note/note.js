@@ -7,11 +7,18 @@ import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import IconClock from "@/assets/images/icon-clock.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
+import { formatDate } from "@/app/_lib/utils";
 
 export default function Note() {
   const { saveNote, note } = use(AllNotesCtx);
   const title = useRef();
   const content = useRef();
+
+  const formattedDate = note?.updatedAt
+    ? formatDate(note.updatedAt)
+    : "unknown";
+
+  console.log("Note:note", note);
 
   useEffect(() => {
     if (note?.title) {
@@ -61,7 +68,7 @@ export default function Note() {
                     <IconClock className={styles.propertyIcon} />
                     <p className="text-preset-6">Last edited</p>
                   </div>
-                  <p className="text-preset-6">29 Oct 2024</p>
+                  <p className="text-preset-6">{formattedDate}</p>
                 </div>
                 <hr />
                 <textarea

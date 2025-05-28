@@ -7,7 +7,9 @@ const NoteSchema = new mongoose.Schema(
     content: String,
     isArchived: Boolean,
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const Note = mongoose.models.Note || mongoose.model("Note", NoteSchema);
