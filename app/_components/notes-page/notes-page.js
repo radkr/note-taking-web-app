@@ -1,21 +1,39 @@
 "use client";
 
 import { use, useCallback, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./notes-page.module.css";
 import { AppCtx, NOTES, NOTE } from "@/app/_lib/application/app-ctx";
 import AllNotes from "@/app/_components/all-notes/all-notes";
 import AllNotesProvider from "@/app/_lib/notes/all-notes-ctx";
 import Note from "@/app/_components/note/note";
+import { getAllNotes, getNoteWithId } from "@/app/_lib/notes/all-notes-db";
 
 export default function NotesPage({}) {
   const { activePage, noteId } = use(AppCtx);
-  const [firstNoteId, setFirstNoteId] = useState();
-  const id = noteId || firstNoteId;
 
-  console.log("Id in NotesPage: ", firstNoteId);
+  const allNotes = useQuery({
+    queryKey: ["allNotes"],
+    queryFn: getAllNotes,
+  });
 
-  const handleIdChange = useCallback((id) => setFirstNoteId(id), []);
+  const id = noteId || allNotes.data?.[0]?._id;
+
+  const note = useQuery({
+    queryKey: ["allNotes", { id }],
+    queryFn: () => getNoteWithId(id),
+    enabled: !!id,
+  });
+
+  const cachedNote = {
+    data: allNotes.data?.find((note) => {
+      return note._id === id;
+    }),
+    isPending: false,
+    isError: false,
+    error: {},
+  };
 
   return (
     <div className={styles.page}>
@@ -25,14 +43,14 @@ export default function NotesPage({}) {
             activePage === NOTES ? styles.active : ""
           }`}
         >
-          <AllNotes onIdChange={handleIdChange} />
+          <AllNotes allNotes={allNotes} />
         </aside>
         <article
           className={`${styles.note} ${
             activePage === NOTE ? styles.active : ""
           }`}
         >
-          <Note id={id} />
+          <Note id={id} note={cachedNote.data ? cachedNote : note} />
         </article>
       </AllNotesProvider>
     </div>

@@ -53,7 +53,6 @@ export default function AllNotesProvider({ children }) {
         if (note) {
           setNote(note);
           setIsNoteInvalid(false);
-          console.log("Note updated: ", note);
           return;
         }
       }
@@ -61,7 +60,6 @@ export default function AllNotesProvider({ children }) {
         const note = await getNoteWithId(noteId);
         setNote(note);
         setIsNoteInvalid(false);
-        console.log("Note updated: ", note);
       });
     },
     [allNotes, isAllNotesInvalid]
@@ -72,27 +70,22 @@ export default function AllNotesProvider({ children }) {
       pageState.noteId ||
       (!isNoteInvalid && note?._id) ||
       (!isAllNotesInvalid && allNotes?.[0]?._id);
-    console.log("PageState: ", pageState);
-    console.log("Derived id: ", id);
     if (id && (isNoteInvalid || !(note?._id === id))) {
       updateNote(id);
     }
     if (!id && !isAllNotesInvalid) {
       setNote({});
       setIsNoteInvalid(false);
-      console.log("Note: empty");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageState.noteId, allNotes]);
 
   useEffect(() => {
-    console.log("AllNotes is Invalid: ", isAllNotesInvalid);
     if (isAllNotesInvalid) {
       startAllNotesTransition(async () => {
         const allNotes = await getAllNotes();
         setAllNotes(allNotes);
         setIsAllNotesInvalid(false);
-        console.log("AllNotes updated");
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,7 +96,6 @@ export default function AllNotesProvider({ children }) {
   }
 
   function saveNote(note) {
-    console.log("Save note: ", note);
     startNoteTransition(async () => {
       const updatedNote = await updateNoteInDb(note);
       const allNotes = await getAllNotes();
@@ -123,7 +115,6 @@ export default function AllNotesProvider({ children }) {
   };
 
   async function confirmDelete() {
-    console.log("To delete: ", toDelete._id);
     setIsAllNotesInvalid(true);
     setIsNoteInvalid(true);
     await deleteNoteWithId(toDelete._id);
@@ -131,7 +122,6 @@ export default function AllNotesProvider({ children }) {
       message: "Note permanently deleted.",
     });
     setToDelete(undefined);
-    console.log("confirmDelete");
     router.push("/notes");
   }
 

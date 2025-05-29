@@ -1,6 +1,5 @@
 import { use, useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { useQuery } from "@tanstack/react-query";
 
 import styles from "./note.module.css";
 import NoteHeader from "@/app/_components/note-header/note-header";
@@ -9,20 +8,13 @@ import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import IconClock from "@/assets/images/icon-clock.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
-import { getNoteWithId } from "@/app/_lib/notes/all-notes-db";
 
-export default function Note({ id }) {
+export default function Note({ id, note }) {
   const { saveNote } = use(AllNotesCtx);
   const title = useRef();
   const content = useRef();
 
-  console.log("Id in Note: ", id);
-
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ["allNotes", { id }],
-    queryFn: () => getNoteWithId(id),
-    enabled: !!id,
-  });
+  const { data, isPending, isError, error } = note;
 
   const formattedDate = data?.updatedAt
     ? formatDate(data.updatedAt)

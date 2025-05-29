@@ -1,22 +1,11 @@
 "use client";
 
-import { use, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-
 import styles from "./all-notes.module.css";
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
 import NoteItem from "@/app/_components/note-item/note-item";
-import { getAllNotes } from "@/app/_lib/notes/all-notes-db";
 
-export default function AllNotes({ onIdChange }) {
-  const { data, isLoading } = useQuery({
-    queryKey: ["allNotes"],
-    queryFn: getAllNotes,
-  });
-
-  useEffect(() => {
-    onIdChange(data?.length ? data[0]._id : undefined);
-  }, [data, onIdChange]);
+export default function AllNotes({ allNotes }) {
+  const { data, isLoading } = allNotes;
 
   let content;
 
