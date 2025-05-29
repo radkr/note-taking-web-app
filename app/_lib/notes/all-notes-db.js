@@ -12,7 +12,7 @@ function getPlainNote(note) {
 
 export async function getAllNotes() {
   await dbConnect();
-  const notes = await Note.find();
+  const notes = await Note.find().sort({ updatedAt: -1 });
   const plainNotes = notes.map((note) => {
     return getPlainNote(note);
   });
@@ -40,4 +40,14 @@ export async function updateNoteInDb(note) {
     new: true,
   });
   return getPlainNote(updatedNote);
+}
+
+export async function createNote() {
+  try {
+    const note = await Note.create({});
+    if (!note) throw new Error();
+    return getPlainNote(note);
+  } catch (error) {
+    return { error: "The note can not be created." };
+  }
 }

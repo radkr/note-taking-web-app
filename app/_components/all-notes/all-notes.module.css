@@ -3,9 +3,22 @@
   height: 100%;
   min-height: 0;
   padding: var(--spacing-250) var(--spacing-200) 0 var(--spacing-200);
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
   row-gap: var(--spacing-200);
+}
+
+.createDesktop {
+  display: none;
+}
+
+.createPortable {
+  display: block;
+  position: absolute;
+  bottom: var(--spacing-200);
+  left: unset;
+  right: var(--spacing-200);
 }
 
 .emptyList {
@@ -58,12 +71,25 @@
   .allNotes {
     padding: var(--spacing-300) var(--spacing-400) 0 var(--spacing-400);
   }
+
+  .createPortable {
+    bottom: var(--spacing-400);
+    right: var(--spacing-400);
+  }
 }
 
 @media (min-width: 1024px) {
   .allNotes {
     padding: var(--spacing-250) var(--spacing-200) var(--spacing-250)
       var(--spacing-400);
-    grid-template-rows: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .createDesktop {
+    display: block;
+  }
+
+  .createPortable {
+    display: none;
   }
 }

@@ -70,7 +70,7 @@ export default function Note({ id, note }) {
     },
   });
 
-  const { mutate: mutateOnDelete } = useMutation({
+  const { mutate: mutateOnDelete, isPending: isPendingOnDelete } = useMutation({
     mutationFn: deleteNoteWithId,
     onSuccess: () => {
       console.log("Delete succeeded...");
@@ -145,6 +145,7 @@ export default function Note({ id, note }) {
               <NoteHeader
                 onSave={handleSave}
                 onDelete={handleDelete}
+                isDisabled={isPendingOnDelete}
                 isEdited={isEdited !== ""}
               />
             </header>
@@ -179,12 +180,19 @@ export default function Note({ id, note }) {
               />
             </section>
             <footer className={styles.footer}>
-              <NoteFooter onSave={handleSave} isEdited={isEdited !== ""} />
+              <NoteFooter
+                onSave={handleSave}
+                isEdited={isEdited !== ""}
+                isDisabled={isPendingOnDelete}
+              />
             </footer>
           </div>
         </div>
         <aside className={styles.sidebar}>
-          <NoteSiderbar onDelete={handleDelete} />
+          <NoteSiderbar
+            onDelete={handleDelete}
+            isDisabled={isPendingOnDelete}
+          />
         </aside>
       </div>
     );

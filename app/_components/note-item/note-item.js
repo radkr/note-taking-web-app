@@ -5,9 +5,9 @@ import styles from "./note-item.module.css";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
 
-export default function NoteItem({ note }) {
+export default function NoteItem({ note, id }) {
   const { note: selectedNote } = use(AllNotesCtx);
-  const isSelected = note._id == selectedNote?._id;
+  const isSelected = note._id == id;
 
   const formattedDate = note?.updatedAt
     ? formatDate(note.updatedAt)
@@ -16,7 +16,9 @@ export default function NoteItem({ note }) {
   return (
     <li className={`${styles.note} ${isSelected ? styles.selected : ""}`}>
       <Link href={`/notes/${note._id}`} className={styles.noteCard}>
-        <h2 className="text-preset-3 text-color-neutral-950">{note.title}</h2>
+        <h2 className="text-preset-3 text-color-neutral-950">
+          {note.title || "Untitled Note"}
+        </h2>
         <p className="text-preset-6 text-color-neutral-700">{formattedDate}</p>
       </Link>
     </li>

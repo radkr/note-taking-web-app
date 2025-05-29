@@ -43,7 +43,7 @@ export default function NotesPage({}) {
             activePage === NOTES ? styles.active : ""
           }`}
         >
-          <AllNotes allNotes={allNotes} />
+          <AllNotes allNotes={allNotes} id={id} />
         </aside>
         <article
           className={`${styles.note} ${
