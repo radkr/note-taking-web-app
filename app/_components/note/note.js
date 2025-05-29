@@ -21,7 +21,7 @@ export default function Note({ id, note }) {
     : "unknown";
 
   useEffect(() => {
-    if (data) {
+    if (data && !data.error) {
       title.current.value = data?.title || "";
       content.current.value = data?.content || "";
     }
@@ -48,7 +48,7 @@ export default function Note({ id, note }) {
     return <div className={styles.alternative}></div>;
   }
 
-  if (data) {
+  if (data && !data.error) {
     return (
       <div className={styles.note}>
         <div className={styles.panel}>
@@ -94,10 +94,11 @@ export default function Note({ id, note }) {
     );
   }
 
-  if (isError) {
+  if (data && data.error) {
+    console.log("Error is catched: ", error);
     return (
       <div className={styles.alternative}>
-        <p className="text-preset-5 text-color-neutral-800">{error}</p>
+        <p className="text-preset-5 text-color-neutral-800">{data.error}</p>
       </div>
     );
   }

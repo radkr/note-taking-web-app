@@ -26,7 +26,7 @@ export async function getNoteWithId(id) {
     if (!note) throw new Error();
     return getPlainNote(note);
   } catch (error) {
-    return { _id: id, error: "The note can not be found." };
+    return { error: "The note can not be found." };
   }
 }
 
