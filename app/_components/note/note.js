@@ -10,17 +10,24 @@ import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
+import Toast from "@/app/_components/toast/toast";
 
 export default function Note({ id, note }) {
   const { saveNote } = use(AllNotesCtx);
+
+  const [toast, setToast] = useState();
 
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: updateNoteInDb,
     onMutate: async (data) => {
-      // Update allNotes optimistically
+      // Cancel current queries before optimistic update
       await queryClient.cancelQueries({ queryKey: ["allNotes"] });
+      await queryClient.cancelQueries({
+        queryKey: ["allNotes", { id: data._id }],
+      });
+      // Update allNotes optimistically
       const prevAllNotes = queryClient.getQueryData(["allNotes"]);
       const nextAllNotes = !prevAllNotes
         ? []
@@ -31,9 +38,6 @@ export default function Note({ id, note }) {
       queryClient.setQueryData(["allNotes"], nextAllNotes);
 
       // Update notes optimistically
-      await queryClient.cancelQueries({
-        queryKey: ["allNotes", { id: data._id }],
-      });
       const prevNotes = queryClient.getQueryData([
         "allNotes",
         { id: data._id },
@@ -52,6 +56,11 @@ export default function Note({ id, note }) {
         ["allNotes", { id: data._id }],
         context.prevNotes
       );
+    },
+    onSuccess: () => {
+      setToast({
+        message: "Note saved successfully!",
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries(["allNotes"]);
@@ -81,7 +90,6 @@ export default function Note({ id, note }) {
   }, [isEdited, data]);
 
   function handleSave() {
-    console.log("Handle save...");
     const noteToSave = {
       ...data,
       title: title.current.value,
@@ -148,16 +156,24 @@ export default function Note({ id, note }) {
         <aside className={styles.sidebar}>
           <NoteSiderbar />
         </aside>
+        <Toast
+          open={toast}
+          onClose={() => {
+            setToast(undefined);
+          }}
+          message={toast?.message}
+        />
       </div>
     );
   }
 
   if (data && data.error) {
-    console.log("Error is catched: ", error);
     return (
-      <div className={styles.alternative}>
-        <p className="text-preset-5 text-color-neutral-800">{data.error}</p>
-      </div>
+      <>
+        <div className={styles.alternative}>
+          <p className="text-preset-5 text-color-neutral-800">{data.error}</p>
+        </div>
+      </>
     );
   }
 }

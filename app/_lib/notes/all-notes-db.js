@@ -35,7 +35,6 @@ export async function deleteNoteWithId(id) {
 }
 
 export async function updateNoteInDb(note) {
-  console.log("Run: updateNoteInDb: ", note);
   const updatedNote = await Note.findOneAndUpdate({ _id: note._id }, note, {
     new: true,
   });
