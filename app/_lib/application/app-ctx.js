@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { usePathname } from "next/navigation";
 import Toast from "@/app/_components/toast/toast";
 
@@ -35,6 +35,7 @@ function getPageState(path) {
   return {
     activePage,
     noteId,
+    displayToast: () => {},
   };
 }
 
@@ -45,17 +46,23 @@ export const AppCtx = createContext({
 
 export default function ApplicationProvider({ children }) {
   const pageState = getPageState(usePathname());
+  const [toast, setToast] = useState();
 
-  const applicationValue = { ...pageState };
+  function displayToast(toast) {
+    setToast(toast);
+  }
+
+  const applicationValue = { ...pageState, displayToast: displayToast };
 
   return (
     <AppCtx value={applicationValue}>
       {children}
       <Toast
-        onClose={() => {}}
-        message="Note restored to active notes."
-        link="All Notes"
-        href="#"
+        open={toast}
+        onClose={() => {
+          setToast(undefined);
+        }}
+        message={toast?.message}
       />
     </AppCtx>
   );

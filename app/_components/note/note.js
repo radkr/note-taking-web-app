@@ -11,11 +11,11 @@ import { formatDate } from "@/app/_lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
 import Toast from "@/app/_components/toast/toast";
+import { AppCtx } from "@/app/_lib/application/app-ctx";
 
 export default function Note({ id, note }) {
   const { saveNote } = use(AllNotesCtx);
-
-  const [toast, setToast] = useState();
+  const { displayToast } = use(AppCtx);
 
   const queryClient = useQueryClient();
 
@@ -58,7 +58,7 @@ export default function Note({ id, note }) {
       );
     },
     onSuccess: () => {
-      setToast({
+      displayToast({
         message: "Note saved successfully!",
       });
     },
@@ -156,13 +156,6 @@ export default function Note({ id, note }) {
         <aside className={styles.sidebar}>
           <NoteSiderbar />
         </aside>
-        <Toast
-          open={toast}
-          onClose={() => {
-            setToast(undefined);
-          }}
-          message={toast?.message}
-        />
       </div>
     );
   }
