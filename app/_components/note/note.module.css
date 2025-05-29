@@ -30,6 +30,7 @@
   height: 100%;
   min-height: 0;
   padding-top: var(--spacing-150);
+  padding-bottom: var(--spacing-150);
   background-color: white;
   display: grid;
   grid-template-columns: 1fr;
@@ -47,14 +48,20 @@
   background-color: white;
 }
 
-.title {
+.editable {
   appearance: none;
   display: block;
   width: 100%;
   outline: none;
   border: none;
+  border-radius: var(--radius-4);
   resize: none;
   background-color: white;
+}
+
+.editable:focus {
+  outline: 1px solid var(--color-neutral-500);
+  outline-offset: 4px;
 }
 
 .property {
@@ -125,10 +132,7 @@
     background-color: var(--color-neutral-950);
   }
 
-  .title {
-    background-color: var(--color-neutral-950);
-  }
-  .content {
+  .editable {
     background-color: var(--color-neutral-950);
   }
 
@@ -153,6 +157,7 @@
   .details {
     min-height: 0;
     padding-top: var(--spacing-200);
+    padding-bottom: var(--spacing-200);
     row-gap: var(--spacing-200);
   }
 }

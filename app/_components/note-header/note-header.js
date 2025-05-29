@@ -5,7 +5,7 @@ import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-butto
 import IconDelete from "@/assets/images/icon-delete.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
-export default function NoteHeader({ onSave }) {
+export default function NoteHeader({ onSave, isEdited }) {
   const { deleteNote } = use(AllNotesCtx);
 
   return (
@@ -20,7 +20,9 @@ export default function NoteHeader({ onSave }) {
           <IconDelete className={styles.icon} />
         </button>
         <button
-          className={`text-preset-5 text-color-blue-500 ${styles.button}`}
+          className={`text-preset-5 ${
+            isEdited ? "text-color-blue-500" : "text-color-neutral-600"
+          } ${styles.button}`}
           onClick={onSave}
         >
           Save Note

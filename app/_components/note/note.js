@@ -1,4 +1,4 @@
-import { use, useEffect, useRef } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import styles from "./note.module.css";
@@ -8,9 +8,59 @@ import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import IconClock from "@/assets/images/icon-clock.svg";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
 
 export default function Note({ id, note }) {
   const { saveNote } = use(AllNotesCtx);
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: updateNoteInDb,
+    onMutate: async (data) => {
+      // Update allNotes optimistically
+      await queryClient.cancelQueries({ queryKey: ["allNotes"] });
+      const prevAllNotes = queryClient.getQueryData(["allNotes"]);
+      const nextAllNotes = !prevAllNotes
+        ? []
+        : prevAllNotes.map((prevNote) => {
+            if (prevNote._id === data._id) return data;
+            return prevNote;
+          });
+      queryClient.setQueryData(["allNotes"], nextAllNotes);
+
+      // Update notes optimistically
+      await queryClient.cancelQueries({
+        queryKey: ["allNotes", { id: data._id }],
+      });
+      const prevNotes = queryClient.getQueryData([
+        "allNotes",
+        { id: data._id },
+      ]);
+      queryClient.setQueryData(["allNotes", { id: data._id }], data);
+
+      // Clear isEdited
+      setIsEdited("");
+
+      // Return context
+      return { prevAllNotes, prevNotes };
+    },
+    onError: (error, data, context) => {
+      queryClient.setQueryData(["allNotes"], context.prevAllNotes);
+      queryClient.setQueryData(
+        ["allNotes", { id: data._id }],
+        context.prevNotes
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["allNotes"]);
+      queryClient.invalidateQueries(["allNotes", { id: data._id }]);
+    },
+  });
+
+  const [isEdited, setIsEdited] = useState("");
+
   const title = useRef();
   const content = useRef();
 
@@ -22,18 +72,22 @@ export default function Note({ id, note }) {
 
   useEffect(() => {
     if (data && !data.error) {
-      title.current.value = data?.title || "";
-      content.current.value = data?.content || "";
+      if (isEdited !== data._id) {
+        title.current.value = data?.title || "";
+        content.current.value = data?.content || "";
+        setIsEdited("");
+      }
     }
-  }, [data]);
+  }, [isEdited, data]);
 
   function handleSave() {
+    console.log("Handle save...");
     const noteToSave = {
       ...data,
       title: title.current.value,
       content: content.current.value,
     };
-    saveNote(noteToSave);
+    mutate(noteToSave);
   }
 
   if (isPending) {
@@ -54,7 +108,7 @@ export default function Note({ id, note }) {
         <div className={styles.panel}>
           <div className={styles.container}>
             <header className={styles.header}>
-              <NoteHeader onSave={handleSave} />
+              <NoteHeader onSave={handleSave} isEdited={isEdited !== ""} />
             </header>
             <section className={styles.details}>
               <TextareaAutosize
@@ -62,8 +116,10 @@ export default function Note({ id, note }) {
                 minRows={1}
                 maxRows={3}
                 placeholder="Enter a title…"
-                className={`text-preset-1 text-color-neutral-950 ${styles.title}`}
-                onChange={() => {}}
+                className={`text-preset-1 text-color-neutral-950 ${styles.editable}`}
+                onChange={() => {
+                  setIsEdited(data._id);
+                }}
                 aria-label="Title"
               />
               <div className={styles.property}>
@@ -77,13 +133,15 @@ export default function Note({ id, note }) {
               <textarea
                 ref={content}
                 placeholder="Start typing your note here…"
-                className={`text-preset-5 text-color-neutral-800 ${styles.content}`}
-                onChange={() => {}}
+                className={`text-preset-5 text-color-neutral-800 ${styles.editable}`}
+                onChange={() => {
+                  setIsEdited(data._id);
+                }}
                 aria-label="Content"
               />
             </section>
             <footer className={styles.footer}>
-              <NoteFooter onSave={handleSave} />
+              <NoteFooter onSave={handleSave} isEdited={isEdited !== ""} />
             </footer>
           </div>
         </div>
