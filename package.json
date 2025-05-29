@@ -11,6 +11,8 @@
     "test:watch": "jest --watchAll"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.77.2",
+    "@tanstack/react-query-devtools": "^5.77.2",
     "mongoose": "^8.15.0",
     "next": "15.3.1",
     "react": "^19.0.0",
@@ -20,6 +22,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
+    "@tanstack/eslint-plugin-query": "^5.78.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

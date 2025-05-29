@@ -1,14 +1,21 @@
 "use client";
 
 import { use } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./all-notes.module.css";
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
 import NoteItem from "@/app/_components/note-item/note-item";
 import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
+import { getAllNotes } from "@/app/_lib/notes/all-notes-db";
 
 export default function AllNotes() {
-  const { notes } = use(AllNotesCtx);
+  const { data: notes } = useQuery({
+    queryKey: ["allNotes"],
+    queryFn: async () => {
+      return await getAllNotes();
+    },
+  });
 
   return (
     <div className={styles.allNotes}>

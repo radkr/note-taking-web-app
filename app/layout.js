@@ -7,6 +7,7 @@ import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navi
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
 import ApplicationProvider, { NOTES } from "@/app/_lib/application/app-ctx";
 import NotesPage from "@/app/_components/notes-page/notes-page";
+import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 
 const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",
@@ -33,31 +34,33 @@ export default function RootLayout({ children }) {
       <body
         className={`${interSansSerif.variable} ${notoSans.variable}  ${sourceCodeProMono.variable}`}
       >
-        <ApplicationProvider>
-          <div id="modal-root" className="modal-root" />
-          <div className="app-root">
-            <div className="desktop-sidebar">
-              <div className="desktop-sidebar_panel">
-                <nav className="desktop-navigation">
-                  <DesktopNavigation />
-                </nav>
-                <aside className="all-tags"></aside>
+        <MyQueryClientProvider>
+          <ApplicationProvider>
+            <div id="modal-root" className="modal-root" />
+            <div className="app-root">
+              <div className="desktop-sidebar">
+                <div className="desktop-sidebar_panel">
+                  <nav className="desktop-navigation">
+                    <DesktopNavigation />
+                  </nav>
+                  <aside className="all-tags"></aside>
+                </div>
               </div>
+              <header className="portable-header">
+                <PortablePageHeader />
+              </header>
+              <header className="desktop-header">
+                <DesktopPageHeader />
+              </header>
+              <main>
+                <NotesPage />
+              </main>
+              <nav className="bottom-navigation">
+                <BottomNavigation select={NOTES} />
+              </nav>
             </div>
-            <header className="portable-header">
-              <PortablePageHeader />
-            </header>
-            <header className="desktop-header">
-              <DesktopPageHeader />
-            </header>
-            <main>
-              <NotesPage />
-            </main>
-            <nav className="bottom-navigation">
-              <BottomNavigation select={NOTES} />
-            </nav>
-          </div>
-        </ApplicationProvider>
+          </ApplicationProvider>
+        </MyQueryClientProvider>
       </body>
     </html>
   );
