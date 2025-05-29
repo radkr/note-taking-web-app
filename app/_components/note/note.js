@@ -10,16 +10,18 @@ import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
-import Toast from "@/app/_components/toast/toast";
 import { AppCtx } from "@/app/_lib/application/app-ctx";
+import { useRouter } from "next/navigation";
+import { deleteNoteWithId } from "@/app/_lib/notes/all-notes-db";
 
 export default function Note({ id, note }) {
   const { saveNote } = use(AllNotesCtx);
   const { displayToast } = use(AppCtx);
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: mutateOnSave } = useMutation({
     mutationFn: updateNoteInDb,
     onMutate: async (data) => {
       // Cancel current queries before optimistic update
@@ -68,6 +70,25 @@ export default function Note({ id, note }) {
     },
   });
 
+  const { mutate: mutateOnDelete } = useMutation({
+    mutationFn: deleteNoteWithId,
+    onSuccess: () => {
+      console.log("Delete succeeded...");
+      queryClient.invalidateQueries({
+        queryKey: ["allNotes"],
+        exact: true,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allNotes", { id: data._id }],
+        refetchType: "none",
+      });
+      displayToast({
+        message: "Note permanently deleted.",
+      });
+      router.push("/notes");
+    },
+  });
+
   const [isEdited, setIsEdited] = useState("");
 
   const title = useRef();
@@ -95,7 +116,12 @@ export default function Note({ id, note }) {
       title: title.current.value,
       content: content.current.value,
     };
-    mutate(noteToSave);
+    mutateOnSave(noteToSave);
+  }
+
+  function handleDelete() {
+    console.log("handeDelete");
+    mutateOnDelete(data._id);
   }
 
   if (isPending) {
@@ -116,7 +142,11 @@ export default function Note({ id, note }) {
         <div className={styles.panel}>
           <div className={styles.container}>
             <header className={styles.header}>
-              <NoteHeader onSave={handleSave} isEdited={isEdited !== ""} />
+              <NoteHeader
+                onSave={handleSave}
+                onDelete={handleDelete}
+                isEdited={isEdited !== ""}
+              />
             </header>
             <section className={styles.details}>
               <TextareaAutosize
@@ -154,7 +184,7 @@ export default function Note({ id, note }) {
           </div>
         </div>
         <aside className={styles.sidebar}>
-          <NoteSiderbar />
+          <NoteSiderbar onDelete={handleDelete} />
         </aside>
       </div>
     );

@@ -1,13 +1,8 @@
-import { use } from "react";
-
 import styles from "./note-header.module.css";
 import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-button";
 import IconDelete from "@/assets/images/icon-delete.svg";
-import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 
-export default function NoteHeader({ onSave, isEdited }) {
-  const { deleteNote } = use(AllNotesCtx);
-
+export default function NoteHeader({ onSave, onDelete, isEdited }) {
   return (
     <div className={styles.header}>
       <GoBackButton />
@@ -15,7 +10,7 @@ export default function NoteHeader({ onSave, isEdited }) {
         <button
           aria-label="Delete Note"
           className={styles.button}
-          onClick={deleteNote}
+          onClick={onDelete}
         >
           <IconDelete className={styles.icon} />
         </button>

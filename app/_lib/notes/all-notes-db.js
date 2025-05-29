@@ -31,6 +31,7 @@ export async function getNoteWithId(id) {
 }
 
 export async function deleteNoteWithId(id) {
+  console.log("deleteNoteWithId: ", id);
   await Note.findByIdAndDelete(id);
 }
 
