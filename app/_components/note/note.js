@@ -119,6 +119,10 @@ export default function Note({ id, note }) {
     mutateOnSave(noteToSave);
   }
 
+  function handleCancel() {
+    setIsEdited(false);
+  }
+
   function handleDelete() {
     console.log("handeDelete");
     mutateOnDelete(data._id);
@@ -144,6 +148,7 @@ export default function Note({ id, note }) {
             <header className={styles.header}>
               <NoteHeader
                 onSave={handleSave}
+                onCancel={handleCancel}
                 onDelete={handleDelete}
                 isDisabled={isPendingOnDelete}
                 isEdited={isEdited !== ""}
@@ -182,6 +187,7 @@ export default function Note({ id, note }) {
             <footer className={styles.footer}>
               <NoteFooter
                 onSave={handleSave}
+                onCancel={handleCancel}
                 isEdited={isEdited !== ""}
                 isDisabled={isPendingOnDelete}
               />

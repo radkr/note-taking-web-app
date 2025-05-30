@@ -2,7 +2,13 @@ import styles from "./note-header.module.css";
 import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-button";
 import IconDelete from "@/assets/images/icon-delete.svg";
 
-export default function NoteHeader({ onSave, onDelete, isEdited, isDisabled }) {
+export default function NoteHeader({
+  onSave,
+  onCancel,
+  onDelete,
+  isEdited,
+  isDisabled,
+}) {
   return (
     <div className={styles.header}>
       <GoBackButton disabled={isDisabled} />
@@ -16,11 +22,20 @@ export default function NoteHeader({ onSave, onDelete, isEdited, isDisabled }) {
           <IconDelete className={styles.icon} />
         </button>
         <button
+          className={`text-preset-5 text-color-neutral-600 ${styles.button}`}
+          onClick={onCancel}
+          disabled={!isEdited || isDisabled}
+        >
+          Cancel
+        </button>
+        <button
           className={`text-preset-5 ${
-            isEdited ? "text-color-blue-500" : "text-color-neutral-600"
+            isEdited || isDisabled
+              ? "text-color-blue-500"
+              : "text-color-neutral-600"
           } ${styles.button}`}
           onClick={onSave}
-          disabled={isDisabled}
+          disabled={!isEdited || isDisabled}
         >
           Save Note
         </button>

@@ -10,7 +10,7 @@
 
 .controls {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   column-gap: var(--spacing-200);
 }
 
