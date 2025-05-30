@@ -15,7 +15,6 @@
 
 .container {
   width: calc(100% - var(--spacing-400));
-  max-width: 32.625rem; /*522px*/
   height: fit-content;
   position: absolute;
   top: 50%;
@@ -90,18 +89,5 @@
     --color-txt-logo: white;
     --color-br-field: var(--color-neutral-600);
     --color-bg-rule: var(--color-neutral-800);
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding: var(--spacing-600) var(--spacing-400);
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 33.75rem; /*540px*/
-    padding: var(--spacing-600);
   }
 }

@@ -159,6 +159,10 @@ body {
   color: var(--color-neutral-950);
 }
 
+.text-color-neutral-500 {
+  color: var(--color-neutral-500);
+}
+
 .text-color-neutral-600 {
   color: var(--color-neutral-600);
 }
