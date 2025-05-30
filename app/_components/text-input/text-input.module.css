@@ -1,0 +1,135 @@
+.textInput {
+  --color-br-field: var(--color-neutral-300);
+  --color-bg-field: white;
+  --color-bg-field-hover: var(--color-neutral-50);
+  --color-br-field-focus: var(--color-neutral-950);
+  --color-ol-field-focus: var(--color-neutral-500);
+  --color-tx-field: var(--color-neutral-950);
+  --color-ph-txt-field: var(--color-neutral-500);
+  --color-txt-icon: var(--color-neutral-500);
+  --color-text-hint: var(--color-neutral-600);
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  row-gap: var(--spacing-75);
+}
+
+.field {
+  padding: var(--spacing-200) var(--spacing-150);
+  border-radius: var(--radius-8);
+  border: 1px solid var(--color-br-field);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: var(--spacing-100);
+  background-color: var(--color-bg-field);
+}
+
+.field.focusVisible {
+  border: 1px solid var(--color-br-field-focus);
+  outline: 2px solid var(--color-ol-field-focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .field:hover {
+    background-color: var(--color-bg-field-hover);
+  }
+
+  .field:hover input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 1px 1000px var(--color-bg-field-hover) inset !important;
+    box-shadow: 0 0 1px 1000px var(--color-bg-field-hover) inset !important;
+    -webkit-text-fill-color: var(--color-tx-field) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+}
+
+.input {
+  appearance: none;
+  width: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--color-tx-field);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0px 0px 0px 1000px var(--color-bg-field) inset !important; /* or your desired background color */
+  box-shadow: 0 0 0px 1000px var(--color-bg-field) inset !important; /* or your desired background color */
+  -webkit-text-fill-color: var(--color-tx-field) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+.input::placeholder {
+  color: var(--color-ph-txt-field);
+}
+
+.showHide {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+}
+
+.icon {
+  color: var(--color-txt-icon);
+  display: block;
+}
+
+.hint {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: var(--spacing-100);
+  font-family: var(--text-font-family);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: var(--color-text-hint);
+}
+
+.textInput.disabled {
+  --color-bg-field: var(--color-neutral-50);
+  --color-br-field: var(--color-neutral-300);
+  --color-bg-field-hover: var(--color-bg-field);
+  --color-tx-field: var(--color-neutral-300);
+  --color-ph-txt-field: var(--color-neutral-300);
+  --color-txt-icon: var(--color-neutral-300);
+  --color-text-hint: var(--color-neutral-300);
+}
+
+.textInput.error {
+  --color-br-field: var(--color-red-500);
+  --color-br-field-focus: var(--color-red-500);
+  --color-text-hint: var(--color-red-500);
+}
+
+@media (prefers-color-scheme: dark) {
+  .textInput {
+    --color-br-field: var(--color-neutral-600);
+    --color-bg-field: var(--color-neutral-950);
+    --color-bg-field-hover: var(--color-neutral-800);
+    --color-br-field-focus: var(--color-neutral-600);
+    --color-ol-field-focus: var(--color-neutral-600);
+    --color-tx-field: white;
+    --color-ph-txt-field: var(--color-neutral-500);
+    --color-txt-icon: var(--color-neutral-400);
+    --color-text-hint: var(--color-neutral-400);
+  }
+
+  .textInput.disabled {
+    --color-bg-field: var(--color-neutral-800);
+    --color-br-field: var(--color-neutral-600);
+    --color-bg-field-hover: var(--color-bg-field);
+    --color-tx-field: var(--color-neutral-600);
+    --color-ph-txt-field: var(--color-neutral-600);
+    --color-txt-icon: var(--color-neutral-600);
+    --color-text-hint: var(--color-neutral-600);
+  }
+}

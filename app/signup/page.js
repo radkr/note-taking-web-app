@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 import Logo from "@/assets/images/logo.svg";
+import Textinput from "../_components/text-input/text-input";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 
 export default function SignUp() {
@@ -20,21 +21,20 @@ export default function SignUp() {
           </p>
         </div>
         <form className={styles.form}>
-          <div className={styles.textInput}>
-            <label
-              htmlFor="email"
-              className={`text-preset-4 text-color-neutral-950`}
-            >
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="email@example.com"
-              className={`text-preset-5 text-color-neutral-500 ${styles.field}`}
-            ></input>
-          </div>
+          <Textinput
+            id="email"
+            name="email"
+            type="email"
+            label="Email Address"
+            placeholder="email@example.com"
+          />
+          <Textinput
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            hint="At least 8 characters"
+          />
           <PrimaryButton>Sign up</PrimaryButton>
         </form>
         <hr className={styles.rule} />
