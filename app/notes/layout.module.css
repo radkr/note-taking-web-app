@@ -1,0 +1,138 @@
+.appRoot {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-neutral-100);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.modalRoot {
+  grid-area: unset;
+}
+
+@media (prefers-color-scheme: dark) {
+  .appRoot {
+    background-color: var(--color-neutral-800);
+  }
+}
+
+.main {
+  height: 100%;
+  min-height: 0;
+  display: block;
+  border-radius: var(--radius-8) var(--radius-8) 0 0;
+  background-color: var(--color-neutral-0);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .main {
+    background-color: var(--color-neutral-950);
+    border: 1px solid var(--color-neutral-800);
+    color: var(--color-neutral-0);
+  }
+}
+
+.portableHeader {
+  display: block;
+}
+
+.desktopHeader {
+  display: none;
+}
+
+.desktopSidebar {
+  display: none;
+}
+
+.bottomNavigation {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .appRoot {
+    display: grid;
+    grid-template-columns: 17rem 1fr; /*272px 1fr*/
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "sidebar-area header-area" "sidebar-area main-area";
+    row-gap: 1px;
+    column-gap: 1px;
+    background-color: var(--color-neutral-200);
+  }
+
+  .main {
+    border-radius: 0;
+    grid-area: main-area;
+    background-color: white;
+  }
+
+  .portableHeader {
+    display: none;
+  }
+
+  .desktopHeader {
+    display: block;
+    grid-area: header-area;
+    background-color: white;
+  }
+
+  .desktopSidebar {
+    display: block;
+    grid-area: sidebar-area;
+    padding: var(--spacing-150) var(--spacing-200);
+    background-color: white;
+  }
+
+  .desktopSidebar_panel {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    row-gap: 1px;
+    background-color: var(--color-neutral-200);
+  }
+
+  .desktopNavigation {
+    background-color: white;
+  }
+
+  .allTags {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+  }
+
+  .bottomNavigation {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .appRoot {
+      background-color: var(--color-neutral-800);
+    }
+
+    .main {
+      border: none;
+      background-color: var(--color-neutral-950);
+      color: var(--color-neutral-0);
+    }
+
+    .desktopSidebar {
+      background-color: var(--color-neutral-950);
+    }
+
+    .desktopSidebar_panel {
+      background-color: var(--color-neutral-800);
+    }
+
+    .desktopNavigation {
+      background-color: var(--color-neutral-950);
+    }
+
+    .allTags {
+      background-color: var(--color-neutral-950);
+    }
+
+    .desktopHeader {
+      background-color: var(--color-neutral-950);
+    }
+  }
+}
