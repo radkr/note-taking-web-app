@@ -2,24 +2,13 @@
 
 import { useState, useActionState } from "react";
 import Link from "next/link";
-import z from "zod";
 
 import styles from "./page.module.css";
 import Logo from "@/assets/images/logo.svg";
 import Textinput from "../_components/text-input/text-input";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 import { signupAction } from "@/app/_lib/auth/auth-actions";
-
-const signUpSchema = z.object({
-  email: z
-    .string({ message: "Please enter a valid email address." })
-    .trim()
-    .email({ message: "Please enter a valid email address." }),
-  password: z
-    .string({ message: "At least 8 characters" })
-    .trim()
-    .min(8, { message: "At least 8 characters" }),
-});
+import { SignupFormSchema } from "@/app/_lib/auth/auth-schema";
 
 const signUpDefaultValue = { email: "", password: "" };
 
@@ -27,17 +16,8 @@ export default function SignUp() {
   const [isValid, setIsValid] = useState({});
 
   function getIsValid(formData) {
-    const validationResult = signUpSchema.safeParse(formData);
-    let isValid = {};
-    if (!validationResult.success) {
-      isValid = validationResult.error.issues.reduce((isValid, issue) => {
-        if (issue.path.length > 0 && !isValid[issue.path[0]]) {
-          isValid[issue.path[0]] = issue.message;
-        }
-        return isValid;
-      }, isValid);
-    }
-    return isValid;
+    const validationResult = SignupFormSchema.safeParse(formData);
+    return validationResult.error?.flatten().fieldErrors || {};
   }
 
   function handleFocus(event) {
