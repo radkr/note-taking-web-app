@@ -73,7 +73,6 @@ export default function Note({ id, note }) {
   const { mutate: mutateOnDelete, isPending: isPendingOnDelete } = useMutation({
     mutationFn: deleteNoteWithId,
     onSuccess: () => {
-      console.log("Delete succeeded...");
       queryClient.invalidateQueries({
         queryKey: ["allNotes"],
         exact: true,
@@ -124,7 +123,6 @@ export default function Note({ id, note }) {
   }
 
   function handleDelete() {
-    console.log("handeDelete");
     mutateOnDelete(data._id);
   }
 

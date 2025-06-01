@@ -17,6 +17,9 @@ export default function Textinput({
   type = "text",
   disabled = false,
   error = "",
+  onFocus,
+  onBlur,
+  ...props
 }) {
   const [isHidden, setIsHidden] = useState(true);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
@@ -26,18 +29,18 @@ export default function Textinput({
     mouseDownRef.current = true;
   };
 
-  const handleFocus = () => {
+  const handleFocus = (event) => {
     if (!mouseDownRef.current) {
       setIsFocusVisible(true);
     }
+    if (onFocus) onFocus(event);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (event) => {
     setIsFocusVisible(false);
     mouseDownRef.current = false;
+    if (onBlur) onBlur(event);
   };
-
-  console.log("isHidden: ", isHidden);
 
   return (
     <div
@@ -64,6 +67,7 @@ export default function Textinput({
           onBlur={handleBlur}
           className={`text-preset-5 text-color-neutral-950 ${styles.input}`}
           disabled={disabled}
+          {...props}
         ></input>
         {type === "password" ? (
           isHidden ? (
