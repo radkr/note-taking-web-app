@@ -82,3 +82,38 @@ export async function signupAction(formData) {
   // Redirect user
   redirect("/notes");
 }
+
+export async function loginAction(formData) {
+  // Validate and format signup data
+  const validatedFields = SignupFormSchema.safeParse(formData);
+  if (!validatedFields.success)
+    return { error: validatedFields.error.flatten().fieldErrors };
+  try {
+    // Connect to the database
+    await dbConnect();
+    // Fetch the user if any
+    let user = await User.findOne(
+      { email: validatedFields.data.email },
+      "email password"
+    );
+    // Check the password
+    const isAuth = user
+      ? await bcrypt.compare(validatedFields.data.password, user.password)
+      : false;
+    if (!isAuth)
+      return {
+        error: {
+          email: "Incorrect email or password. Please try again.",
+        },
+      };
+    // Create user session
+    await createSession(user._id.toString());
+  } catch (error) {
+    console.log("Error occured: ", error);
+    return {
+      error: { email: "An error occurred while authentication." },
+    };
+  }
+  // Redirect user
+  redirect("/notes");
+}

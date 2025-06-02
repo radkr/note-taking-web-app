@@ -3,7 +3,6 @@
   --color-br-container: var(--color-neutral-200);
   --color-bg-container: white;
   --color-txt-logo: black;
-  --color-br-field: var(--color-neutral-300);
   --color-bg-rule: var(--color-neutral-200);
 
   width: 100vw;
@@ -15,6 +14,7 @@
 
 .container {
   width: calc(100% - var(--spacing-400));
+  max-width: 32.625rem; /*522px*/
   height: fit-content;
   position: absolute;
   top: 50%;
@@ -55,21 +55,6 @@
   row-gap: var(--spacing-200);
 }
 
-.textInput {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  row-gap: var(--spacing-75);
-}
-
-.field {
-  appearance: none;
-  padding: var(--spacing-200) var(--spacing-150);
-  border-radius: var(--radius-8);
-  border: 1px solid var(--color-br-field);
-  background-color: transparent;
-}
-
 .rule {
   width: 100%;
   height: 1px;
@@ -87,7 +72,19 @@
     --color-br-container: var(--color-neutral-800);
     --color-bg-container: var(--color-neutral-950);
     --color-txt-logo: white;
-    --color-br-field: var(--color-neutral-600);
     --color-bg-rule: var(--color-neutral-800);
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: var(--spacing-600) var(--spacing-400);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 33.75rem; /*540px*/
+    padding: var(--spacing-600);
   }
 }
