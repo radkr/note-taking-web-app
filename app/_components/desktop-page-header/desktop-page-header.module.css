@@ -1,8 +1,22 @@
 .header {
+  --color-txt-icon: var(--color-neutral-500);
+
   height: 5.0625rem; /*81px*/
   padding: 0 var(--spacing-400);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  display: block;
+  color: var(--color-txt-icon);
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    --color-txt-icon: var(--color-neutral-400);
+  }
 }

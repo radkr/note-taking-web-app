@@ -4,11 +4,16 @@
   list-style: none;
   padding: var(--spacing-150) var(--spacing-400);
   display: grid;
-  grid-template-columns: minmax(auto, 5rem); /*80px*/
+  grid-template-columns: minmax(auto, 5rem) minmax(auto, 5rem); /*80px*/
   justify-content: center;
   background-color: white;
   border-top: 1px solid var(--color-neutral-200);
   box-shadow: 0px -4px 6px 0px rgba(240, 240, 240, 0.6);
+}
+
+.icon {
+  width: 1.5rem; /*24px*/
+  height: 1.5rem; /*24px*/
 }
 
 @media (prefers-color-scheme: dark) {

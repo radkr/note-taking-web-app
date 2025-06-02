@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
-import { AppCtx, NOTES } from "@/app/_lib/application/app-ctx";
+import IconSettings from "@/assets/images/icon-settings.svg";
+import { AppCtx, NOTES, SETTINGS } from "@/app/_lib/application/app-ctx";
 
 export default function BottomNavigation({ className, select }) {
   const { activePage } = use(AppCtx);
@@ -19,8 +20,19 @@ export default function BottomNavigation({ className, select }) {
             activePage === NOTES ? styles.selected : ""
           }`}
         >
-          <IconHome />
+          <IconHome className={styles.icon} />
           <p className="text-preset-6">Home</p>
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/settings"
+          className={`${styles.item} ${
+            activePage === SETTINGS ? styles.selected : ""
+          }`}
+        >
+          <IconSettings className={styles.icon} />
+          <p className="text-preset-6">Settings</p>
         </Link>
       </li>
     </ul>

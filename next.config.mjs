@@ -9,6 +9,13 @@ const nextConfig = {
       },
     ];
   },*/
+  async rewrites() {
+    return [
+      { source: "/notes", destination: "/dashboard/notes" },
+      { source: "/settings", destination: "/dashboard/settings" },
+      { source: "/notes/:slug*", destination: "/dashboard/notes/:slug*" },
+    ];
+  },
   turbopack: {
     rules: {
       "*.svg": {

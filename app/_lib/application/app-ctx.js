@@ -3,45 +3,41 @@
 import { createContext, useState } from "react";
 import { usePathname } from "next/navigation";
 import Toast from "@/app/_components/toast/toast";
+import Settings from "@/app/dashboard/settings/page";
 
 export const NOTES = "HOME";
 export const NOTE = "NOTE";
+export const SETTINGS = "SETTINGS";
 
 function getPageState(path) {
   const pathSegments = path.substring(1, path.length).split("/");
   let activePage;
   let noteId;
 
-  if (pathSegments.length == 1 && pathSegments[0] === "notes") {
-    activePage = NOTES;
-  }
-
   if (0 < pathSegments.length) {
     switch (pathSegments[0]) {
       case "notes":
         activePage = NOTES;
-        if (pathSegments.length == 1) {
-          break;
-        } else {
-          switch (pathSegments[1]) {
-            default:
-              activePage = NOTE;
-              noteId = pathSegments[1];
-          }
+        if (1 < pathSegments.length) {
+          activePage = NOTE;
+          noteId = pathSegments[1];
         }
+        break;
+      case "settings":
+        activePage = SETTINGS;
     }
   }
 
   return {
     activePage,
     noteId,
-    displayToast: () => {},
   };
 }
 
 export const AppCtx = createContext({
   activePage: "",
   noteId: "",
+  displayToast: () => {},
 });
 
 export default function ApplicationProvider({ children }) {

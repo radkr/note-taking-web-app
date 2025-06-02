@@ -29,9 +29,7 @@ export default function RootLayout({ children }) {
           <header className={styles.desktopHeader}>
             <DesktopPageHeader />
           </header>
-          <main>
-            <NotesPage />
-          </main>
+          <main>{children}</main>
           <nav className={styles.bottomNavigation}>
             <BottomNavigation select={NOTES} />
           </nav>
