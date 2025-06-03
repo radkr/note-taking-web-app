@@ -46,6 +46,11 @@ export async function createSession(userId) {
   });
 }
 
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+}
+
 export async function signupAction(formData) {
   // Validate and format signup data
   const validatedFields = SignupFormSchema.safeParse(formData);
@@ -116,4 +121,10 @@ export async function loginAction(formData) {
   }
   // Redirect user
   redirect("/notes");
+}
+
+export async function logoutAction() {
+  console.log("logoutAction");
+  await deleteSession();
+  redirect("/login");
 }

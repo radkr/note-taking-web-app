@@ -96,7 +96,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   column-gap: var(--spacing-200);
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 @media (prefers-color-scheme: dark) {
