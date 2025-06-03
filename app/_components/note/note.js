@@ -172,7 +172,7 @@ export default function Note({ id, note }) {
                 </div>
                 <p className="text-preset-6">{formattedDate}</p>
               </div>
-              <hr />
+              <hr className={styles.rule} />
               <textarea
                 ref={content}
                 placeholder="Start typing your note here…"

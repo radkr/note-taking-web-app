@@ -1,4 +1,6 @@
 .note {
+  --color-bg-rule: var(--color-neutral-200);
+
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
@@ -90,6 +92,12 @@
   height: 1rem;
 }
 
+.rule {
+  height: 1px;
+  border: none;
+  background-color: var(--color-bg-rule);
+}
+
 .content {
   appearance: none;
   width: 100%;
@@ -113,6 +121,8 @@
 
 @media (prefers-color-scheme: dark) {
   .note {
+    --color-bg-rule: var(--color-neutral-800);
+
     background-color: var(--color-neutral-800);
   }
 
