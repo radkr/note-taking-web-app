@@ -1,17 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-const NoteSchema = new mongoose.Schema(
+const NoteSchema = new Schema(
   {
-    title: String,
-    tags: [String],
-    content: String,
-    isArchived: Boolean,
+    title: { type: String, maxlength: 100 },
+    tags: { type: [String] },
+    content: { type: String },
+    isArchived: { type: Boolean, default: false },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Note = mongoose.models.Note || mongoose.model("Note", NoteSchema);
+NoteSchema.index({ owner: 1 });
+
+const Note = mongoose.models.Note || model("Note", NoteSchema);
 
 export default Note;

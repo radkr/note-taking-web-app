@@ -16,7 +16,6 @@ export default function AllSettings() {
           Icon={IconLogout}
           label="Logout"
           onClick={async () => {
-            console.log("Logout clicked");
             await logoutAction();
           }}
         />

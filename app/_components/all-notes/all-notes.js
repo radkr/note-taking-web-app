@@ -19,6 +19,9 @@ export default function AllNotes({ allNotes, id }) {
   const { mutate } = useMutation({
     mutationFn: createNote,
     onSuccess: (data) => {
+      if (data.error) {
+        return;
+      }
       router.push(`/notes/${data._id}`);
       queryClient.invalidateQueries({ queryKey: ["allNotes"] });
     },

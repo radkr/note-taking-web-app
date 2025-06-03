@@ -48,6 +48,10 @@
   background-color: white;
 }
 
+.errorMessage {
+  max-width: 17rem;
+}
+
 .editable {
   appearance: none;
   display: block;

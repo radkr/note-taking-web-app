@@ -1,5 +1,6 @@
 import { use, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import Link from "next/link";
 
 import styles from "./note.module.css";
 import NoteHeader from "@/app/_components/note-header/note-header";
@@ -206,7 +207,17 @@ export default function Note({ id, note }) {
     return (
       <>
         <div className={styles.alternative}>
-          <p className="text-preset-5 text-color-neutral-800">{data.error}</p>
+          <div className={styles.errorMessage}>
+            <p className="text-preset-5 text-color-neutral-800">
+              <strong className="text-preset-3 text-color-neutral-800">
+                Note unavailable: {""}
+              </strong>
+              We couldn’t find this note — it may have been deleted, or you
+              might not have permission to view it. Try opening a different
+              note, or{" "}
+              <Link href="/login">log in with a different account</Link>.
+            </p>
+          </div>
         </div>
       </>
     );

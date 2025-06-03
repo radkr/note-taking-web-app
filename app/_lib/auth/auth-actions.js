@@ -2,6 +2,7 @@
 
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -46,6 +47,17 @@ export async function createSession(userId) {
   });
 }
 
+export const verifySession = cache(async () => {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = await decrypt(cookie);
+
+  if (!session?.userId) {
+    redirect("/login");
+  }
+
+  return { isAuth: true, userId: session.userId };
+});
+
 export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
@@ -75,11 +87,9 @@ export async function signupAction(formData) {
     // Create the new user in the database
     user = new User({ ...validatedFields.data, password: hashedPassword });
     await user.save();
-    console.log("user.save(): ", user);
     // Create user session
     await createSession(user._id.toString());
   } catch (error) {
-    console.log("Error occured: ", error);
     return {
       error: { email: "An error occurred while creating your account." },
     };
@@ -114,7 +124,6 @@ export async function loginAction(formData) {
     // Create user session
     await createSession(user._id.toString());
   } catch (error) {
-    console.log("Error occured: ", error);
     return {
       error: { email: "An error occurred while authentication." },
     };
@@ -124,7 +133,6 @@ export async function loginAction(formData) {
 }
 
 export async function logoutAction() {
-  console.log("logoutAction");
   await deleteSession();
   redirect("/login");
 }
