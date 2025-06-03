@@ -1,50 +1,76 @@
 .button {
+  /*Normal*/
+  --color-border: var(--color-blue-500);
+  --color-bg: var(--color-blue-500);
+  --color-text: white;
+  /*Focus*/
+  --color-outline_focus: var(--color-neutral-400);
+  /*Active*/
+  --color-border_active: var(--color-blue-700);
+  --color-bg_active: var(--color-blue-700);
+  /*Disabled*/
+  --color-border_disabled: var(--color-neutral-100);
+  --color-bg_disabled: var(--color-neutral-100);
+  --color-text_disabled: var(--color-neutral-300);
+
   appearance: none;
   padding: var(--spacing-150) var(--spacing-200);
   border: none;
   border-radius: var(--radius-8);
-  border: 1px solid var(--color-blue-500);
-  background-color: var(--color-blue-500);
-  color: white;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow: hidden;
 }
 
 .variant {
-  border: 1px solid var(--color-red-500);
-  background-color: var(--color-red-500);
+  /*Normal*/
+  --color-border: var(--color-red-500);
+  --color-bg: var(--color-red-500);
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-neutral-400);
+  outline: 2px solid var(--color-outline_focus);
   outline-offset: 2px;
 }
 
 .button:active {
-  border: 1px solid var(--color-blue-700);
-  background-color: var(--color-blue-700);
+  border: 1px solid var(--color-border_active);
+  background-color: var(--color-bg_active);
 }
 
 .variant:active {
-  border: 1px solid var(--color-red-100);
-  background-color: var(--color-red-100);
+  /*Active*/
+  --color-border_active: var(--color-red-100);
+  --color-bg_active: var(--color-red-100);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    border: 1px solid var(--color-blue-700);
-    background-color: var(--color-blue-700);
+    border: 1px solid var(--color-border_active);
+    background-color: var(--color-bg_active);
     cursor: pointer;
   }
 
   .variant:hover {
-    border: 1px solid var(--color-red-100);
-    background-color: var(--color-red-100);
+    /*Active*/
+    --color-border_active: var(--color-red-100);
+    --color-bg_active: var(--color-red-100);
   }
 }
 
 .button:disabled {
-  border: 1px solid var(--color-neutral-100);
-  background-color: var(--color-neutral-100);
-  color: var(--color-neutral-300);
+  border: 1px solid var(--color-border_disabled);
+  background-color: var(--color-bg_disabled);
+  color: var(--color-text_disabled);
   cursor: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .button {
+    /*Disabled*/
+    --color-border_disabled: var(--color-neutral-700);
+    --color-bg_disabled: var(--color-neutral-700);
+    --color-text_disabled: var(--color-neutral-600);
+  }
 }

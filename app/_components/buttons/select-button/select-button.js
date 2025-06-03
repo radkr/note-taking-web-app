@@ -11,7 +11,7 @@ export default function SelectButton({ Icon, selected, big, onClick, label }) {
     >
       <div className={styles.label}>
         <Icon className={styles.frontIcon} />
-        <p>{label}</p>
+        <p className="text-preset-4">{label}</p>
       </div>
       <IconChevronRight className={styles.backIcon} />
     </button>

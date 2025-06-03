@@ -71,21 +71,21 @@
 @media (prefers-color-scheme: dark) {
   .button {
     /*Normal*/
-    --color-border: var(--color-neutral-300);
-    --color-bg: white;
-    --color-text: var(--color-neutral-950);
+    --color-border: var(--color-neutral-600);
+    --color-bg: var(--color-neutral-950);
+    --color-text: white;
     /*Focus*/
     --color-outline_focus: var(--color-neutral-400);
-    --color-border_focus: var(--color-neutral-950);
-    --color-bg_focus: white;
-    --color-text_focus: var(--color-neutral-950);
+    --color-border_focus: var(--color-neutral-200);
+    --color-bg_focus: var(--color-neutral-950);
+    --color-text_focus: white;
     /*Active*/
     --color-bg_active: var(--color-neutral-500);
     --color-border_active: var(--color-neutral-500);
     --color-text_active: var(--color-neutral-200);
     /*Disabled*/
-    --color-border_disabled: var(--color-neutral-100);
-    --color-bg_disabled: var(--color-neutral-100);
-    --color-text_disabled: var(--color-neutral-300);
+    --color-border_disabled: var(--color-neutral-700);
+    --color-bg_disabled: var(--color-neutral-700);
+    --color-text_disabled: var(--color-neutral-600);
   }
 }

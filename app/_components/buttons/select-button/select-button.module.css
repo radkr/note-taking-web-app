@@ -1,5 +1,6 @@
 .button {
   --color-bg: white;
+  --color-txt: var(--color-neutral-700);
   --color-bg-selected: var(--color-neutral-100);
   --color-ol-focus: var(--color-neutral-500);
   --color-txt-icon: var(--color-neutral-700);
@@ -18,6 +19,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: var(--color-bg);
+  color: var(--color-txt);
 }
 
 .button:focus-visible {
@@ -47,6 +49,7 @@
 
 .selected {
   background-color: var(--color-bg-selected);
+  color: var(--color-txt-selected);
 }
 
 .frontIcon {
@@ -80,5 +83,17 @@
 @media (hover: hover) and (pointer: fine) {
   .button:hover .backIcon {
     display: block;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .button {
+    --color-bg: var(--color-neutral-950);
+    --color-txt: var(--color-neutral-200);
+    --color-bg-selected: var(--color-neutral-800);
+    --color-txt-selected: white;
+    --color-ol-focus: var(--color-neutral-500);
+    --color-txt-icon: var(--color-neutral-200);
+    --color-txt-icon-selected: var(--color-blue-500);
   }
 }
