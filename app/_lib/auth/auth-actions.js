@@ -10,9 +10,14 @@ import dbConnect from "@/app/_lib/database/database";
 import { SignupFormSchema } from "./auth-schema";
 import User from "./user-model";
 import bcrypt from "bcrypt";
+import Note from "@/app/_lib/notes/all-notes-model";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
+const userAccountLimit = +process.env.USER_ACCOUNT_LIMIT;
+const trialPeriodLength = +process.env.TRIAL_PERIOD_LENGTH;
+
+const LIMIT_EXCEEDED = "LIMIT_EXCEEDED";
 
 export async function encrypt(payload) {
   return new SignJWT(payload)
@@ -63,6 +68,34 @@ export async function deleteSession() {
   cookieStore.delete("session");
 }
 
+export async function deleteUser(user) {
+  // Delete the notes of the deleted user
+  const notes = await Note.deleteMany({
+    owner: user._id,
+  });
+  // Delete theuser itself
+  await User.findByIdAndDelete(user._id);
+}
+
+export async function createUser(validatedFields) {
+  // Check number of the active user accounts
+  const count = await User.countDocuments();
+  // If it exceeds the user account limit
+  if (userAccountLimit <= count) {
+    const cutoffDate = new Date(Date.now() - trialPeriodLength);
+    // Find a user whose trial period has been exceeded
+    const user = await User.findOne({ createdAt: { $lt: cutoffDate } }, "_id");
+    if (!user) throw new Error(LIMIT_EXCEEDED);
+    // And delete that user to make room for the new one
+    await deleteUser(user);
+  }
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(validatedFields.data.password, 10);
+  // Create the new user account
+  let user = new User({ ...validatedFields.data, password: hashedPassword });
+  return await user.save();
+}
+
 export async function signupAction(formData) {
   // Validate and format signup data
   const validatedFields = SignupFormSchema.safeParse(formData);
@@ -82,14 +115,19 @@ export async function signupAction(formData) {
           email: "This email is already registered. Try logging in instead.",
         },
       };
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(validatedFields.data.password, 10);
     // Create the new user in the database
-    user = new User({ ...validatedFields.data, password: hashedPassword });
-    await user.save();
+    user = await createUser(validatedFields);
     // Create user session
     await createSession(user._id.toString());
   } catch (error) {
+    console.log(error);
+    if (error.message === LIMIT_EXCEEDED)
+      return {
+        error: {
+          email:
+            "The system is currently not accepting new accounts. Please try again later.",
+        },
+      };
     return {
       error: { email: "An error occurred while creating your account." },
     };
