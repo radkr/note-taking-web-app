@@ -1,3 +1,3 @@
-"use client";
-
-export default function Notes() {}
+export default function Notes() {
+  return;
+}

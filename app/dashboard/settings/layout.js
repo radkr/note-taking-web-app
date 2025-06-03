@@ -2,6 +2,6 @@
 
 import SettingsPage from "@/app/_components/settings-page/settings-page";
 
-export default function SettingsLayout({ children }) {
+export default function SettingsLayout() {
   return <SettingsPage />;
 }

@@ -1,3 +1,3 @@
-"use client";
-
-export default function Settings() {}
+export default function Settings() {
+  return;
+}

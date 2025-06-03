@@ -6,8 +6,8 @@ import styles from "./settings-page.module.css";
 import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/application/app-ctx";
 import AllSettings from "@/app/_components/all-settings/all-settings";
 
-export default function SettingsPage({}) {
-  const { activePage, noteId } = use(AppCtx);
+export default function SettingsPage() {
+  const { activePage } = use(AppCtx);
 
   return (
     <div className={styles.page}>

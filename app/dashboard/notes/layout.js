@@ -2,6 +2,6 @@
 
 import NotesPage from "@/app/_components/notes-page/notes-page";
 
-export default function NotesLayout({ children }) {
+export default function NotesLayout() {
   return <NotesPage />;
 }

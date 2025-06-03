@@ -15,7 +15,7 @@ export default function DesktopNavigation({ className }) {
 
   return (
     <div className={`${className} ${styles.header}`}>
-      <Logo />
+      <Logo width={95} height={28} />
       <SelectButton
         Icon={IconHome}
         big
