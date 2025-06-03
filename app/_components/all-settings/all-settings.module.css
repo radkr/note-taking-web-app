@@ -27,7 +27,7 @@
 
 @media (prefers-color-scheme: dark) {
   .settingsList {
-    background-color: var(--color-neutral-800);
+    background-color: var(--color-neutral-950);
   }
 }
 
