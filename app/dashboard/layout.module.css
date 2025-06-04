@@ -10,6 +10,19 @@
   grid-area: unset;
 }
 
+.toastRoot {
+  grid-area: unset;
+  position: fixed;
+  bottom: var(--spacing-800);
+  left: unset;
+  right: var(--spacing-800);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  row-gap: var(--spacing-150);
+}
+
 @media (prefers-color-scheme: dark) {
   .appRoot {
     background-color: var(--color-neutral-800);

@@ -3,7 +3,6 @@
 import { createContext, useState } from "react";
 import { usePathname } from "next/navigation";
 import Toast from "@/app/_components/toast/toast";
-import Settings from "@/app/dashboard/settings/page";
 
 export const NOTES = "HOME";
 export const NOTE = "NOTE";
@@ -42,10 +41,19 @@ export const AppCtx = createContext({
 
 export default function ApplicationProvider({ children }) {
   const pageState = getPageState(usePathname());
-  const [toast, setToast] = useState();
+  const [allToasts, setAllToasts] = useState([]);
 
   function displayToast(toast) {
-    setToast(toast);
+    toast.id = Math.random().toString(36).substring(2, 10);
+    setAllToasts((prev) => [toast, ...prev]);
+  }
+
+  function clearToast(index) {
+    setAllToasts((prev) => {
+      return prev.filter((toast, prevIndex) => {
+        return index !== prevIndex;
+      });
+    });
   }
 
   const applicationValue = { ...pageState, displayToast: displayToast };
@@ -53,13 +61,14 @@ export default function ApplicationProvider({ children }) {
   return (
     <AppCtx value={applicationValue}>
       {children}
-      <Toast
-        open={toast}
-        onClose={() => {
-          setToast(undefined);
-        }}
-        message={toast?.message}
-      />
+      {allToasts.map((toast, index) => (
+        <Toast
+          key={toast.id}
+          open={true}
+          onClose={() => clearToast(index)}
+          message={toast?.message}
+        />
+      ))}
     </AppCtx>
   );
 }

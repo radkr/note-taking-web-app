@@ -45,12 +45,10 @@ export default function Toast({ open, onClose, message, link, href }) {
 
       if (open) {
         setIsAnimating(true);
-        modal.show();
       }
 
       return () => {
         setIsAnimating(true);
-        modal.close();
       };
     }
   }, [isMounted, open]);
@@ -81,7 +79,8 @@ export default function Toast({ open, onClose, message, link, href }) {
 
   return isMounted
     ? createPortal(
-        <dialog
+        <li
+          aria-live="polite"
           className={styles.modal}
           ref={dialogRef}
           onClose={onClose}
@@ -93,8 +92,8 @@ export default function Toast({ open, onClose, message, link, href }) {
           }}
         >
           {(isAnimating || open) && children}
-        </dialog>,
-        document.getElementById("modal-root")
+        </li>,
+        document.getElementById("toasts-root")
       )
     : null;
 }

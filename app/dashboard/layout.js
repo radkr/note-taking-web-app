@@ -6,7 +6,6 @@ import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigat
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
 import ApplicationProvider, { NOTES } from "@/app/_lib/app/app-ctx";
-import NotesPage from "@/app/_components/notes-page/notes-page";
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 
 export default function RootLayout({ children }) {
@@ -14,6 +13,7 @@ export default function RootLayout({ children }) {
     <MyQueryClientProvider>
       <ApplicationProvider>
         <div id="modal-root" className={styles.modalRoot} />
+        <ul id="toasts-root" className={styles.toastRoot} />
         <div className={styles.appRoot}>
           <div className={styles.desktopSidebar}>
             <div className={styles.desktopSidebar_panel}>

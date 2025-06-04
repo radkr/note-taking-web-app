@@ -5,11 +5,6 @@
   --color-cross-icon: var(--color-neutral-400);
 
   font-size: 1rem;
-  position: fixed;
-  bottom: var(--spacing-800);
-  left: unset;
-  right: var(--spacing-800);
-  z-index: 100;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg);
   outline: none;
