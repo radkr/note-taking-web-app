@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { deleteNoteWithId } from "@/app/_lib/notes/all-notes-db";
+import { deleteNoteAction } from "@/app/_lib/notes/all-notes-actions";
 
 export function useDeleteNote() {
   const queryClient = useQueryClient();
 
   const { mutate: deleteNote, isPending: deleteIsPending } = useMutation({
-    mutationFn: deleteNoteWithId,
+    mutationFn: deleteNoteAction,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["allNotes"],

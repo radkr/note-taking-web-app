@@ -13,7 +13,7 @@ function getPlainNote(note) {
   };
 }
 
-export async function getAllNotes() {
+export async function readAllNotesAction() {
   const { userId } = await verifySession();
   await dbConnect();
   const notes = await Note.find({
@@ -25,7 +25,7 @@ export async function getAllNotes() {
   return plainNotes;
 }
 
-export async function getNoteWithId(id) {
+export async function readNoteAction(id) {
   const { userId } = await verifySession();
   await dbConnect();
   try {
@@ -38,12 +38,12 @@ export async function getNoteWithId(id) {
   }
 }
 
-export async function deleteNoteWithId(id) {
+export async function deleteNoteAction(id) {
   await verifySession();
   await Note.findByIdAndDelete(id);
 }
 
-export async function updateNoteInDb(note) {
+export async function updateNoteAction(note) {
   await verifySession();
   const updatedNote = await Note.findOneAndUpdate({ _id: note._id }, note, {
     new: true,
@@ -51,7 +51,7 @@ export async function updateNoteInDb(note) {
   return getPlainNote(updatedNote);
 }
 
-export async function createNote() {
+export async function createNoteAction() {
   const { userId } = await verifySession();
   try {
     const note = new Note({ owner: new mongoose.Types.ObjectId(userId) });

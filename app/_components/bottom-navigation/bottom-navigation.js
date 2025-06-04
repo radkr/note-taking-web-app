@@ -6,7 +6,7 @@ import Link from "next/link";
 import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
 import IconSettings from "@/assets/images/icon-settings.svg";
-import { AppCtx, NOTES, SETTINGS } from "@/app/_lib/application/app-ctx";
+import { AppCtx, NOTES, SETTINGS } from "@/app/_lib/app/app-ctx";
 
 export default function BottomNavigation({ className, select }) {
   const { activePage } = use(AppCtx);

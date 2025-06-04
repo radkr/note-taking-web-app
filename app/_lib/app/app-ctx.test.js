@@ -5,7 +5,7 @@ import ApplicationProvider, {
   AppCtx,
   NOTE,
   NOTES,
-} from "@/app/_lib/application/app-ctx";
+} from "@/app/_lib/app/app-ctx";
 import { usePathname } from "next/navigation";
 
 jest.mock("next/navigation");

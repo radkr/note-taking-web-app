@@ -7,7 +7,7 @@ import styles from "./desktop-navigation.module.css";
 import Logo from "@/assets/images/logo.svg";
 import IconHome from "@/assets/images/icon-home.svg";
 import SelectButton from "../buttons/select-button/select-button";
-import { AppCtx, NOTE, NOTES } from "@/app/_lib/application/app-ctx";
+import { AppCtx, NOTE, NOTES } from "@/app/_lib/app/app-ctx";
 
 export default function DesktopNavigation({ className }) {
   const { activePage } = use(AppCtx);

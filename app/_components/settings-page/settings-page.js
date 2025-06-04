@@ -3,7 +3,7 @@
 import { use } from "react";
 
 import styles from "./settings-page.module.css";
-import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/application/app-ctx";
+import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/app/app-ctx";
 import AllSettings from "@/app/_components/all-settings/all-settings";
 
 export default function SettingsPage() {

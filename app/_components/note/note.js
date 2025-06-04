@@ -9,7 +9,7 @@ import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import Modal from "@/app/_components/modal/modal";
 import { formatDate } from "@/app/_lib/utils";
-import { AppCtx } from "@/app/_lib/application/app-ctx";
+import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
 import IconClock from "@/assets/images/icon-clock.svg";

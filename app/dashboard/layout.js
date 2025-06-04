@@ -5,7 +5,7 @@ import PortablePageHeader from "@/app/_components/portable-page-header/portable-
 import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
-import ApplicationProvider, { NOTES } from "@/app/_lib/application/app-ctx";
+import ApplicationProvider, { NOTES } from "@/app/_lib/app/app-ctx";
 import NotesPage from "@/app/_components/notes-page/notes-page";
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 

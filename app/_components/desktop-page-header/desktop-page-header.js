@@ -4,7 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 
 import styles from "./desktop-page-header.module.css";
-import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/application/app-ctx";
+import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/app/app-ctx";
 import IconSettings from "@/assets/images/icon-settings.svg";
 
 export default function DesktopPageHeader() {

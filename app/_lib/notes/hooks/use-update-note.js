@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
+import { updateNoteAction } from "@/app/_lib/notes/all-notes-actions";
 
 export function useUpdateNote(onMutate) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: updateNoteInDb,
+    mutationFn: updateNoteAction,
     onMutate: async (data) => {
       // Cancel current queries before optimistic update
       await queryClient.cancelQueries({ queryKey: ["allNotes"] });

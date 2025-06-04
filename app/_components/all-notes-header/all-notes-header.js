@@ -3,7 +3,7 @@
 import { use } from "react";
 
 import styles from "./all-notes-header.module.css";
-import { AppCtx, NOTES } from "@/app/_lib/application/app-ctx";
+import { AppCtx, NOTES } from "@/app/_lib/app/app-ctx";
 
 export default function AllNotesHeader() {
   const { activePage } = use(AppCtx);

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { createNote } from "@/app/_lib/notes/all-notes-db";
+import { createNoteAction } from "@/app/_lib/notes/all-notes-actions";
 
 export function useCreateNote() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: createNote,
+    mutationFn: createNoteAction,
     onSuccess: (data) => {
       if (data.error) {
         return;
