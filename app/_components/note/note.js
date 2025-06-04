@@ -1,21 +1,18 @@
 import { use, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import styles from "./note.module.css";
 import NoteHeader from "@/app/_components/note-header/note-header";
 import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
-import IconClock from "@/assets/images/icon-clock.svg";
-import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
+import Modal from "@/app/_components/modal/modal";
 import { formatDate } from "@/app/_lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
 import { AppCtx } from "@/app/_lib/application/app-ctx";
-import { useRouter } from "next/navigation";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
-import Modal from "@/app/_components/modal/modal";
+import IconClock from "@/assets/images/icon-clock.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
 
 export default function Note({ id, note }) {

@@ -1,12 +1,9 @@
 import Link from "next/link";
-import { use } from "react";
 
 import styles from "./note-item.module.css";
-import { AllNotesCtx } from "@/app/_lib/notes/all-notes-ctx";
 import { formatDate } from "@/app/_lib/utils";
 
 export default function NoteItem({ note, id }) {
-  const { note: selectedNote } = use(AllNotesCtx);
   const isSelected = note._id == id;
 
   const formattedDate = note?.updatedAt
