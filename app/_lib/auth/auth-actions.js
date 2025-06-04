@@ -120,7 +120,6 @@ export async function signupAction(formData) {
     // Create user session
     await createSession(user._id.toString());
   } catch (error) {
-    console.log(error);
     if (error.message === LIMIT_EXCEEDED)
       return {
         error: {

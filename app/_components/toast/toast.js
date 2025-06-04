@@ -22,6 +22,7 @@ export default function Toast({
 
   useEffect(() => {
     setIsMounted(true);
+    setTimeout(() => onClose(), 3000);
 
     return () => {
       setIsMounted(false);

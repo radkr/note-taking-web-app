@@ -61,7 +61,6 @@ export default function ApplicationProvider({ children }) {
   }
 
   function clearToast(id) {
-    console.log("clearToast: ", id);
     setAllToasts((prev) => {
       return prev.filter((toast) => {
         return toast.id !== id;
