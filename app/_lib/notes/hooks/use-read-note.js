@@ -14,22 +14,17 @@ export function useReadNote() {
 
   const noteId = noteIdApp || allNotes.data?.[0]?._id;
 
-  const queriedNote = useQuery({
+  const note = useQuery({
     queryKey: ["allNotes", { id: noteId }],
     queryFn: () => getNoteWithId(noteId),
+    initialData: () => {
+      allNotes.data?.find((note) => {
+        return note._id === noteId;
+      });
+    },
     enabled: !!noteId,
+    staleTime: 1000,
   });
-
-  const cachedNote = {
-    data: allNotes.data?.find((note) => {
-      return note._id === noteId;
-    }),
-    isPending: false,
-    isError: false,
-    error: {},
-  };
-
-  const note = cachedNote.data ? cachedNote : queriedNote;
 
   return { allNotes, note, noteId };
 }

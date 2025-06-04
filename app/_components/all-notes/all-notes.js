@@ -16,8 +16,8 @@ export default function AllNotes({ allNotes, id }) {
   const { createNote } = useCreateNote();
 
   function handleCreate() {
-    createNote({
-      onSuccess: () => {
+    createNote(null, {
+      onSuccess: (data) => {
         router.push(`/notes/${data._id}`);
       },
     });

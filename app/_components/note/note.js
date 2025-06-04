@@ -27,7 +27,7 @@ export default function Note({ id, note }) {
   const title = useRef();
   const content = useRef();
 
-  const { data, isPending, isError, error } = note;
+  const { data, isLoading, isError, error } = note;
 
   const formattedDate = data?.updatedAt
     ? formatDate(data.updatedAt)
@@ -73,7 +73,7 @@ export default function Note({ id, note }) {
     });
   }
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className={styles.alternative}>
         <p className="text-preset-5 text-color-neutral-800">Loading...</p>
