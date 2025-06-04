@@ -1,34 +1,26 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
 import NoteItem from "@/app/_components/note-item/note-item";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 import FloatingButton from "@/app/_components/buttons/floating-button/floating-button";
-import { createNote } from "@/app/_lib/notes/all-notes-db";
 import IconPlus from "@/assets/images/icon-plus.svg";
+import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
 import styles from "./all-notes.module.css";
 
 export default function AllNotes({ allNotes, id }) {
   const { data, isLoading } = allNotes;
   const router = useRouter();
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: createNote,
-    onSuccess: (data) => {
-      if (data.error) {
-        return;
-      }
-      router.push(`/notes/${data._id}`);
-      queryClient.invalidateQueries({ queryKey: ["allNotes"] });
-    },
-  });
+  const { createNote } = useCreateNote();
 
   function handleCreate() {
-    mutate();
+    createNote({
+      onSuccess: () => {
+        router.push(`/notes/${data._id}`);
+      },
+    });
   }
 
   let content;

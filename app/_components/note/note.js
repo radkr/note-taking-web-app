@@ -13,81 +13,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateNoteInDb } from "@/app/_lib/notes/all-notes-db";
 import { AppCtx } from "@/app/_lib/application/app-ctx";
 import { useRouter } from "next/navigation";
-import { deleteNoteWithId } from "@/app/_lib/notes/all-notes-db";
+import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
+import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
 
 export default function Note({ id, note }) {
-  const { saveNote } = use(AllNotesCtx);
   const { displayToast } = use(AppCtx);
   const router = useRouter();
-
-  const queryClient = useQueryClient();
-
-  const { mutate: mutateOnSave } = useMutation({
-    mutationFn: updateNoteInDb,
-    onMutate: async (data) => {
-      // Cancel current queries before optimistic update
-      await queryClient.cancelQueries({ queryKey: ["allNotes"] });
-      await queryClient.cancelQueries({
-        queryKey: ["allNotes", { id: data._id }],
-      });
-      // Update allNotes optimistically
-      const prevAllNotes = queryClient.getQueryData(["allNotes"]);
-      const nextAllNotes = !prevAllNotes
-        ? []
-        : prevAllNotes.map((prevNote) => {
-            if (prevNote._id === data._id) return data;
-            return prevNote;
-          });
-      queryClient.setQueryData(["allNotes"], nextAllNotes);
-
-      // Update notes optimistically
-      const prevNotes = queryClient.getQueryData([
-        "allNotes",
-        { id: data._id },
-      ]);
-      queryClient.setQueryData(["allNotes", { id: data._id }], data);
-
-      // Clear isEdited
-      setIsEdited("");
-
-      // Return context
-      return { prevAllNotes, prevNotes };
-    },
-    onError: (error, data, context) => {
-      queryClient.setQueryData(["allNotes"], context.prevAllNotes);
-      queryClient.setQueryData(
-        ["allNotes", { id: data._id }],
-        context.prevNotes
-      );
-    },
-    onSuccess: () => {
-      displayToast({
-        message: "Note saved successfully!",
-      });
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(["allNotes"]);
-      queryClient.invalidateQueries(["allNotes", { id: data._id }]);
-    },
-  });
-
-  const { mutate: mutateOnDelete, isPending: isPendingOnDelete } = useMutation({
-    mutationFn: deleteNoteWithId,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["allNotes"],
-        exact: true,
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["allNotes", { id: data._id }],
-        refetchType: "none",
-      });
-      displayToast({
-        message: "Note permanently deleted.",
-      });
-      router.push("/notes");
-    },
-  });
+  const { deleteNote, deleteIsPending } = useDeleteNote();
+  const { saveNote } = useUpdateNote(() => setIsEdited(""));
 
   const [isEdited, setIsEdited] = useState("");
 
@@ -116,7 +49,13 @@ export default function Note({ id, note }) {
       title: title.current.value,
       content: content.current.value,
     };
-    mutateOnSave(noteToSave);
+    saveNote(noteToSave, {
+      onSuccess: () => {
+        displayToast({
+          message: "Note saved successfully!",
+        });
+      },
+    });
   }
 
   function handleCancel() {
@@ -124,7 +63,14 @@ export default function Note({ id, note }) {
   }
 
   function handleDelete() {
-    mutateOnDelete(data._id);
+    deleteNote(data._id, {
+      onSuccess: () => {
+        displayToast({
+          message: "Note permanently deleted.",
+        });
+        router.push("/notes");
+      },
+    });
   }
 
   if (isPending) {
@@ -149,7 +95,7 @@ export default function Note({ id, note }) {
                 onSave={handleSave}
                 onCancel={handleCancel}
                 onDelete={handleDelete}
-                isDisabled={isPendingOnDelete}
+                isDisabled={deleteIsPending}
                 isEdited={isEdited !== ""}
               />
             </header>
@@ -188,16 +134,13 @@ export default function Note({ id, note }) {
                 onSave={handleSave}
                 onCancel={handleCancel}
                 isEdited={isEdited !== ""}
-                isDisabled={isPendingOnDelete}
+                isDisabled={deleteIsPending}
               />
             </footer>
           </div>
         </div>
         <aside className={styles.sidebar}>
-          <NoteSiderbar
-            onDelete={handleDelete}
-            isDisabled={isPendingOnDelete}
-          />
+          <NoteSiderbar onDelete={handleDelete} isDisabled={deleteIsPending} />
         </aside>
       </div>
     );
