@@ -45,13 +45,26 @@ export default function ApplicationProvider({ children }) {
 
   function displayToast(toast) {
     toast.id = Math.random().toString(36).substring(2, 10);
+    toast.open = true;
     setAllToasts((prev) => [toast, ...prev]);
   }
 
-  function clearToast(index) {
+  function hideToast(id) {
     setAllToasts((prev) => {
-      return prev.filter((toast, prevIndex) => {
-        return index !== prevIndex;
+      return prev.map((toast) => {
+        if (toast.id === id) {
+          return { ...toast, open: false };
+        }
+        return toast;
+      });
+    });
+  }
+
+  function clearToast(id) {
+    console.log("clearToast: ", id);
+    setAllToasts((prev) => {
+      return prev.filter((toast) => {
+        return toast.id !== id;
       });
     });
   }
@@ -61,11 +74,12 @@ export default function ApplicationProvider({ children }) {
   return (
     <AppCtx value={applicationValue}>
       {children}
-      {allToasts.map((toast, index) => (
+      {allToasts.map((toast) => (
         <Toast
           key={toast.id}
-          open={true}
-          onClose={() => clearToast(index)}
+          open={toast.open}
+          onClose={() => hideToast(toast.id)}
+          onHidden={() => clearToast(toast.id)}
           message={toast?.message}
         />
       ))}

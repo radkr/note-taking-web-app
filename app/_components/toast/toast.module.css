@@ -4,6 +4,7 @@
   --color-link: var(--color-neutral-950);
   --color-cross-icon: var(--color-neutral-400);
 
+  position: relative;
   font-size: 1rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg);
@@ -13,11 +14,11 @@
   max-height: none;
   border-radius: var(--radius-8);
   overflow: hidden;
-  /*animation: fadeOutAnimation 0.1s ease-out forwards;*/
+  animation: fadeInAnimation 0.2s ease-out forwards;
 }
 
-.modal[open] {
-  animation: fadeInAnimation 0.1s ease-out forwards;
+.modal.hidden {
+  animation: fadeOutAnimation 0.2s ease-out forwards;
 }
 
 @keyframes fadeInAnimation {
@@ -36,15 +37,11 @@
   from {
     opacity: 1;
     transform: translateX(0);
-    display: block;
-    visibility: visible;
   }
 
   to {
     opacity: 0;
     transform: translateX(100%);
-    display: none;
-    visibility: hidden;
   }
 }
 

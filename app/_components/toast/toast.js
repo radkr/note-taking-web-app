@@ -8,7 +8,14 @@ import styles from "./toast.module.css";
 import IconCheckmark from "@/assets/images/icon-checkmark.svg";
 import IconCross from "@/assets/images/icon-cross.svg";
 
-export default function Toast({ open, onClose, message, link, href }) {
+export default function Toast({
+  open,
+  onClose,
+  onHidden,
+  message,
+  link,
+  href,
+}) {
   const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const dialogRef = useRef();
@@ -27,6 +34,7 @@ export default function Toast({ open, onClose, message, link, href }) {
 
       function setIsAnimatingFalse() {
         setIsAnimating(false);
+        if (!open) onHidden?.();
       }
 
       modal.addEventListener("animationcancel", setIsAnimatingFalse);
@@ -37,12 +45,10 @@ export default function Toast({ open, onClose, message, link, href }) {
         modal.removeEventListener("animationend", setIsAnimatingFalse);
       };
     }
-  }, [isMounted]);
+  }, [isMounted, onHidden, open]);
 
   useEffect(() => {
     if (isMounted) {
-      const modal = dialogRef.current;
-
       if (open) {
         setIsAnimating(true);
       }
@@ -81,17 +87,10 @@ export default function Toast({ open, onClose, message, link, href }) {
     ? createPortal(
         <li
           aria-live="polite"
-          className={styles.modal}
+          className={`${styles.modal} ${!open ? styles.hidden : ""}`}
           ref={dialogRef}
-          onClose={onClose}
-          onClick={(event) => {
-            event.stopPropagation();
-            if (event.target == dialogRef.current) {
-              onClose();
-            }
-          }}
         >
-          {(isAnimating || open) && children}
+          {children}
         </li>,
         document.getElementById("toasts-root")
       )
