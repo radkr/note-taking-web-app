@@ -129,17 +129,6 @@ export default function AllNotesProvider({ children }) {
     <AllNotesCtx value={AllNotesValue}>
       {children}
       <Modal
-        open={toDelete}
-        onClose={() => {
-          setToDelete(undefined);
-        }}
-        variant
-        Icon={IconDelete}
-        title="Delete Note"
-        content="Are you sure you want to permanently delete this note? This action cannot be undone."
-        onConfirm={confirmDelete}
-      />
-      <Modal
         onClose={() => {}}
         Icon={IconArchive}
         title="Archive Note"

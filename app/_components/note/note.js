@@ -15,12 +15,15 @@ import { AppCtx } from "@/app/_lib/application/app-ctx";
 import { useRouter } from "next/navigation";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
+import Modal from "@/app/_components/modal/modal";
+import IconDelete from "@/assets/images/icon-delete.svg";
 
 export default function Note({ id, note }) {
   const { displayToast } = use(AppCtx);
   const router = useRouter();
   const { deleteNote, deleteIsPending } = useDeleteNote();
-  const { saveNote } = useUpdateNote(() => setIsEdited(""));
+  const { saveNote } = useUpdateNote(() => setIsEdited("")); //
+  const [toDelete, setToDelete] = useState(false);
 
   const [isEdited, setIsEdited] = useState("");
 
@@ -58,10 +61,6 @@ export default function Note({ id, note }) {
     });
   }
 
-  function handleCancel() {
-    setIsEdited(false);
-  }
-
   function handleDelete() {
     deleteNote(data._id, {
       onSuccess: () => {
@@ -71,6 +70,7 @@ export default function Note({ id, note }) {
         router.push("/notes");
       },
     });
+    setToDelete(false);
   }
 
   if (isLoading) {
@@ -87,62 +87,78 @@ export default function Note({ id, note }) {
 
   if (data && !data.error) {
     return (
-      <div className={styles.note}>
-        <div className={styles.panel}>
-          <div className={styles.container}>
-            <header className={styles.header}>
-              <NoteHeader
-                onSave={handleSave}
-                onCancel={handleCancel}
-                onDelete={handleDelete}
-                isDisabled={deleteIsPending}
-                isEdited={isEdited !== ""}
-              />
-            </header>
-            <section className={styles.details}>
-              <TextareaAutosize
-                ref={title}
-                minRows={1}
-                maxRows={3}
-                placeholder="Enter a title…"
-                className={`text-preset-1 text-color-neutral-950 ${styles.editable}`}
-                onChange={() => {
-                  setIsEdited(data._id);
-                }}
-                aria-label="Title"
-              />
-              <div className={styles.property}>
-                <div className={styles.propertyName}>
-                  <IconClock className={styles.propertyIcon} />
-                  <p className="text-preset-6">Last edited</p>
+      <>
+        <div className={styles.note}>
+          <div className={styles.panel}>
+            <div className={styles.container}>
+              <header className={styles.header}>
+                <NoteHeader
+                  onSave={handleSave}
+                  onCancel={() => setIsEdited(false)}
+                  onDelete={() => setToDelete(true)}
+                  isDisabled={deleteIsPending}
+                  isEdited={isEdited !== ""}
+                />
+              </header>
+              <section className={styles.details}>
+                <TextareaAutosize
+                  ref={title}
+                  minRows={1}
+                  maxRows={3}
+                  placeholder="Enter a title…"
+                  className={`text-preset-1 text-color-neutral-950 ${styles.editable}`}
+                  onChange={() => {
+                    setIsEdited(data._id);
+                  }}
+                  aria-label="Title"
+                />
+                <div className={styles.property}>
+                  <div className={styles.propertyName}>
+                    <IconClock className={styles.propertyIcon} />
+                    <p className="text-preset-6">Last edited</p>
+                  </div>
+                  <p className="text-preset-6">{formattedDate}</p>
                 </div>
-                <p className="text-preset-6">{formattedDate}</p>
-              </div>
-              <hr className={styles.rule} />
-              <textarea
-                ref={content}
-                placeholder="Start typing your note here…"
-                className={`text-preset-5 text-color-neutral-800 ${styles.editable}`}
-                onChange={() => {
-                  setIsEdited(data._id);
-                }}
-                aria-label="Content"
-              />
-            </section>
-            <footer className={styles.footer}>
-              <NoteFooter
-                onSave={handleSave}
-                onCancel={handleCancel}
-                isEdited={isEdited !== ""}
-                isDisabled={deleteIsPending}
-              />
-            </footer>
+                <hr className={styles.rule} />
+                <textarea
+                  ref={content}
+                  placeholder="Start typing your note here…"
+                  className={`text-preset-5 text-color-neutral-800 ${styles.editable}`}
+                  onChange={() => {
+                    setIsEdited(data._id);
+                  }}
+                  aria-label="Content"
+                />
+              </section>
+              <footer className={styles.footer}>
+                <NoteFooter
+                  onSave={handleSave}
+                  onCancel={() => setIsEdited(false)}
+                  isEdited={isEdited !== ""}
+                  isDisabled={deleteIsPending}
+                />
+              </footer>
+            </div>
           </div>
+          <aside className={styles.sidebar}>
+            <NoteSiderbar
+              onDelete={() => setToDelete(true)}
+              isDisabled={deleteIsPending}
+            />
+          </aside>
         </div>
-        <aside className={styles.sidebar}>
-          <NoteSiderbar onDelete={handleDelete} isDisabled={deleteIsPending} />
-        </aside>
-      </div>
+        <Modal
+          open={toDelete}
+          onClose={() => {
+            setToDelete(false);
+          }}
+          variant
+          Icon={IconDelete}
+          title="Delete Note"
+          content="Are you sure you want to permanently delete this note? This action cannot be undone."
+          onConfirm={handleDelete}
+        />
+      </>
     );
   }
 
