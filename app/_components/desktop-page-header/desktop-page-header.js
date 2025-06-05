@@ -1,19 +1,18 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 
 import styles from "./desktop-page-header.module.css";
-import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/app/app-ctx";
 import IconSettings from "@/assets/images/icon-settings.svg";
+import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 
 export default function DesktopPageHeader() {
-  const { activePage } = use(AppCtx);
+  const { page } = useAppState();
 
   return (
     <div className={styles.header}>
       <h1 className="text-preset-1 text-color-neutral-950">
-        {activePage === NOTES || activePage === NOTE ? "All Notes" : "Settings"}
+        {page === NOTES || page === NOTE ? "All Notes" : "Settings"}
       </h1>
       <div className={styles.controls}>
         <Link href="/settings">

@@ -1,11 +1,10 @@
-import { use } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { readAllNotesAction, readNoteAction } from "../all-notes-actions";
-import { AppCtx } from "@/app/_lib/app/app-ctx";
+import { useAppState } from "../../app/use-app-state";
 
 export function useReadNote() {
-  const { noteId: noteIdApp } = use(AppCtx);
+  const { noteId: noteIdApp } = useAppState();
 
   const allNotes = useQuery({
     queryKey: ["allNotes"],

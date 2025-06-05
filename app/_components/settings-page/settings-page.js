@@ -1,25 +1,23 @@
 "use client";
 
-import { use } from "react";
-
 import styles from "./settings-page.module.css";
-import { AppCtx, NOTES, NOTE, SETTINGS } from "@/app/_lib/app/app-ctx";
 import AllSettings from "@/app/_components/all-settings/all-settings";
+import { useAppState, NOTE, SETTINGS } from "@/app/_lib/app/use-app-state";
 
 export default function SettingsPage() {
-  const { activePage } = use(AppCtx);
+  const { page } = useAppState();
 
   return (
     <div className={styles.page}>
       <aside
         className={`${styles.allNotes} ${
-          activePage === SETTINGS ? styles.active : ""
+          page === SETTINGS ? styles.active : ""
         }`}
       >
         <AllSettings />
       </aside>
       <article
-        className={`${styles.note} ${activePage === NOTE ? styles.active : ""}`}
+        className={`${styles.note} ${page === NOTE ? styles.active : ""}`}
       ></article>
     </div>
   );

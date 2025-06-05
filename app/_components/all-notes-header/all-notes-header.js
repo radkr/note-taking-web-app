@@ -1,18 +1,16 @@
 "use client";
 
-import { use } from "react";
-
 import styles from "./all-notes-header.module.css";
-import { AppCtx, NOTES } from "@/app/_lib/app/app-ctx";
+import { useAppState, NOTES } from "@/app/_lib/app/use-app-state";
 
 export default function AllNotesHeader() {
-  const { activePage } = use(AppCtx);
+  const { page } = useAppState();
 
   return (
     <div className={styles.header}>
       <h1
         className={`text-preset-1 text-color-neutral-950 ${styles.home} ${
-          activePage === NOTES ? styles.visible : ""
+          page === NOTES ? styles.visible : ""
         }`}
       >
         All Notes

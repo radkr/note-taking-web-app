@@ -21,7 +21,6 @@ export default function Note({ id, note }) {
   const { deleteNote, deleteIsPending } = useDeleteNote();
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
-
   const [isEdited, setIsEdited] = useState("");
 
   const title = useRef();

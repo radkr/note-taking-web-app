@@ -1,16 +1,15 @@
 "use client";
 
-import { use } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./desktop-navigation.module.css";
 import Logo from "@/assets/images/logo.svg";
 import IconHome from "@/assets/images/icon-home.svg";
 import SelectButton from "../buttons/select-button/select-button";
-import { AppCtx, NOTE, NOTES } from "@/app/_lib/app/app-ctx";
+import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 
 export default function DesktopNavigation({ className }) {
-  const { activePage } = use(AppCtx);
+  const { page } = useAppState();
   const router = useRouter();
 
   return (
@@ -22,7 +21,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes");
         }}
-        selected={activePage === NOTES || activePage === NOTE}
+        selected={page === NOTES || page === NOTE}
         label="All Notes"
       />
     </div>
