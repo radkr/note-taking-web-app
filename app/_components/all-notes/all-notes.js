@@ -63,6 +63,7 @@ export default function AllNotes({ allNotes, id }) {
         Icon={IconPlus}
         onClick={handleCreate}
         className={styles.createPortable}
+        aria-label="Create New Note"
       />
     </div>
   );

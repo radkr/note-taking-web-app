@@ -17,7 +17,10 @@ const sourceCodeProMono = Source_Code_Pro({
 });
 
 export const metadata = {
-  title: "Frontend Mentor | Note-taking web app",
+  title: {
+    template: "%s | Notes",
+    default: "Notes", // a default is required when creating a template
+  },
 };
 
 export default function RootLayout({ children }) {

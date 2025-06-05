@@ -15,7 +15,11 @@ export default function DesktopPageHeader() {
         {page === NOTES || page === NOTE ? "All Notes" : "Settings"}
       </h1>
       <div>
-        <Link href="/settings" className={styles.link}>
+        <Link
+          href="/settings"
+          className={styles.link}
+          aria-label="Go to settings"
+        >
           <IconSettings className={styles.icon} />
         </Link>
       </div>

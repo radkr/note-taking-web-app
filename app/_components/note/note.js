@@ -97,7 +97,7 @@ export default function Note({ id, note }) {
                   isEdited={isEdited !== ""}
                 />
               </header>
-              <section className={styles.details}>
+              <form className={styles.details}>
                 <TextareaAutosize
                   ref={title}
                   minRows={1}
@@ -108,6 +108,7 @@ export default function Note({ id, note }) {
                     setIsEdited(data._id);
                   }}
                   aria-label="Title"
+                  name="title"
                 />
                 <div className={styles.property}>
                   <div className={styles.propertyName}>
@@ -125,8 +126,9 @@ export default function Note({ id, note }) {
                     setIsEdited(data._id);
                   }}
                   aria-label="Content"
+                  name="content"
                 />
-              </section>
+              </form>
               <footer className={styles.footer}>
                 <NoteFooter
                   onSave={handleSave}
