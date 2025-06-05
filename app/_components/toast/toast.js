@@ -27,7 +27,7 @@ export default function Toast({
     return () => {
       setIsMounted(false);
     };
-  }, []);
+  }, [onClose]);
 
   useEffect(() => {
     if (isMounted) {
