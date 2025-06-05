@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import styles from "./note-item.module.css";
+import styles from "./all-notes-item.module.css";
 import { formatDate } from "@/app/_lib/utils";
 
-export default function NoteItem({ note, id }) {
+export default function AllNotesItem({ note, id }) {
   const isSelected = note._id == id;
 
   const formattedDate = note?.updatedAt

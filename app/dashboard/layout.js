@@ -5,7 +5,7 @@ import PortablePageHeader from "@/app/_components/portable-page-header/portable-
 import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
 import DesktopNavigation from "@/app/_components/desktop-navigation/desktop-navigation";
 import DesktopPageHeader from "@/app/_components/desktop-page-header/desktop-page-header";
-import ApplicationProvider, { NOTES } from "@/app/_lib/app/app-ctx";
+import ApplicationProvider from "@/app/_lib/app/app-ctx";
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 
 export default function RootLayout({ children }) {
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
           </header>
           <main>{children}</main>
           <nav className={styles.bottomNavigation}>
-            <BottomNavigation select={NOTES} />
+            <BottomNavigation />
           </nav>
         </div>
       </ApplicationProvider>

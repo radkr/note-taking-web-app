@@ -8,7 +8,7 @@ import IconHome from "@/assets/images/icon-home.svg";
 import IconSettings from "@/assets/images/icon-settings.svg";
 import { useAppState, NOTES, SETTINGS } from "@/app/_lib/app/use-app-state";
 
-export default function BottomNavigation({ className, select }) {
+export default function BottomNavigation({ className }) {
   const { page } = useAppState();
 
   return (

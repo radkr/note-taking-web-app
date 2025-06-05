@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
-import NoteItem from "@/app/_components/note-item/note-item";
+import AllNotesItem from "@/app/_components/all-notes-item/all-notes-item";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 import FloatingButton from "@/app/_components/buttons/floating-button/floating-button";
 import IconPlus from "@/assets/images/icon-plus.svg";
@@ -45,7 +45,7 @@ export default function AllNotes({ allNotes, id }) {
       ) : (
         <ul className={styles.noteList}>
           {data.map((note, index) => {
-            return <NoteItem key={note._id} note={note} id={id} />;
+            return <AllNotesItem key={note._id} note={note} id={id} />;
           })}
         </ul>
       );
