@@ -8,6 +8,7 @@ import NoteHeader from "@/app/_components/note-header/note-header";
 import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import Modal from "@/app/_components/modal/modal";
+import InfoBox from "@/app/_components/info-box/info-box";
 import { formatDate } from "@/app/_lib/utils";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
@@ -162,17 +163,14 @@ export default function Note({ id, note }) {
     return (
       <>
         <div className={styles.alternative}>
-          <div className={styles.errorMessage}>
-            <p className="text-preset-5 text-color-neutral-800">
-              <strong className="text-preset-3 text-color-neutral-800">
-                Note unavailable: {""}
-              </strong>
+          <InfoBox>
+            <p className="text-preset-5 text-color-neutral-950">
               We couldn’t find this note — it may have been deleted, or you
               might not have permission to view it. Try opening a different
               note, or{" "}
               <Link href="/login">log in with a different account</Link>.
             </p>
-          </div>
+          </InfoBox>
         </div>
       </>
     );

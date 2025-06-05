@@ -41,11 +41,12 @@
 }
 
 .alternative {
+  padding: var(--spacing-250) var(--spacing-200) 0 var(--spacing-200);
   display: block;
   width: 100%;
   height: inherit;
   display: grid;
-  align-items: center;
+  align-items: start;
   justify-items: center;
   background-color: white;
 }
@@ -168,6 +169,10 @@
     padding: var(--spacing-250) var(--spacing-300) 0 var(--spacing-300);
   }
 
+  .alternative {
+    padding: var(--spacing-250) var(--spacing-300) 0 var(--spacing-300);
+  }
+
   .details {
     min-height: 0;
     padding-top: var(--spacing-200);
@@ -181,6 +186,11 @@
     grid-template-columns: 1fr 18.125rem; /*1fr 258px+32px*/
   }
   .panel {
+    padding: var(--spacing-250) var(--spacing-300) var(--spacing-250)
+      var(--spacing-300);
+  }
+
+  .alternative {
     padding: var(--spacing-250) var(--spacing-300) var(--spacing-250)
       var(--spacing-300);
   }

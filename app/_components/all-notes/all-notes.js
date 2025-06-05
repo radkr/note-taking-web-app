@@ -8,6 +8,7 @@ import PrimaryButton from "@/app/_components/buttons/primary-button/primary-butt
 import FloatingButton from "@/app/_components/buttons/floating-button/floating-button";
 import IconPlus from "@/assets/images/icon-plus.svg";
 import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
+import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";
 
 export default function AllNotes({ allNotes, id }) {
@@ -36,12 +37,12 @@ export default function AllNotes({ allNotes, id }) {
   if (data) {
     content =
       data.length == 0 ? (
-        <div className={styles.emptyList}>
+        <InfoBox>
           <p className="text-preset-5 text-color-neutral-950">
             You don’t have any notes yet. Start a new note to capture your
             thoughts and ideas.
           </p>
-        </div>
+        </InfoBox>
       ) : (
         <ul className={styles.noteList}>
           {data.map((note, index) => {

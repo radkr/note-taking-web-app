@@ -1,0 +1,14 @@
+.emptyList {
+  height: fit-content;
+  padding: var(--spacing-100);
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-8);
+}
+
+@media (prefers-color-scheme: dark) {
+  .emptyList {
+    background-color: var(--color-neutral-800);
+    border: 1px solid var(--color-neutral-700);
+  }
+}
