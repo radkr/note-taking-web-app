@@ -14,8 +14,8 @@ export default function DesktopPageHeader() {
       <h1 className="text-preset-1 text-color-neutral-950">
         {page === NOTES || page === NOTE ? "All Notes" : "Settings"}
       </h1>
-      <div className={styles.controls}>
-        <Link href="/settings">
+      <div>
+        <Link href="/settings" className={styles.link}>
           <IconSettings className={styles.icon} />
         </Link>
       </div>

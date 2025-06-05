@@ -1,5 +1,6 @@
 .header {
   --color-txt-icon: var(--color-neutral-500);
+  --color-ol-link_focus: var(--color-neutral-500);
 
   height: 5.0625rem; /*81px*/
   padding: 0 var(--spacing-400);
@@ -8,6 +9,16 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
+  overflow: visible;
+}
+
+.link {
+  display: block;
+  border-radius: var(--radius-6);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-ol-link_focus);
 }
 
 .icon {
