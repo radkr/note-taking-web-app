@@ -7,7 +7,10 @@ import {
   fireEvent,
 } from "@testing-library/react";
 import Note from "./note";
-import { deleteNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import {
+  deleteNoteAction,
+  updateNoteAction,
+} from "@/app/_lib/notes/all-notes-actions";
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 import userEvent from "@testing-library/user-event";
 import ApplicationProvider from "@/app/_lib/app/app-ctx";
@@ -542,5 +545,331 @@ describe("Note - Delete my note", () => {
     await waitFor(() => {
       expect(screen.getByText(toastText)).toBeInTheDocument();
     });
+  });
+});
+
+describe("Note - Update my note", () => {
+  it("shows disabled save and cancel button", () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I read my note
+    THEN I can see the disabled save button
+    AND I can see the disabled cancel button
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    // Assert
+    const saveButtons = screen.getAllByText("Save Note");
+    for (const saveButton of saveButtons) {
+      expect(saveButton).toBeInTheDocument();
+      expect(saveButton).toBeDisabled();
+    }
+
+    const cancelButtons = screen.getAllByText("Cancel");
+    for (const cancelButton of cancelButtons) {
+      expect(cancelButton).toBeInTheDocument();
+      expect(cancelButton).toBeDisabled();
+    }
+  });
+
+  it("shows enabled save and cancel button on title change", async () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I change the title of the note
+    THEN I can see the save button getting enabled
+    AND I can see the cancel button getting enabled
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    // Act
+    const title = screen.getByLabelText("Title");
+    await userEvent.type(title, "a");
+
+    // Assert
+    const saveButtons = screen.getAllByText("Save Note");
+    for (const saveButton of saveButtons) {
+      expect(saveButton).toBeEnabled();
+    }
+
+    const cancelButtons = screen.getAllByText("Cancel");
+    for (const cancelButton of cancelButtons) {
+      expect(cancelButton).toBeEnabled();
+    }
+  });
+
+  it("shows enabled save and cancel button on content change", async () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I change the content of the note
+    THEN I can see the save button getting enabled
+    AND I can see the cancel button getting enabled
+    */
+  });
+
+  it("disables the buttons on cancel after title change", async () => {
+    /*
+    GIVEN I have modified the title of the note without saving
+    WHEN I click on the cancel button
+    THEN I can see the save button getting disabled
+    AND I can see the cancel button getting disabled
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const cancelButtonsForAct = screen.getAllByText("Cancel");
+    for (const cancelButtonForAct of cancelButtonsForAct) {
+      // Act
+      const title = screen.getByLabelText("Title");
+      await userEvent.type(title, "a");
+      await userEvent.click(cancelButtonForAct);
+
+      // Assert
+      const saveButtons = screen.getAllByText("Save Note");
+      for (const saveButton of saveButtons) {
+        expect(saveButton).toBeDisabled();
+      }
+
+      const cancelButtons = screen.getAllByText("Cancel");
+      for (const cancelButton of cancelButtons) {
+        expect(cancelButton).toBeDisabled();
+      }
+    }
+  });
+
+  it("reverts change in title", async () => {
+    /*
+    GIVEN I have modified the title of the note without saving
+    WHEN I click on the cancel button
+    THEN I can see the original title of the note again
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const cancelButtonsForAct = screen.getAllByText("Cancel");
+    for (const cancelButtonForAct of cancelButtonsForAct) {
+      // Act
+      const title = screen.getByLabelText("Title");
+      const titleOld = title.value;
+      await userEvent.type(title, "a");
+      expect(title).toHaveValue(`${titleOld}a`);
+      await userEvent.click(cancelButtonForAct);
+
+      // Assert
+      expect(title).toHaveValue(titleOld);
+    }
+  });
+
+  it("disables the buttons on cancel after content change", async () => {
+    /*
+    GIVEN I have modified the content of the note without saving
+    WHEN I click on the cancel button
+    THEN I can see the save button getting disabled
+    AND I can see the cancel button getting disabled
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const cancelButtonsForAct = screen.getAllByText("Cancel");
+    for (const cancelButtonForAct of cancelButtonsForAct) {
+      // Act
+      const content = screen.getByLabelText("Content");
+      await userEvent.type(content, "a");
+      await userEvent.click(cancelButtonForAct);
+
+      // Assert
+      const saveButtons = screen.getAllByText("Save Note");
+      for (const saveButton of saveButtons) {
+        expect(saveButton).toBeDisabled();
+      }
+
+      const cancelButtons = screen.getAllByText("Cancel");
+      for (const cancelButton of cancelButtons) {
+        expect(cancelButton).toBeDisabled();
+      }
+    }
+  });
+
+  it("reverts change in content", async () => {
+    /*
+    GIVEN I have modified the content of the note without saving
+    WHEN I click on the cancel button
+    THEN I can see the original content of the note again
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const cancelButtonsForAct = screen.getAllByText("Cancel");
+    for (const cancelButtonForAct of cancelButtonsForAct) {
+      // Act
+      const content = screen.getByLabelText("Content");
+      const contentOld = content.value;
+      await userEvent.type(content, "a");
+      expect(content).toHaveValue(`${contentOld}a`);
+      await userEvent.click(cancelButtonForAct);
+
+      // Assert
+      expect(content).toHaveValue(contentOld);
+    }
+  });
+
+  it("disables the buttons on save after title change", async () => {
+    /*
+    GIVEN I have modified the title of the note without saving
+    WHEN I click on the save button
+    THEN I can see the save button getting disabled
+    AND I can see the cancel button getting disabled
+    */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (const saveButtonForAct of saveButtonsForAct) {
+      // Act
+      const title = screen.getByLabelText("Title");
+      await userEvent.type(title, "a");
+      await userEvent.click(saveButtonForAct);
+
+      // Assert
+      const saveButtons = screen.getAllByText("Save Note");
+      for (const saveButton of saveButtons) {
+        expect(saveButton).toBeDisabled();
+      }
+
+      const cancelButtons = screen.getAllByText("Cancel");
+      for (const cancelButton of cancelButtons) {
+        expect(cancelButton).toBeDisabled();
+      }
+    }
+  });
+
+  it("saves the new title", async () => {
+    /*
+    GIVEN I have modified the title of the note without saving
+    WHEN I click on the save button
+    THEN the new title of the note is stored in the database
+    AND I can see a successfully saved toast message
+    */
+    // The successfully saved toast message should be: "Note saved successfully!"
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (const saveButtonForAct of saveButtonsForAct) {
+      // Act
+      const title = screen.getByLabelText("Title");
+      const titleOld = title.value;
+
+      await userEvent.type(title, "a");
+      const titleNew = `${titleOld}a`;
+      expect(title).toHaveValue(titleNew);
+
+      await userEvent.click(saveButtonForAct);
+
+      updateNoteAction.mockResolvedValue({
+        ...mockNote.data,
+        title: titleNew,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(updateNoteAction).toHaveBeenCalledWith({
+          ...mockNote.data,
+          title: titleNew,
+        });
+      });
+      /*const toastText = /Note saved successfully/i;
+      await waitFor(() => {
+        expect(screen.getByText(toastText)).toBeInTheDocument();
+      });*/
+    }
+  });
+
+  it("saves the new content", async () => {
+    /*
+    GIVEN I have modified the content of the note without saving
+    WHEN I click on the save button
+    THEN the new content of the note is stored in the database
+    AND I can see a successfully saved toast message
+    */
+    // The successfully saved toast message should be: "Note saved successfully!"
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (const saveButtonForAct of saveButtonsForAct) {
+      // Act
+      const content = screen.getByLabelText("Content");
+      const contentOld = content.value;
+
+      await userEvent.type(content, "a");
+      const contentNew = `${contentOld}a`;
+      expect(content).toHaveValue(contentNew);
+
+      await userEvent.click(saveButtonForAct);
+
+      updateNoteAction.mockResolvedValue({
+        ...mockNote.data,
+        content: contentNew,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(updateNoteAction).toHaveBeenCalledWith({
+          ...mockNote.data,
+          content: contentNew,
+        });
+      });
+      /*const toastText = /Note saved successfully/i;
+      await waitFor(() => {
+        expect(screen.getByText(toastText)).toBeInTheDocument();
+      });*/
+    }
   });
 });

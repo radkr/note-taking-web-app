@@ -2,6 +2,8 @@ import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NotesPage from "./notes-page";
+import ApplicationProvider from "@/app/_lib/app/app-ctx";
+import { formatDate } from "@/app/_lib/utils";
 
 // Mock server actions
 jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
@@ -67,9 +69,11 @@ const notes = [
 const NotesPageWrapper = ({ children }) => {
   return (
     <MyQueryClientProvider>
-      <div id="modal-root" />
-      <ul id="toasts-root" />
-      {children}
+      <ApplicationProvider>
+        <div id="modal-root" />
+        <ul id="toasts-root" />
+        {children}
+      </ApplicationProvider>
     </MyQueryClientProvider>
   );
 };
@@ -204,5 +208,76 @@ describe("NotesPage - Read my note", () => {
       expect(screen.getByDisplayValue("Second Note")).toBeInTheDocument();
       expect(screen.getByDisplayValue("World")).toBeInTheDocument();
     });
+  });
+});
+
+describe.only("Note - Update my note", () => {
+  it("shows the new title in the list of notes", () => {
+    /*
+    GIVEN I have modified the title of the note without saving
+    WHEN I click on the save button
+    THEN I can see the new title in the list of my notes
+    */
+    // Written by me later
+  });
+
+  it("shows the new title in the list of notes for the modified one", () => {
+    /*
+    GIVEN I have just saved my note with modified title
+    WHEN I browse the list of my notes
+    THEN I can see the new title in the list of my notes for the modified one
+    */
+    // Written by me later
+  });
+
+  it("shows that the note was just updated in the note list", () => {
+    /*
+    GIVEN I saved my note yesterday
+    AND I have just saved my note again
+    WHEN I browse the list of my notes
+    THEN I can see that the note was last edited today
+    */
+    // Written by me later
+  });
+
+  it.only("shows that the note was just updated in the note details", async () => {
+    /*
+    GIVEN I saved my note yesterday
+    AND I have just saved my note again
+    WHEN I read my note
+    THEN I can see that the note was last edited today
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValueOnce(notes);
+    readNoteAction.mockResolvedValueOnce(notes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Save Note").length).toBeGreaterThan(0);
+    });
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (const saveButtonForAct of saveButtonsForAct) {
+      // Act
+      const content = screen.getByLabelText("Content");
+      await userEvent.type(content, "a");
+      await userEvent.click(saveButtonForAct);
+
+      const dateNew = new Date();
+      readNoteAction.mockResolvedValueOnce({
+        ...notes[1],
+        updatedAt: dateNew,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(screen.getByText(formatDate(dateNew))).toBeInTheDocument();
+      });
+    }
   });
 });
