@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NotesPage from "./notes-page";
 import ApplicationProvider from "@/app/_lib/app/app-ctx";
@@ -9,10 +9,14 @@ import { formatDate } from "@/app/_lib/utils";
 jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
   readAllNotesAction: jest.fn(),
   readNoteAction: jest.fn(),
+  updateNoteAction: jest.fn(),
 }));
 
-import { readAllNotesAction } from "@/app/_lib/notes/all-notes-actions";
-import { readNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import {
+  readAllNotesAction,
+  updateNoteAction,
+  readNoteAction,
+} from "@/app/_lib/notes/all-notes-actions";
 
 // Mock the useAppState hook
 jest.mock("@/app/_lib/app/use-app-state", () => {
@@ -211,46 +215,17 @@ describe("NotesPage - Read my note", () => {
   });
 });
 
-describe.only("Note - Update my note", () => {
-  it("shows the new title in the list of notes", () => {
-    /*
-    GIVEN I have modified the title of the note without saving
-    WHEN I click on the save button
-    THEN I can see the new title in the list of my notes
-    */
-    // Written by me later
-  });
-
-  it("shows the new title in the list of notes for the modified one", () => {
+describe("Note - Update my note", () => {
+  it("shows the new title in the list of notes for the modified one", async () => {
     /*
     GIVEN I have just saved my note with modified title
     WHEN I browse the list of my notes
     THEN I can see the new title in the list of my notes for the modified one
     */
-    // Written by me later
-  });
-
-  it("shows that the note was just updated in the note list", () => {
-    /*
-    GIVEN I saved my note yesterday
-    AND I have just saved my note again
-    WHEN I browse the list of my notes
-    THEN I can see that the note was last edited today
-    */
-    // Written by me later
-  });
-
-  it.only("shows that the note was just updated in the note details", async () => {
-    /*
-    GIVEN I saved my note yesterday
-    AND I have just saved my note again
-    WHEN I read my note
-    THEN I can see that the note was last edited today
-    */
 
     // Arrange
-    readAllNotesAction.mockResolvedValueOnce(notes);
-    readNoteAction.mockResolvedValueOnce(notes[1]);
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[1]);
     useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
     render(
       <NotesPageWrapper>
@@ -262,21 +237,134 @@ describe.only("Note - Update my note", () => {
       expect(screen.getAllByText("Save Note").length).toBeGreaterThan(0);
     });
     const saveButtonsForAct = screen.getAllByText("Save Note");
-    for (const saveButtonForAct of saveButtonsForAct) {
+    for (let i = 0; i < 2; i++) {
       // Act
-      const content = screen.getByLabelText("Content");
-      await userEvent.type(content, "a");
-      await userEvent.click(saveButtonForAct);
+      const saveButtonForAct = saveButtonsForAct[i];
+      const title = screen.getByLabelText("Title");
+      const titleOld = title.value;
+      await userEvent.type(title, "a");
+      const titleNew = `${titleOld}a`;
 
       const dateNew = new Date();
-      readNoteAction.mockResolvedValueOnce({
+      readAllNotesAction.mockResolvedValue([
+        notes[0],
+        {
+          ...notes[1],
+          title: titleNew,
+        },
+      ]);
+      updateNoteAction.mockResolvedValue({
         ...notes[1],
         updatedAt: dateNew,
       });
 
+      await userEvent.click(saveButtonForAct);
+
       // Assert
       await waitFor(() => {
-        expect(screen.getByText(formatDate(dateNew))).toBeInTheDocument();
+        const allNotes = screen.getByTestId("All Notes");
+        expect(within(allNotes).getByText(titleNew)).toBeInTheDocument();
+      });
+    }
+  });
+
+  it("shows that the note was just updated in the note list", async () => {
+    /*
+    GIVEN I saved my note yesterday
+    AND I have just saved my note again
+    WHEN I browse the list of my notes
+    THEN I can see that the note was last edited today
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Save Note").length).toBeGreaterThan(0);
+    });
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (let i = 0; i < 2; i++) {
+      // Act
+      const saveButtonForAct = saveButtonsForAct[i];
+      const content = screen.getByLabelText("Content");
+      await userEvent.type(content, "a");
+
+      const dateNew = new Date();
+      readAllNotesAction.mockResolvedValue([
+        notes[0],
+        {
+          ...notes[1],
+          updatedAt: dateNew,
+        },
+      ]);
+      updateNoteAction.mockResolvedValue({
+        ...notes[1],
+        updatedAt: dateNew,
+      });
+
+      await userEvent.click(saveButtonForAct);
+
+      // Assert
+      await waitFor(() => {
+        const allNotes = screen.getByTestId("All Notes");
+        expect(
+          within(allNotes).getByText(formatDate(dateNew))
+        ).toBeInTheDocument();
+      });
+    }
+  });
+
+  it("shows that the note was just updated in the note details", async () => {
+    /*
+    GIVEN I saved my note yesterday
+    AND I have just saved my note again
+    WHEN I read my note
+    THEN I can see that the note was last edited today
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Save Note").length).toBeGreaterThan(0);
+    });
+    const saveButtonsForAct = screen.getAllByText("Save Note");
+    for (let i = 0; i < 2; i++) {
+      // Act
+      const saveButtonForAct = saveButtonsForAct[i];
+      const content = screen.getByLabelText("Content");
+      await userEvent.type(content, "a");
+
+      const dateNew = new Date();
+      readNoteAction.mockResolvedValue({
+        ...notes[1],
+        updatedAt: dateNew,
+      });
+      updateNoteAction.mockResolvedValue({
+        ...notes[1],
+        updatedAt: dateNew,
+      });
+
+      await userEvent.click(saveButtonForAct);
+
+      // Assert
+      await waitFor(() => {
+        const note = screen.getByTestId("Note");
+        expect(within(note).getByText(formatDate(dateNew))).toBeInTheDocument();
       });
     }
   });

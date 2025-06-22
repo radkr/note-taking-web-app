@@ -44,7 +44,7 @@ export default function AllNotes({ allNotes, id }) {
           </p>
         </InfoBox>
       ) : (
-        <ul className={styles.noteList}>
+        <ul className={styles.noteList} data-testid="All Notes">
           {data.map((note, index) => {
             return <AllNotesItem key={note._id} note={note} id={id} />;
           })}

@@ -162,24 +162,13 @@ The successfully saved toast message should be: "Note saved successfully!"
 ### Shows the new title in the list of notes
 
 ```gherkin
-GIVEN I have modified the title of the note without saving
-WHEN I click on the save button
-THEN I can see the new title in the list of my notes
-```
-
-- Components to test:
-  - Note
-
-### Shows the new title in the list of notes
-
-```gherkin
 GIVEN I have just saved my note with modified title
 WHEN I browse the list of my notes
 THEN I can see the new title in the list of my notes for the modified one
 ```
 
 - Components to test:
-  - Note
+  - Notes Page
 
 ### Shows that the note was just updated in the note list
 
@@ -191,7 +180,7 @@ THEN I can see that the note was last edited today
 ```
 
 - Components to test:
-  - Note
+  - Notes Page
 
 ### Shows that the note was just updated in the note details
 
@@ -203,4 +192,4 @@ THEN I can see that the note was last edited today
 ```
 
 - Components to test:
-  - Note
+  - Notes Page

@@ -94,7 +94,7 @@ export default function Modal({
               onClose();
             }
           }}
-          data-testId={`${title} Modal`}
+          data-testid={`${title} Modal`}
         >
           {(isAnimating || open) && children}
         </dialog>,

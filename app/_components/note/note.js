@@ -85,7 +85,7 @@ export default function Note({ id, note }) {
   if (data && !data.error) {
     return (
       <>
-        <div className={styles.note}>
+        <div className={styles.note} data-testid="Note">
           <div className={styles.panel}>
             <div className={styles.container}>
               <header className={styles.header}>

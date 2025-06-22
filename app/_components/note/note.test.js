@@ -54,6 +54,8 @@ const NoteWrapper = ({ children }) => {
   );
 };
 
+jest.useFakeTimers({ advanceTimers: true });
+
 describe("Note - Read my note", () => {
   it("indicates that the note is loading", () => {
     /*
@@ -616,6 +618,28 @@ describe("Note - Update my note", () => {
     THEN I can see the save button getting enabled
     AND I can see the cancel button getting enabled
     */
+
+    // Arrange
+    render(
+      <NoteWrapper>
+        <Note id="1" note={mockNote} />
+      </NoteWrapper>
+    );
+
+    // Act
+    const content = screen.getByLabelText("Content");
+    await userEvent.type(content, "a");
+
+    // Assert
+    const saveButtons = screen.getAllByText("Save Note");
+    for (const saveButton of saveButtons) {
+      expect(saveButton).toBeEnabled();
+    }
+
+    const cancelButtons = screen.getAllByText("Cancel");
+    for (const cancelButton of cancelButtons) {
+      expect(cancelButton).toBeEnabled();
+    }
   });
 
   it("disables the buttons on cancel after title change", async () => {
@@ -787,7 +811,6 @@ describe("Note - Update my note", () => {
     AND I can see a successfully saved toast message
     */
     // The successfully saved toast message should be: "Note saved successfully!"
-
     // Arrange
     render(
       <NoteWrapper>
@@ -796,8 +819,9 @@ describe("Note - Update my note", () => {
     );
 
     const saveButtonsForAct = screen.getAllByText("Save Note");
-    for (const saveButtonForAct of saveButtonsForAct) {
+    for (let i = 0; i < 2; i++) {
       // Act
+      const saveButtonForAct = saveButtonsForAct[i];
       const title = screen.getByLabelText("Title");
       const titleOld = title.value;
 
@@ -805,12 +829,12 @@ describe("Note - Update my note", () => {
       const titleNew = `${titleOld}a`;
       expect(title).toHaveValue(titleNew);
 
-      await userEvent.click(saveButtonForAct);
-
       updateNoteAction.mockResolvedValue({
         ...mockNote.data,
         title: titleNew,
       });
+
+      await userEvent.click(saveButtonForAct);
 
       // Assert
       await waitFor(() => {
@@ -819,10 +843,11 @@ describe("Note - Update my note", () => {
           title: titleNew,
         });
       });
-      /*const toastText = /Note saved successfully/i;
+      const toastText = /Note saved successfully/i;
       await waitFor(() => {
-        expect(screen.getByText(toastText)).toBeInTheDocument();
-      });*/
+        const toast = screen.getAllByText(toastText);
+        expect(toast[i]).toBeInTheDocument();
+      });
     }
   });
 
@@ -843,8 +868,9 @@ describe("Note - Update my note", () => {
     );
 
     const saveButtonsForAct = screen.getAllByText("Save Note");
-    for (const saveButtonForAct of saveButtonsForAct) {
+    for (let i = 0; i < 2; i++) {
       // Act
+      const saveButtonForAct = saveButtonsForAct[i];
       const content = screen.getByLabelText("Content");
       const contentOld = content.value;
 
@@ -852,12 +878,12 @@ describe("Note - Update my note", () => {
       const contentNew = `${contentOld}a`;
       expect(content).toHaveValue(contentNew);
 
-      await userEvent.click(saveButtonForAct);
-
       updateNoteAction.mockResolvedValue({
         ...mockNote.data,
         content: contentNew,
       });
+
+      await userEvent.click(saveButtonForAct);
 
       // Assert
       await waitFor(() => {
@@ -866,10 +892,11 @@ describe("Note - Update my note", () => {
           content: contentNew,
         });
       });
-      /*const toastText = /Note saved successfully/i;
+      const toastText = /Note saved successfully/i;
       await waitFor(() => {
-        expect(screen.getByText(toastText)).toBeInTheDocument();
-      });*/
+        const toast = screen.getAllByText(toastText);
+        expect(toast[i]).toBeInTheDocument();
+      });
     }
   });
 });
