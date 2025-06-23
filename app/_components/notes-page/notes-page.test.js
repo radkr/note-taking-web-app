@@ -10,12 +10,14 @@ jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
   readAllNotesAction: jest.fn(),
   readNoteAction: jest.fn(),
   updateNoteAction: jest.fn(),
+  createNoteAction: jest.fn(),
 }));
 
 import {
   readAllNotesAction,
   updateNoteAction,
   readNoteAction,
+  createNoteAction,
 } from "@/app/_lib/notes/all-notes-actions";
 
 // Mock the useAppState hook
@@ -36,9 +38,11 @@ import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 
 // Mock all needed next/navigation hooks in a single call
+const pushMock = jest.fn();
+
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
+    push: pushMock,
   }),
   usePathname: () => "/notes",
 }));
@@ -367,5 +371,306 @@ describe("Note - Update my note", () => {
         expect(within(note).getByText(formatDate(dateNew))).toBeInTheDocument();
       });
     }
+  });
+});
+
+describe("NotesPage - Create a new note", () => {
+  it("creates a new note on notes page - on desktop", async () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the create new note button
+    THEN a new note is stored in the database
+    AND I can see a new untitled note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue([]);
+    readNoteAction.mockResolvedValue({});
+    useAppState.mockReturnValue({ page: NOTES });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Untitled Note/i)).not.toBeInTheDocument();
+    });
+
+    // Act
+    const createButton = screen.getByText(/Create New Note/i).closest("button");
+
+    const newNote = { _id: "1", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+    readAllNotesAction.mockResolvedValue([newNote]);
+    readNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(createNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Untitled Note/i)).toBeInTheDocument();
+    });
+  });
+  it("creates a new note on notes page - on portable", async () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the create new note button
+    THEN a new note is stored in the database
+    AND I can see a new untitled note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue([]);
+    readNoteAction.mockResolvedValue({});
+    useAppState.mockReturnValue({ page: NOTES });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Untitled Note/i)).not.toBeInTheDocument();
+    });
+
+    // Act
+    const createButton = screen
+      .getByLabelText(/Create New Note/i)
+      .closest("button");
+
+    const newNote = { _id: "1", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+    readAllNotesAction.mockResolvedValue([newNote]);
+    readNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(createNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Untitled Note/i)).toBeInTheDocument();
+    });
+  });
+
+  it("navigate to the page of the new note from notes page - on desktop", async () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the create new note button
+    THEN I get to the page of the new note
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue([]);
+    readNoteAction.mockResolvedValue({});
+    useAppState.mockReturnValue({ page: NOTES });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    // Act
+    const createButton = screen.getByText(/Create New Note/i).closest("button");
+
+    const newNote = { _id: "1", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/notes/1");
+    });
+  });
+
+  it("navigate to the page of the new note from notes page - on portable", async () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the create new note button
+    THEN I get to the page of the new note
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue([]);
+    readNoteAction.mockResolvedValue({});
+    useAppState.mockReturnValue({ page: NOTES });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    // Act
+    const createButton = screen
+      .getByLabelText(/Create New Note/i)
+      .closest("button");
+
+    const newNote = { _id: "1", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/notes/1");
+    });
+  });
+
+  it("creates a new note on the page of a specific note - on desktop", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the create new note button
+    THEN a new note is stored in the database
+    AND I can see a new untitled note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[0]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "1" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Untitled Note/i)).not.toBeInTheDocument();
+    });
+
+    // Act
+    const createButton = screen.getByText(/Create New Note/i).closest("button");
+
+    const newNote = { _id: "3", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+    readAllNotesAction.mockResolvedValue([...notes, newNote]);
+    readNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(createNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Untitled Note/i)).toBeInTheDocument();
+    });
+  });
+
+  it("creates a new note on the page of a specific note - on portable", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the create new note button
+    THEN a new note is stored in the database
+    AND I can see a new untitled note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[0]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "1" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Untitled Note/i)).not.toBeInTheDocument();
+    });
+
+    // Act
+    const createButton = screen
+      .getByLabelText(/Create New Note/i)
+      .closest("button");
+
+    const newNote = { _id: "3", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+    readAllNotesAction.mockResolvedValue([...notes, newNote]);
+    readNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(createNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Untitled Note/i)).toBeInTheDocument();
+    });
+  });
+
+  it("navigate to the page of the new note from the page of a specific note - on desktop", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the create new note button
+    THEN I get to the page of the new note
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[0]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "1" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    // Act
+    const createButton = screen.getByText(/Create New Note/i).closest("button");
+
+    const newNote = { _id: "3", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/notes/3");
+    });
+  });
+
+  it("navigate to the page of the new note from the page of a specific note - on portable", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the create new note button
+    THEN I get to the page of the new note
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(notes);
+    readNoteAction.mockResolvedValue(notes[0]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "1" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    // Act
+    const createButton = screen
+      .getByLabelText(/Create New Note/i)
+      .closest("button");
+
+    const newNote = { _id: "3", updatedAt: new Date() };
+    createNoteAction.mockResolvedValue(newNote);
+
+    await userEvent.click(createButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith("/notes/3");
+    });
   });
 });
