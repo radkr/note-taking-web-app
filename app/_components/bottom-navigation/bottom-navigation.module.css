@@ -4,7 +4,10 @@
   list-style: none;
   padding: var(--spacing-150) var(--spacing-400);
   display: grid;
-  grid-template-columns: minmax(auto, 5rem) minmax(auto, 5rem); /*80px*/
+  grid-template-columns: minmax(auto, 5rem) minmax(auto, 5rem) minmax(
+      auto,
+      5rem
+    ); /*80px*/
   justify-content: center;
   background-color: white;
   border-top: 1px solid var(--color-neutral-200);

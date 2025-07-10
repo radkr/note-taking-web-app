@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import styles from "./desktop-navigation.module.css";
 import Logo from "@/assets/images/logo.svg";
 import IconHome from "@/assets/images/icon-home.svg";
+import IconArchive from "@/assets/images/icon-archive.svg";
 import SelectButton from "../buttons/select-button/select-button";
 import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 
 export default function DesktopNavigation({ className }) {
-  const { page } = useAppState();
+  const { page, isArchived } = useAppState();
   const router = useRouter();
 
   return (
@@ -21,8 +22,17 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes");
         }}
-        selected={page === NOTES || page === NOTE}
+        selected={page === NOTES && isArchived === false}
         label="All Notes"
+      />
+      <SelectButton
+        Icon={IconArchive}
+        big
+        onClick={() => {
+          router.push("/notes/archived");
+        }}
+        selected={page === NOTES && isArchived === true}
+        label="Archived Notes"
       />
     </div>
   );

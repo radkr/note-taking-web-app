@@ -7,12 +7,16 @@ import IconSettings from "@/assets/images/icon-settings.svg";
 import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 
 export default function DesktopPageHeader() {
-  const { page } = useAppState();
+  const { page, isArchived } = useAppState();
 
   return (
     <div className={styles.header}>
       <h1 className="text-preset-1 text-color-neutral-950">
-        {page === NOTES || page === NOTE ? "All Notes" : "Settings"}
+        {page === NOTES || page === NOTE
+          ? isArchived === false
+            ? "All Notes"
+            : "Archived Notes"
+          : "Settings"}
       </h1>
       <div>
         <Link
