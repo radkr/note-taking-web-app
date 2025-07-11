@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
 import AllNotesItem from "@/app/_components/all-notes-item/all-notes-item";
@@ -11,7 +12,7 @@ import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
 import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";
 
-export default function AllNotes({ allNotes, id }) {
+export default function AllNotes({ allNotes, isArchived, id }) {
   const { data, isLoading } = allNotes;
   const router = useRouter();
   const { createNote } = useCreateNote();
@@ -37,12 +38,31 @@ export default function AllNotes({ allNotes, id }) {
   if (data) {
     content =
       data.length == 0 ? (
-        <InfoBox>
-          <p className="text-preset-5 text-color-neutral-950">
-            You don’t have any notes yet. Start a new note to capture your
-            thoughts and ideas.
-          </p>
-        </InfoBox>
+        isArchived ? (
+          <div className={styles.archivedHint}>
+            <p className={`text-preset-5 text-color-neutral-700`}>
+              All your archived notes are stored here. You can restore or delete
+              them anytime.
+            </p>
+            <InfoBox>
+              <p className="text-preset-5 text-color-neutral-950">
+                No notes have been archived yet. Move notes here for
+                safekeeping, or{" "}
+                <Link href="" onClick={handleCreate}>
+                  create a new note
+                </Link>
+                .
+              </p>
+            </InfoBox>
+          </div>
+        ) : (
+          <InfoBox>
+            <p className="text-preset-5 text-color-neutral-950">
+              You don’t have any notes yet. Start a new note to capture your
+              thoughts and ideas.
+            </p>
+          </InfoBox>
+        )
       ) : (
         <ul className={styles.noteList} data-testid="All Notes">
           {data.map((note, index) => {

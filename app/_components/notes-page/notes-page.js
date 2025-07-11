@@ -7,7 +7,7 @@ import { useReadNote } from "@/app/_lib/notes/hooks/use-read-note";
 import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
 
 export default function NotesPage({}) {
-  const { page } = useAppState();
+  const { page, isArchived } = useAppState();
   const { allNotes, note, noteId } = useReadNote();
 
   return (
@@ -15,7 +15,7 @@ export default function NotesPage({}) {
       <aside
         className={`${styles.allNotes} ${page === NOTES ? styles.active : ""}`}
       >
-        <AllNotes allNotes={allNotes} id={noteId} />
+        <AllNotes allNotes={allNotes} isArchived={isArchived} id={noteId} />
       </aside>
       <article
         className={`${styles.note} ${page === NOTE ? styles.active : ""}`}

@@ -21,6 +21,13 @@
   right: var(--spacing-200);
 }
 
+.archivedHint {
+  height: fit-content;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: var(--spacing-200);
+}
+
 .emptyList {
   height: fit-content;
   padding: var(--spacing-100);
