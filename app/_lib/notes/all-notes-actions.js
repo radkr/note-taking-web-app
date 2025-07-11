@@ -13,11 +13,12 @@ function getPlainNote(note) {
   };
 }
 
-export async function readAllNotesAction() {
+export async function readAllNotesAction(isArchived) {
   const { userId } = await verifySession();
   await dbConnect();
   const notes = await Note.find({
     owner: new mongoose.Types.ObjectId(userId),
+    isArchived: isArchived,
   }).sort({ updatedAt: -1 });
   const plainNotes = notes.map((note) => {
     return getPlainNote(note);
