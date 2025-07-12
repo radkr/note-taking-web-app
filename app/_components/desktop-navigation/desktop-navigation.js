@@ -22,7 +22,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes");
         }}
-        selected={page === NOTES && isArchived === false}
+        selected={(page === NOTES || page === NOTE) && isArchived === false}
         label="All Notes"
       />
       <SelectButton
@@ -31,7 +31,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes/archived");
         }}
-        selected={page === NOTES && isArchived === true}
+        selected={(page === NOTES || page === NOTE) && isArchived === true}
         label="Archived Notes"
       />
     </div>
