@@ -12,7 +12,10 @@ export default function AllNotesItem({ note, id }) {
 
   return (
     <li className={`${styles.note} ${isSelected ? styles.selected : ""}`}>
-      <Link href={`/notes/${note._id}`} className={styles.noteCard}>
+      <Link
+        href={`/notes/${note.isArchived ? "archived/" : ""}${note._id}`}
+        className={styles.noteCard}
+      >
         <h2 className="text-preset-3 text-color-neutral-950">
           {note.title || "Untitled Note"}
         </h2>

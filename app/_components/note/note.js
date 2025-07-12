@@ -14,6 +14,7 @@ import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
 import IconClock from "@/assets/images/icon-clock.svg";
+import IconStatus from "@/assets/images/icon-status.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
 
 export default function Note({ id, note }) {
@@ -110,6 +111,15 @@ export default function Note({ id, note }) {
                   aria-label="Title"
                   name="title"
                 />
+                {data.isArchived ? (
+                  <div className={styles.property}>
+                    <div className={styles.propertyName}>
+                      <IconStatus className={styles.propertyIcon} />
+                      <p className="text-preset-6">Status</p>
+                    </div>
+                    <p className="text-preset-6">Archived</p>
+                  </div>
+                ) : null}
                 <div className={styles.property}>
                   <div className={styles.propertyName}>
                     <IconClock className={styles.propertyIcon} />
