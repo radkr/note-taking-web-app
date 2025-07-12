@@ -55,11 +55,27 @@ describe("BottomNavigation - Read my note", () => {
   it("shows the home button selected", () => {
     useAppState.mockReturnValue({
       page: NOTES,
+      isArchived: false,
     });
 
     render(<BottomNavigation />);
     const homeButton = screen.getByText("Home").closest("a");
     expect(homeButton).toHaveClass("selected");
+    const archivedButton = screen.getByText("Archived").closest("a");
+    expect(archivedButton).not.toHaveClass("selected");
+  });
+
+  it("shows the archived button selected", () => {
+    useAppState.mockReturnValue({
+      page: NOTES,
+      isArchived: true,
+    });
+
+    render(<BottomNavigation />);
+    const homeButton = screen.getByText("Home").closest("a");
+    expect(homeButton).not.toHaveClass("selected");
+    const archivedButton = screen.getByText("Archived").closest("a");
+    expect(archivedButton).toHaveClass("selected");
   });
 
   it("does not show the home button selected", () => {
