@@ -900,3 +900,62 @@ describe("Note - Update my note", () => {
     }
   });
 });
+
+describe("Note - Read my archived note", () => {
+  it("it shows the note status", () => {
+    /*
+    GIVEN the archived note is available on the client
+    WHEN I read my archived note
+    THEN I can see that the status of my note is archived
+    */
+    render(
+      <NoteWrapper>
+        <Note
+          id="1"
+          note={{
+            data: {
+              _id: "1",
+              title: "My Note",
+              content: "Some content",
+              isArchived: true,
+              updatedAt: new Date("2024-06-01T12:00:00.000Z"),
+            },
+            isLoading: false,
+            isError: false,
+            error: null,
+          }}
+        />
+      </NoteWrapper>
+    );
+    expect(screen.getByText("Status")).toBeInTheDocument();
+    expect(screen.getByText("Archived")).toBeInTheDocument();
+  });
+  it("it does not show the note status", () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I read my note
+    THEN I can not see the status of my note
+    */
+    render(
+      <NoteWrapper>
+        <Note
+          id="1"
+          note={{
+            data: {
+              _id: "1",
+              title: "My Note",
+              content: "Some content",
+              isArchived: false,
+              updatedAt: new Date("2024-06-01T12:00:00.000Z"),
+            },
+            isLoading: false,
+            isError: false,
+            error: null,
+          }}
+        />
+      </NoteWrapper>
+    );
+    expect(screen.queryByText("Status")).not.toBeInTheDocument();
+    expect(screen.queryByText("Archived")).not.toBeInTheDocument();
+  });
+});

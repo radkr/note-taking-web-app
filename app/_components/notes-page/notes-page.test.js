@@ -74,6 +74,23 @@ const notes = [
   },
 ];
 
+const archivedNotes = [
+  {
+    _id: "1",
+    title: "First Note",
+    content: "Hello",
+    isArchived: true,
+    updatedAt: new Date("2024-06-01T12:00:00.000Z"),
+  },
+  {
+    _id: "2",
+    title: "Second Note",
+    content: "World",
+    isArchived: true,
+    updatedAt: new Date("2024-06-02T15:30:00.000Z"),
+  },
+];
+
 const NotesPageWrapper = ({ children }) => {
   return (
     <MyQueryClientProvider>
@@ -671,6 +688,34 @@ describe("NotesPage - Create a new note", () => {
     // Assert
     await waitFor(() => {
       expect(pushMock).toHaveBeenCalledWith("/notes/3");
+    });
+  });
+});
+
+describe("NotesPage - Browse my archived notes", () => {
+  it("shows my archived notes", async () => {
+    /*
+    GIVEN I have archived some notes already
+    AND the list of my notes is available on the client
+    WHEN I browse the list of my archived notes
+    THEN I can see all my archived notes in the list
+    */
+    useAppState.mockReturnValue({
+      page: NOTES,
+      isArchived: true,
+    });
+    readAllNotesAction.mockResolvedValueOnce(archivedNotes);
+    readNoteAction.mockResolvedValueOnce(archivedNotes[0]);
+
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("First Note")).toBeInTheDocument();
+      expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
   });
 });

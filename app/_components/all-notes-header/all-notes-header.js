@@ -15,7 +15,7 @@ export default function AllNotesHeader() {
       >
         {page === NOTES && isArchived === false
           ? "All Notes"
-          : "Archived notes"}
+          : "Archived Notes"}
       </h1>
     </div>
   );

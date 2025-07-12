@@ -37,13 +37,29 @@ describe("Component - Read my note", () => {
 
 ## Browse my archived notes
 
-### Navigate to the archived notes
+### Opens my archived note list
 
 ```gherkin
 GIVEN I opened the notes page
 WHEN I click on the archived notes button
 THEN I get to the archived notes page
 ```
+
+- Components to test:
+  - BottomNavigation
+  - DesktopNavigation
+
+### Opens my archived note list
+
+```gherkin
+GIVEN I opened the archived notes page
+WHEN I click on the home button
+THEN I get to the notes page
+```
+
+- Components to test:
+  - BottomNavigation
+  - DesktopNavigation
 
 ### Shows the Archived Notes title
 
@@ -53,6 +69,10 @@ WHEN I look at the page
 THEN I can see the "Archived Notes" title
 ```
 
+- Components to test:
+  - DesktopPageHeader
+  - AllNotesHeader
+
 ### Shows some hints about archived notes
 
 ```gherkin
@@ -61,6 +81,9 @@ WHEN I look at the page
 THEN I can see some hints about archived notes
 ```
 
+- Components to test:
+  - AllNotes
+
 ### Indicates that the list of my archived notes is loading
 
 ```gherkin
@@ -68,6 +91,9 @@ GIVEN the list of my archived notes is not yet available on the client
 WHEN I browse the list of my archived notes
 THEN I can see a loading message
 ```
+
+- Components to test:
+  - AllNotes
 
 The loading message should be: "Loading..."
 
@@ -80,9 +106,12 @@ WHEN I browse the list of my archived notes
 THEN I can see an info message of not having any notes yet
 ```
 
+- Components to test:
+  - AllNotes
+
 The info message should be: "No notes have been archived yet. Move notes here for safekeeping, or create a new note."
 
-### Shows all of my archived notes
+### Shows my archived notes
 
 ```gherkin
 GIVEN I have archived some notes already
@@ -90,6 +119,9 @@ AND the list of my notes is available on the client
 WHEN I browse the list of my archived notes
 THEN I can see all my archived notes in the list
 ```
+
+- Components to test:
+  - NotesPage
 
 ## Read my note
 
@@ -100,3 +132,6 @@ GIVEN the archived note is available on the client
 WHEN I read my archived note
 THEN I can see that the status of my note is archived
 ```
+
+- Components to test:
+  - Note

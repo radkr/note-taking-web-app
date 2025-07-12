@@ -65,6 +65,52 @@ describe("BottomNavigation - Read my note", () => {
     expect(archivedButton).not.toHaveClass("selected");
   });
 
+  it("does not show the home button selected", () => {
+    useAppState.mockReturnValue({
+      page: NOTE,
+      noteId: "123",
+    });
+
+    render(<BottomNavigation />);
+    const homeButton = screen.getByText("Home").closest("a");
+    expect(homeButton).not.toHaveClass("selected");
+  });
+});
+
+describe("BottomNavigation - Browse my archived notes", () => {
+  it("opens my archived note list", () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the archived notes button
+    THEN I get to the archived notes page
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      isArchived: false,
+    });
+
+    render(<BottomNavigation />);
+    const archivedButton = screen.getByText("Archived").closest("a");
+    expect(archivedButton).toHaveAttribute("href", "/notes/archived");
+  });
+  it("opens my note list", () => {
+    /*
+    GIVEN I opened the archived notes page
+    WHEN I click on the home button
+    THEN I get to the notes page
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      isArchived: true,
+    });
+
+    render(<BottomNavigation />);
+    const homeButton = screen.getByText("Home").closest("a");
+    expect(homeButton).toHaveAttribute("href", "/notes");
+  });
+
   it("shows the archived button selected", () => {
     useAppState.mockReturnValue({
       page: NOTES,
@@ -76,16 +122,5 @@ describe("BottomNavigation - Read my note", () => {
     expect(homeButton).not.toHaveClass("selected");
     const archivedButton = screen.getByText("Archived").closest("a");
     expect(archivedButton).toHaveClass("selected");
-  });
-
-  it("does not show the home button selected", () => {
-    useAppState.mockReturnValue({
-      page: NOTE,
-      noteId: "123",
-    });
-
-    render(<BottomNavigation />);
-    const homeButton = screen.getByText("Home").closest("a");
-    expect(homeButton).not.toHaveClass("selected");
   });
 });

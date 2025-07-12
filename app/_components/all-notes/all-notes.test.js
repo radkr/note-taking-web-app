@@ -68,3 +68,62 @@ describe("AllNotes - Browse all my notes", () => {
     ).toBeInTheDocument();
   });
 });
+
+describe("AllNotes - Browse my archived notes", () => {
+  it("shows some hints about archived notes", () => {
+    /*
+    GIVEN I opened the archived notes page
+    WHEN I look at the page
+    THEN I can see some hints about archived notes
+    */
+
+    render(
+      <MyQueryClientProvider>
+        <AllNotes allNotes={{ data: [], isLoading: false }} isArchived={true} />
+      </MyQueryClientProvider>
+    );
+    expect(
+      screen.getByText(
+        "All your archived notes are stored here. You can restore or delete them anytime."
+      )
+    ).toBeInTheDocument();
+  });
+
+  it("indicates that the list of my archived notes is loading", () => {
+    /*
+    GIVEN the list of my archived notes is not yet available on the client
+    WHEN I browse the list of my archived notes
+    THEN I can see a loading message
+    */
+    // The loading message should be: "Loading..."
+
+    render(
+      <MyQueryClientProvider>
+        <AllNotes allNotes={{ data: undefined, isLoading: true }} />
+      </MyQueryClientProvider>
+    );
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  it("shows empty message", () => {
+    /*
+    GIVEN I have not archived any notes yet
+    AND the list of my archived notes is available on the client
+    WHEN I browse the list of my archived notes
+    THEN I can see an info message of not having any notes yet
+    */
+    // The info message should be: "No notes have been archived yet. Move notes here for safekeeping, or create a new note."
+
+    render(
+      <MyQueryClientProvider>
+        <AllNotes allNotes={{ data: [], isLoading: false }} isArchived={true} />
+      </MyQueryClientProvider>
+    );
+    expect(
+      screen.getByText(
+        /No notes have been archived yet. Move notes here for safekeeping, or/
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText("create a new note")).toBeInTheDocument();
+  });
+});
