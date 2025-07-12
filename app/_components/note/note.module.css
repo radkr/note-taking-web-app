@@ -71,6 +71,13 @@
   outline-offset: 4px;
 }
 
+.propertyList {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  row-gap: var(--spacing-200);
+}
+
 .property {
   color: var(--color-neutral-700);
   display: flex;

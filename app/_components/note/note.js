@@ -111,21 +111,23 @@ export default function Note({ id, note }) {
                   aria-label="Title"
                   name="title"
                 />
-                {data.isArchived ? (
+                <div className={styles.propertyList}>
+                  {data.isArchived ? (
+                    <div className={styles.property}>
+                      <div className={styles.propertyName}>
+                        <IconStatus className={styles.propertyIcon} />
+                        <p className="text-preset-6">Status</p>
+                      </div>
+                      <p className="text-preset-6">Archived</p>
+                    </div>
+                  ) : null}
                   <div className={styles.property}>
                     <div className={styles.propertyName}>
-                      <IconStatus className={styles.propertyIcon} />
-                      <p className="text-preset-6">Status</p>
+                      <IconClock className={styles.propertyIcon} />
+                      <p className="text-preset-6">Last edited</p>
                     </div>
-                    <p className="text-preset-6">Archived</p>
+                    <p className="text-preset-6">{formattedDate}</p>
                   </div>
-                ) : null}
-                <div className={styles.property}>
-                  <div className={styles.propertyName}>
-                    <IconClock className={styles.propertyIcon} />
-                    <p className="text-preset-6">Last edited</p>
-                  </div>
-                  <p className="text-preset-6">{formattedDate}</p>
                 </div>
                 <hr className={styles.rule} />
                 <textarea
