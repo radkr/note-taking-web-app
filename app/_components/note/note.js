@@ -13,6 +13,7 @@ import { formatDate } from "@/app/_lib/utils";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
+import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
 import IconStatus from "@/assets/images/icon-status.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
@@ -20,6 +21,7 @@ import IconDelete from "@/assets/images/icon-delete.svg";
 export default function Note({ id, note }) {
   const { displayToast } = use(AppCtx);
   const router = useRouter();
+  const { archiveNote } = useArchiveNote();
   const { deleteNote, deleteIsPending } = useDeleteNote();
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
@@ -59,6 +61,21 @@ export default function Note({ id, note }) {
     });
   }
 
+  function handleArchive() {
+    archiveNote(
+      { ...data },
+      {
+        onSuccess: () => {
+          displayToast({
+            message: "Note archived.",
+            link: "Archived Notes",
+            href: "/notes/archived",
+          });
+        },
+      }
+    );
+  }
+
   function handleDelete() {
     deleteNote(data._id, {
       onSuccess: () => {
@@ -94,6 +111,7 @@ export default function Note({ id, note }) {
                   onSave={handleSave}
                   onCancel={() => setIsEdited(false)}
                   onDelete={() => setToDelete(true)}
+                  onArchive={handleArchive}
                   isDisabled={deleteIsPending}
                   isEdited={isEdited !== ""}
                 />
@@ -153,6 +171,7 @@ export default function Note({ id, note }) {
           </div>
           <aside className={styles.sidebar}>
             <NoteSiderbar
+              onArchive={handleArchive}
               onDelete={() => setToDelete(true)}
               isDisabled={deleteIsPending}
             />

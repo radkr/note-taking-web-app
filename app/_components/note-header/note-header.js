@@ -26,14 +26,14 @@ export default function NoteHeader({
         <button
           aria-label="Archive Note"
           className={styles.button}
-          onClick={onDelete}
+          onClick={onArchive}
           disabled={isDisabled}
         >
           <IconArchive className={styles.icon} />
         </button>
         <button
           className={`text-preset-5 text-color-neutral-600 ${styles.button}`}
-          onClick={onArchive}
+          onClick={onCancel}
           disabled={isDisabled}
         >
           Cancel

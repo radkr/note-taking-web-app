@@ -48,6 +48,8 @@ export default function ApplicationProvider({ children }) {
           onClose={() => hideToast(toast.id)}
           onHidden={() => clearToast(toast.id)}
           message={toast?.message}
+          link={toast?.link}
+          href={toast?.href}
         />
       ))}
     </AppCtx>

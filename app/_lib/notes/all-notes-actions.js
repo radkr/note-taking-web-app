@@ -62,3 +62,8 @@ export async function createNoteAction() {
     return { error: "The note can not be created." };
   }
 }
+
+export async function archiveNote(note) {
+  note.isArchived = true;
+  updateNoteAction(note);
+}
