@@ -34,7 +34,7 @@ export default function NoteHeader({
         <button
           className={`text-preset-5 text-color-neutral-600 ${styles.button}`}
           onClick={onCancel}
-          disabled={isDisabled}
+          disabled={!isEdited || isDisabled}
         >
           Cancel
         </button>
