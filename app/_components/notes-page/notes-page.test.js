@@ -714,8 +714,64 @@ describe("NotesPage - Browse my archived notes", () => {
     );
 
     await waitFor(() => {
+      expect(readAllNotesAction).toHaveBeenCalledWith(true);
       expect(screen.getByText("First Note")).toBeInTheDocument();
       expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
+  });
+});
+
+describe.only("NotesPage - Archive one of my notes", () => {
+  it.only("does not show the note in the list after archivation - portable", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the archive button
+    THEN I no longer see the note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValueOnce(notes);
+    readNoteAction.mockResolvedValue(notes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Archive Note")).toBeInTheDocument();
+    });
+
+    const archiveButton = screen.getByLabelText("Archive Note");
+
+    readAllNotesAction.mockResolvedValue([notes[0]]);
+    // Act
+    await userEvent.click(archiveButton);
+
+    // Assert
+    await waitFor(() => {
+      const allNotes = screen.getByTestId("All Notes");
+      expect(within(allNotes).getByText("First Note")).toBeInTheDocument();
+    });
+  });
+
+  it("shows the note in the archived list after archivation", () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the archive button
+    THEN I can see the note in the list of my archived notes
+    */
+    // Written by me later
+  });
+
+  it("shows toast message on successful archivation", () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the archive button
+    THEN the note is stored in the database as archived note
+    AND I can see a successfully archived toast message
+    */
+    // Written by me later
   });
 });
