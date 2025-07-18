@@ -17,7 +17,7 @@ jest.mock("@/assets/images/icon-archive.svg", () => ({
 }));
 
 describe("NoteSidebar - Archive one of my notes", () => {
-  it("shows the archive note button", () => {
+  it("shows the archive note button", async () => {
     /*
     GIVEN I am on the page of a specific note
     AND the note is not archived yet
@@ -25,7 +25,35 @@ describe("NoteSidebar - Archive one of my notes", () => {
     THEN I can see the archive note button
     */
 
-    render(<NoteSiderbar />);
-    expect(screen.getByText("Archive Note")).toBeInTheDocument();
+    const onArchive = jest.fn();
+    render(<NoteSiderbar isArchived={false} onArchive={onArchive} />);
+    //
+    expect(screen.queryByText("Restore Note")).not.toBeInTheDocument();
+    //
+    const button = screen.getByText("Archive Note");
+    expect(button).toBeInTheDocument();
+    await userEvent.click(button);
+    expect(onArchive).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("NoteSidebar - Restore one of my archived notes", () => {
+  it("shows the restore note button", async () => {
+    /*
+    GIVEN I am on the page of a specific note
+    AND the note is not archived yet
+    WHEN I read my note
+    THEN I can see the archive note button
+    */
+
+    const onRestore = jest.fn();
+    render(<NoteSiderbar isArchived={true} onRestore={onRestore} />);
+    //
+    expect(screen.queryByText("Archive Note")).not.toBeInTheDocument();
+    //
+    const button = screen.getByText("Restore Note");
+    expect(button).toBeInTheDocument();
+    await userEvent.click(button);
+    expect(onRestore).toHaveBeenCalledTimes(1);
   });
 });

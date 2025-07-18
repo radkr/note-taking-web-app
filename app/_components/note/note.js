@@ -76,6 +76,10 @@ export default function Note({ id, note }) {
     );
   }
 
+  function onRestore() {
+    console.log("onRestore");
+  }
+
   function handleDelete() {
     deleteNote(data._id, {
       onSuccess: () => {
@@ -112,8 +116,10 @@ export default function Note({ id, note }) {
                   onCancel={() => setIsEdited(false)}
                   onDelete={() => setToDelete(true)}
                   onArchive={handleArchive}
+                  onRestore={onRestore}
                   isDisabled={deleteIsPending}
                   isEdited={isEdited !== ""}
+                  isArchived={data.isArchived}
                 />
               </header>
               <form className={styles.details}>
@@ -172,8 +178,10 @@ export default function Note({ id, note }) {
           <aside className={styles.sidebar}>
             <NoteSiderbar
               onArchive={handleArchive}
+              onRestore={onRestore}
               onDelete={() => setToDelete(true)}
               isDisabled={deleteIsPending}
+              isArchived={data.isArchived}
             />
           </aside>
         </div>

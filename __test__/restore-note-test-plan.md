@@ -46,6 +46,10 @@ WHEN I read my note
 THEN I can see the archive note button
 ```
 
+- Components to test:
+  - NoteHeader
+  - NoteSidebar
+
 ### Does not show the note in the archived list after restoration
 
 ```gherkin
@@ -53,6 +57,9 @@ GIVEN I opened the page of a specific note
 WHEN I click on the archive button
 THEN I no longer see the note in the list of my notes
 ```
+
+- Components to test:
+  - NotesPage
 
 ### Shows the note in the note list after restoration
 
@@ -62,6 +69,9 @@ WHEN I click on the archive button
 THEN I can see the note in the list of my archived notes
 ```
 
+- Components to test:
+  - NotesPage
+
 ### Shows toast message on successfull restoration
 
 ```gherkin
@@ -70,3 +80,6 @@ WHEN I click on the archive button
 THEN the note is stored in the database as archived note
 AND I can see a successfully archived toast message
 ```
+
+- Components to test:
+  - NotesPage
