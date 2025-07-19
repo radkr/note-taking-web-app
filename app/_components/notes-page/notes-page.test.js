@@ -11,6 +11,8 @@ jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
   readNoteAction: jest.fn(),
   updateNoteAction: jest.fn(),
   createNoteAction: jest.fn(),
+  archiveNoteAction: jest.fn(),
+  restoreNoteAction: jest.fn(),
 }));
 
 import {
@@ -18,6 +20,8 @@ import {
   updateNoteAction,
   readNoteAction,
   createNoteAction,
+  archiveNoteAction,
+  restoreNoteAction,
 } from "@/app/_lib/notes/all-notes-actions";
 
 // Mock the useAppState hook
@@ -788,7 +792,89 @@ describe("NotesPage - Archive one of my notes", () => {
 
     // Assert
     await waitFor(() => {
-      expect(screen.queryByText("Note archived.")).not.toBeInTheDocument();
+      expect(archiveNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Note archived.")).toBeInTheDocument();
+    });
+  });
+});
+
+describe("NotesPage - Restore one of my archived notes", () => {
+  it("does not show the note in the archived list after restoration", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the archive button
+    THEN I no longer see the note in the list of my notes
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValueOnce(archivedNotes);
+    readNoteAction.mockResolvedValue(archivedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Restore Note")).toBeInTheDocument();
+    });
+
+    const restoreButton = screen.getByLabelText("Restore Note");
+
+    readAllNotesAction.mockResolvedValue([archivedNotes[0]]);
+    // Act
+    await userEvent.click(restoreButton);
+
+    // Assert
+    await waitFor(() => {
+      const allNotes = screen.getByTestId("All Notes");
+      expect(within(allNotes).getByText("First Note")).toBeInTheDocument();
+      expect(
+        within(allNotes).queryByText("Second Note")
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("shows toast message on successful restoration", async () => {
+    /*
+    GIVEN I opened the page of a specific note
+    WHEN I click on the archive button
+    THEN the note is stored in the database as archived note
+    AND I can see a successfully archived toast message
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(archivedNotes);
+    readNoteAction.mockResolvedValue(archivedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Restore Note")).toBeInTheDocument();
+    });
+
+    const restoreButton = screen.getByLabelText("Restore Note");
+
+    // Act
+    await userEvent.click(restoreButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(restoreNoteAction).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Note restored to active notes.")
+      ).toBeInTheDocument();
     });
   });
 });

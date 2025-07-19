@@ -1,27 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { archiveNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import { restoreNoteAction } from "@/app/_lib/notes/all-notes-actions";
 
-export default function useArchiveNote() {
+export default function useRestoreNote() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: archiveNoteAction,
+    mutationFn: restoreNoteAction,
     onMutate: async (data) => {
       // Cancel current queries before optimistic update
       await queryClient.cancelQueries({ queryKey: ["allNotes"] });
       await queryClient.cancelQueries({ queryKey: ["archivedNotes"] });
-      // Update allNotes optimistically
-      const prevAllNotes = queryClient.getQueryData(["allNotes"]);
+      // No longer see the note in the list of my archived notes - optimistic
+      const prevAllNotes = queryClient.getQueryData(["archivedNotes"]);
       const nextAllNotes = !prevAllNotes
         ? []
         : prevAllNotes.filter((prevNote) => prevNote._id !== data._id);
       queryClient.setQueryData(["allNotes"], nextAllNotes);
-      // Update archivedNotes
-      const prevArchivedNotes = queryClient.getQueryData(["archivedNotes"]);
+      // See the note in the list of my notes - optimistic
+      const prevArchivedNotes = queryClient.getQueryData(["allNotes"]);
       const nextArchivedNotes = [data, ...prevArchivedNotes];
       queryClient.setQueryData(["archivedNotes"], nextArchivedNotes);
-      // Update allNotes note
+      // Do not see the status of the note anymore - optimistic - allNotes
       const prevAllNote = queryClient.getQueriesData([
         "allNotes",
         { id: data._id },
@@ -29,10 +29,10 @@ export default function useArchiveNote() {
       if (prevAllNote) {
         queryClient.setQueryData(["allNotes", { id: data._id }], {
           ...data,
-          isArchived: true,
+          isArchived: false,
         });
       }
-      // Update archivedNotes note
+      // Do not see the status of the note anymore - optimistic - archivedNotes
       const prevArchivedNote = queryClient.getQueriesData([
         "archivedNotes",
         { id: data._id },
@@ -40,7 +40,7 @@ export default function useArchiveNote() {
       if (prevArchivedNote) {
         queryClient.setQueryData(["archivedNotes", { id: data._id }], {
           ...data,
-          isArchived: true,
+          isArchived: false,
         });
       }
     },
@@ -50,5 +50,5 @@ export default function useArchiveNote() {
     },
   });
 
-  return { archiveNote: mutate };
+  return { restoreNote: mutate };
 }

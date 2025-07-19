@@ -63,7 +63,12 @@ export async function createNoteAction() {
   }
 }
 
-export async function archiveNote(note) {
+export async function archiveNoteAction(note) {
   note.isArchived = true;
+  updateNoteAction(note);
+}
+
+export async function restoreNoteAction(note) {
+  note.isArchived = false;
   updateNoteAction(note);
 }

@@ -13,6 +13,7 @@ import { formatDate } from "@/app/_lib/utils";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
+import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
 import IconStatus from "@/assets/images/icon-status.svg";
@@ -22,6 +23,7 @@ export default function Note({ id, note }) {
   const { displayToast } = use(AppCtx);
   const router = useRouter();
   const { archiveNote } = useArchiveNote();
+  const { restoreNote } = useRestoreNote();
   const { deleteNote, deleteIsPending } = useDeleteNote();
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
@@ -76,8 +78,19 @@ export default function Note({ id, note }) {
     );
   }
 
-  function onRestore() {
-    console.log("onRestore");
+  function handleRestore() {
+    restoreNote(
+      { ...data },
+      {
+        onSuccess: () => {
+          displayToast({
+            message: "Note restored to active notes.",
+            link: "All Notes",
+            href: "/notes",
+          });
+        },
+      }
+    );
   }
 
   function handleDelete() {
@@ -116,7 +129,7 @@ export default function Note({ id, note }) {
                   onCancel={() => setIsEdited(false)}
                   onDelete={() => setToDelete(true)}
                   onArchive={handleArchive}
-                  onRestore={onRestore}
+                  onRestore={handleRestore}
                   isDisabled={deleteIsPending}
                   isEdited={isEdited !== ""}
                   isArchived={data.isArchived}
@@ -178,7 +191,7 @@ export default function Note({ id, note }) {
           <aside className={styles.sidebar}>
             <NoteSiderbar
               onArchive={handleArchive}
-              onRestore={onRestore}
+              onRestore={handleRestore}
               onDelete={() => setToDelete(true)}
               isDisabled={deleteIsPending}
               isArchived={data.isArchived}
