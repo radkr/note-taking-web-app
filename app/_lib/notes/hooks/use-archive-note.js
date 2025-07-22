@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { archiveNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import { QUERY_KEY } from "./types";
+import { Quando } from "next/font/google";
 
 export default function useArchiveNote() {
   const queryClient = useQueryClient();
@@ -9,44 +11,50 @@ export default function useArchiveNote() {
     mutationFn: archiveNoteAction,
     onMutate: async (data) => {
       // Cancel current queries before optimistic update
-      await queryClient.cancelQueries({ queryKey: ["allNotes"] });
-      await queryClient.cancelQueries({ queryKey: ["archivedNotes"] });
-      // Update allNotes optimistically
-      const prevAllNotes = queryClient.getQueryData(["allNotes"]);
-      const nextAllNotes = !prevAllNotes
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEY.ALL_NOTES] });
+      // Update active notes optimistically:
+      // No longer see the note in the list of my active notes
+      const prevActive = queryClient.getQueryData([
+        QUERY_KEY.ALL_NOTES,
+        QUERY_KEY.ACTIVE,
+      ]);
+      const nextActive = !prevActive
         ? []
-        : prevAllNotes.filter((prevNote) => prevNote._id !== data._id);
-      queryClient.setQueryData(["allNotes"], nextAllNotes);
-      // Update archivedNotes
-      const prevArchivedNotes = queryClient.getQueryData(["archivedNotes"]);
-      const nextArchivedNotes = [data, ...prevArchivedNotes];
-      queryClient.setQueryData(["archivedNotes"], nextArchivedNotes);
-      // Update allNotes note
-      const prevAllNote = queryClient.getQueriesData([
-        "allNotes",
+        : prevActive.filter((prevNote) => prevNote._id !== data._id);
+      queryClient.setQueryData(
+        [QUERY_KEY.ALL_NOTES, QUERY_KEY.ACTIVE],
+        nextActive
+      );
+      // Update archived notes optimistically:
+      // See the note in the list of my arcived notes
+      const prevArchived = queryClient.getQueryData([
+        QUERY_KEY.ALL_NOTES,
+        QUERY_KEY.ARCHIVED,
+      ]);
+      const nextArchived = [data, ...prevArchived];
+      queryClient.setQueryData(
+        [QUERY_KEY.ALL_NOTES, QUERY_KEY.ARCHIVED],
+        nextArchived
+      );
+      // Update current note optimistically:
+      // See the status of the archived note
+      const prevCurrent = queryClient.getQueriesData([
+        QUERY_KEY.ALL_NOTES,
+        QUERY_KEY.CURRENT,
         { id: data._id },
       ]);
-      if (prevAllNote) {
-        queryClient.setQueryData(["allNotes", { id: data._id }], {
-          ...data,
-          isArchived: true,
-        });
-      }
-      // Update archivedNotes note
-      const prevArchivedNote = queryClient.getQueriesData([
-        "archivedNotes",
-        { id: data._id },
-      ]);
-      if (prevArchivedNote) {
-        queryClient.setQueryData(["archivedNotes", { id: data._id }], {
-          ...data,
-          isArchived: true,
-        });
+      if (prevCurrent) {
+        queryClient.setQueryData(
+          [QUERY_KEY.ALL_NOTES, QUERY_KEY.CURRENT, { id: data._id }],
+          {
+            ...data,
+            isArchived: true,
+          }
+        );
       }
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["allNotes"]);
-      queryClient.invalidateQueries(["archivedNotes"]);
+      queryClient.invalidateQueries([QUERY_KEY.ALL_NOTES]);
     },
   });
 

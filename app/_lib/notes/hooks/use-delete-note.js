@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import { QUERY_KEY } from "./types";
 
 export function useDeleteNote() {
   const queryClient = useQueryClient();
@@ -9,15 +10,8 @@ export function useDeleteNote() {
     mutationFn: deleteNoteAction,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["allNotes"],
-        exact: true,
+        queryKey: [QUERY_KEY.ALL_NOTES],
       });
-      if (data?._id) {
-        queryClient.invalidateQueries({
-          queryKey: ["allNotes", { id: data._id }],
-          refetchType: "none",
-        });
-      }
     },
   });
 

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateNoteAction } from "@/app/_lib/notes/all-notes-actions";
+import { QUERY_KEY } from "./types";
 
 export function useUpdateNote(onMutate) {
   const queryClient = useQueryClient();
@@ -9,40 +10,34 @@ export function useUpdateNote(onMutate) {
     mutationFn: updateNoteAction,
     onMutate: async (data) => {
       // Cancel current queries before optimistic update
-      await queryClient.cancelQueries({ queryKey: ["allNotes"] });
-      await queryClient.cancelQueries({
-        queryKey: ["allNotes", { id: data._id }],
-      });
-      // Update allNotes optimistically
-      const prevAllNotes = queryClient.getQueryData(["allNotes"]);
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEY.ALL_NOTES] });
+      // Update note list optimistically
+      const key = data.isArchived ? QUERY_KEY.ARCHIVED : QUERY_KEY.ACTIVE;
+      const prevAllNotes = queryClient.getQueryData([QUERY_KEY.ALL_NOTES, key]);
       const nextAllNotes = !prevAllNotes
         ? []
         : prevAllNotes.map((prevNote) => {
             if (prevNote._id === data._id) return data;
             return prevNote;
           });
-      queryClient.setQueryData(["allNotes"], nextAllNotes);
+      queryClient.setQueryData([QUERY_KEY.ALL_NOTES, key], nextAllNotes);
 
-      // Update notes optimistically
-      const prevNotes = queryClient.getQueryData([
-        "allNotes",
+      // Update current note optimistically
+      const prevNote = queryClient.getQueryData([
+        QUERY_KEY.ALL_NOTES,
+        QUERY_KEY.CURRENT,
         { id: data._id },
       ]);
-      queryClient.setQueryData(["allNotes", { id: data._id }], data);
+      queryClient.setQueryData(
+        [QUERY_KEY.ALL_NOTES, QUERY_KEY.CURRENT, { id: data._id }],
+        data
+      );
       onMutate();
       // Return context
-      return { prevAllNotes, prevNotes };
-    },
-    onError: (error, data, context) => {
-      queryClient.setQueryData(["allNotes"], context.prevAllNotes);
-      queryClient.setQueryData(
-        ["allNotes", { id: data._id }],
-        context.prevNotes
-      );
+      return { prevAllNotes, prevNote };
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["allNotes"]);
-      queryClient.invalidateQueries(["allNotes", { id: data._id }]);
+      queryClient.invalidateQueries([QUERY_KEY.ALL_NOTES]);
     },
   });
 
