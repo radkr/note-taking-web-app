@@ -750,6 +750,7 @@ describe("NotesPage - Archive one of my notes", () => {
     const archiveButton = screen.getByLabelText("Archive Note");
 
     readAllNotesAction.mockResolvedValue([notes[0]]);
+    archiveNoteAction.mockResolvedValue({});
     // Act
     await userEvent.click(archiveButton);
 
@@ -828,6 +829,7 @@ describe("NotesPage - Restore one of my archived notes", () => {
     const restoreButton = screen.getByLabelText("Restore Note");
 
     readAllNotesAction.mockResolvedValue([archivedNotes[0]]);
+    restoreNoteAction.mockResolvedValue({});
     // Act
     await userEvent.click(restoreButton);
 
