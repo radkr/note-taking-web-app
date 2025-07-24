@@ -50,6 +50,7 @@ export default function ApplicationProvider({ children }) {
           message={toast?.message}
           link={toast?.link}
           href={toast?.href}
+          isError={toast?.isError}
         />
       ))}
     </AppCtx>

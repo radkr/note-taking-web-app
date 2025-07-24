@@ -501,6 +501,8 @@ describe("Note - Delete my note", () => {
       expect(screen.getByText(modalText)).toBeInTheDocument();
     });
 
+    deleteNoteAction.mockResolvedValueOnce({});
+
     // Act
     await userEvent.click(
       within(modal).getByText("Delete Note", { selector: "button" })
@@ -535,6 +537,8 @@ describe("Note - Delete my note", () => {
     await waitFor(() => {
       expect(screen.getByText(modalText)).toBeInTheDocument();
     });
+
+    deleteNoteAction.mockResolvedValueOnce({});
 
     // Act
     await userEvent.click(

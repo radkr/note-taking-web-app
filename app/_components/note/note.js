@@ -48,6 +48,11 @@ export default function Note({ id, note }) {
     }
   }, [isEdited, data]);
 
+  const saveErrorToast = {
+    message: "The note can not be saved.",
+    isError: true,
+  };
+
   function handleSave() {
     const noteToSave = {
       ...data,
@@ -55,51 +60,95 @@ export default function Note({ id, note }) {
       content: content.current.value,
     };
     saveNote(noteToSave, {
-      onSuccess: () => {
+      onSuccess: (reply) => {
+        if (reply.error) {
+          displayToast(saveErrorToast);
+          return;
+        }
         displayToast({
           message: "Note saved successfully!",
         });
       },
+      onError: () => {
+        displayToast(saveErrorToast);
+      },
     });
   }
+
+  const archiveErrorToast = {
+    message: "The note can not be archived.",
+    isError: true,
+  };
 
   function handleArchive() {
     archiveNote(
       { ...data },
       {
-        onSuccess: () => {
+        onSuccess: (reply) => {
+          if (reply.error) {
+            displayToast(archiveErrorToast);
+            return;
+          }
           displayToast({
             message: "Note archived.",
             link: "Archived Notes",
             href: "/notes/archived",
           });
         },
+        onError: (error) => {
+          displayToast(archiveErrorToast);
+        },
       }
     );
   }
+
+  const restoreErrorToast = {
+    message: "The note can not be restored.",
+    isError: true,
+  };
 
   function handleRestore() {
     restoreNote(
       { ...data },
       {
-        onSuccess: () => {
+        onSuccess: (reply) => {
+          if (reply.error) {
+            displayToast(restoreErrorToast);
+            return;
+          }
           displayToast({
             message: "Note restored to active notes.",
             link: "All Notes",
             href: "/notes",
           });
         },
+        onError: (error) => {
+          displayToast(restoreErrorToast);
+        },
       }
     );
   }
 
+  const deleteErrorToast = {
+    message: "The note can not be deleted.",
+    isError: true,
+  };
+
   function handleDelete() {
     deleteNote(data._id, {
-      onSuccess: () => {
+      onSuccess: (reply) => {
+        if (reply.error) {
+          displayToast(deleteErrorToast);
+          return;
+        }
+
         displayToast({
           message: "Note permanently deleted.",
         });
         router.push("/notes");
+      },
+      onError: (error) => {
+        displayToast(deleteErrorToast);
       },
     });
     setToDelete(false);

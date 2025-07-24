@@ -61,6 +61,13 @@
   color: var(--color-green-500);
 }
 
+.x {
+  width: 1rem; /*16px*/
+  height: 1rem; /*16px*/
+  display: block;
+  color: var(--color-red-500);
+}
+
 .textAdjust {
   line-height: 1;
 }

@@ -31,7 +31,7 @@ export default function useArchiveNote() {
         QUERY_KEY.ALL_NOTES,
         QUERY_KEY.ARCHIVED,
       ]);
-      const nextArchived = [data, ...prevArchived];
+      const nextArchived = !prevArchived ? [data] : [data, ...prevArchived];
       queryClient.setQueryData(
         [QUERY_KEY.ALL_NOTES, QUERY_KEY.ARCHIVED],
         nextArchived

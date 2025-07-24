@@ -42,14 +42,19 @@ export async function readNoteAction(id) {
 export async function deleteNoteAction(id) {
   await verifySession();
   await Note.findByIdAndDelete(id);
+  return {};
 }
 
 export async function updateNoteAction(note) {
   await verifySession();
-  const updatedNote = await Note.findOneAndUpdate({ _id: note._id }, note, {
-    new: true,
-  });
-  return getPlainNote(updatedNote);
+  try {
+    const updatedNote = await Note.findOneAndUpdate({ _id: note._id }, note, {
+      new: true,
+    });
+    return getPlainNote(updatedNote);
+  } catch (error) {
+    return { error: "The note can not be updated." };
+  }
 }
 
 export async function createNoteAction() {
@@ -65,10 +70,10 @@ export async function createNoteAction() {
 
 export async function archiveNoteAction(note) {
   note.isArchived = true;
-  updateNoteAction(note);
+  return updateNoteAction(note);
 }
 
 export async function restoreNoteAction(note) {
   note.isArchived = false;
-  updateNoteAction(note);
+  return updateNoteAction(note);
 }

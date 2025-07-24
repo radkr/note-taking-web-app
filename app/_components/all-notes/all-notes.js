@@ -1,8 +1,10 @@
 "use client";
 
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import { AppCtx } from "@/app/_lib/app/app-ctx";
 import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header";
 import AllNotesItem from "@/app/_components/all-notes-item/all-notes-item";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
@@ -13,14 +15,27 @@ import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";
 
 export default function AllNotes({ allNotes, isArchived, id }) {
+  const { displayToast } = use(AppCtx);
   const { data, isLoading } = allNotes;
   const router = useRouter();
   const { createNote } = useCreateNote();
 
+  const createErrorToast = {
+    message: "The note can not be created.",
+    isError: true,
+  };
+
   function handleCreate() {
     createNote(null, {
-      onSuccess: (data) => {
-        router.push(`/notes/${data._id}`);
+      onSuccess: (reply) => {
+        if (reply.error) {
+          displayToast(createErrorToast);
+          return;
+        }
+        router.push(`/notes/${reply._id}`);
+      },
+      onError: (error) => {
+        displayToast(createErrorToast);
       },
     });
   }

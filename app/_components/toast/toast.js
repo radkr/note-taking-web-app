@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import styles from "./toast.module.css";
 import IconCheckmark from "@/assets/images/icon-checkmark.svg";
+import IconX from "@/assets/images/icon-x.svg";
 import IconCross from "@/assets/images/icon-cross.svg";
 
 export default function Toast({
@@ -15,6 +16,7 @@ export default function Toast({
   message,
   link,
   href,
+  isError = false,
 }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -63,7 +65,11 @@ export default function Toast({
   const children = (
     <>
       <div className={styles.toast}>
-        <IconCheckmark className={styles.check} />
+        {isError ? (
+          <IconX className={styles.x} />
+        ) : (
+          <IconCheckmark className={styles.check} />
+        )}
         <p
           className={`text-preset-6 text-color-neutral-950 ${styles.textAdjust}`}
         >
