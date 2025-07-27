@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import styles from "./go-back-button.module.css";
 import IconLeft from "@/assets/images/icon-arrow-left.svg";
 
 export default function GoBackButton() {
-  const href = usePathname().split("/").slice(0, -1).join("/");
+  const hrefPath = usePathname().split("/").slice(0, -1).join("/");
+  const params = useSearchParams();
+  const term = params.get("term");
+  const href = `${hrefPath}${term ? `?term=${term}` : ""}`;
 
   return (
     <Link href={href} className={styles.back}>
