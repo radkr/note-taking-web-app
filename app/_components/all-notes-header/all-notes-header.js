@@ -1,7 +1,13 @@
 "use client";
 
 import styles from "./all-notes-header.module.css";
-import { useAppState, NOTES, ACTIVE } from "@/app/_lib/app/use-app-state";
+import {
+  useAppState,
+  NOTES,
+  ARCHIVED,
+  ACTIVE,
+  SEARCH,
+} from "@/app/_lib/app/use-app-state";
 
 export default function AllNotesHeader() {
   const { page, subPage } = useAppState();
@@ -13,7 +19,9 @@ export default function AllNotesHeader() {
           page === NOTES ? styles.visible : ""
         }`}
       >
-        {page === NOTES && subPage === ACTIVE ? "All Notes" : "Archived Notes"}
+        {page === NOTES && subPage === ACTIVE ? "All Notes" : null}
+        {page === NOTES && subPage === ARCHIVED ? "Archived Notes" : null}
+        {page === NOTES && subPage === SEARCH ? "Search" : null}
       </h1>
     </div>
   );

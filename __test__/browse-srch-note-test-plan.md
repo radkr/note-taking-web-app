@@ -58,3 +58,14 @@ THEN I get to the archived notes page
 
 - Components to test:
   - BottomNavigation
+
+### Shows the Search Notes title
+
+```gherkin
+GIVEN I opened the serach notes page
+WHEN I look at the page
+THEN I can see the "Search" title
+```
+
+- Components to test:
+  - AllNotesHeader
