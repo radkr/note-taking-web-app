@@ -36,6 +36,7 @@ import {
   NOTE,
   ACTIVE,
   ARCHIVED,
+  SEARCH,
 } from "@/app/_lib/app/use-app-state";
 
 // Mock IconPlus svg import
@@ -148,5 +149,48 @@ describe("AllNotes - Browse my archived notes", () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText("create a new note")).toBeInTheDocument();
+  });
+});
+
+describe("AllNotes - Browse my notes with a specific search term", () => {
+  it("indicates that the search results are loading", () => {
+    /*
+    GIVEN the list of my notes for a term is not yet available on the client
+    WHEN I browse the list of my notes for that term
+    THEN I can see a loading message
+    */
+    // The loading message should be: "Loading..."
+
+    useAppState.mockReturnValueOnce({ page: NOTES, subPage: SEARCH });
+
+    render(
+      <MyQueryClientProvider>
+        <AllNotes allNotes={{ data: undefined, isLoading: true }} />
+      </MyQueryClientProvider>
+    );
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
+  });
+
+  it("shows empty message", () => {
+    /*
+    GIVEN I have not created any notes yet that contains the term
+    AND the list of my notes for the term is available on the client
+    WHEN I browse the list of my notes for the term
+    THEN I can see an info message of not having any notes yet for the term
+    */
+    // The info message should be: "No notes match your search. Try a different keyword or create a new note."
+
+    useAppState.mockReturnValue({ page: NOTES, subPage: SEARCH });
+
+    render(
+      <MyQueryClientProvider>
+        <AllNotes allNotes={{ data: [], isLoading: false }} />
+      </MyQueryClientProvider>
+    );
+    expect(
+      screen.getByText(
+        /No notes match your search. Try a different keyword or/i
+      )
+    ).toBeInTheDocument();
   });
 });

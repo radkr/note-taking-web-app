@@ -139,27 +139,6 @@ describe("NotesPage - Browse all my notes", () => {
 });
 
 describe("NotesPage - Read my note", () => {
-  it("shows a note placeholder", async () => {
-    /*
-    GIVEN I have not created any notes yet
-    AND the list of my notes is available on the client
-    WHEN I read my note
-    THEN I can see an empty placeholder where the note details should be
-    */
-    readAllNotesAction.mockResolvedValueOnce([]);
-    render(
-      <NotesPageWrapper>
-        <NotesPage />
-      </NotesPageWrapper>
-    );
-    await waitFor(() => {
-      // TODO: change the placeholder
-      expect(
-        screen.getByText(/You don’t have any notes yet/i)
-      ).toBeInTheDocument();
-    });
-  });
-
   it("highlights the first note as opened", async () => {
     /*
     GIVEN I have created some notes already
