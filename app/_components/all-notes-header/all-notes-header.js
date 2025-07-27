@@ -39,15 +39,20 @@ export default function AllNotesHeader() {
         {page === NOTES && subPage === SEARCH ? "Search" : null}
       </h1>
       {page === NOTES && subPage === SEARCH ? (
-        <form action={handleSearch} noValidate>
-          <Textinput
-            Icon={IconSearch}
-            ariaLabel="Search"
-            placeholder="Search by title or content..."
-            name="term"
-            defaultValue={term || ""}
-          />
-        </form>
+        <>
+          <form action={handleSearch} noValidate>
+            <Textinput
+              Icon={IconSearch}
+              ariaLabel="Search"
+              placeholder="Search by title or content..."
+              name="term"
+              defaultValue={term || ""}
+            />
+          </form>
+          <p
+            className={"text-preset-5 text-color-neutral-700"}
+          >{`All notes matching ”${term || ""}” are displayed below.`}</p>
+        </>
       ) : null}
     </div>
   );

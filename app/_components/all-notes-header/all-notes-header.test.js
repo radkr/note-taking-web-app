@@ -130,4 +130,23 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
     const searchField = screen.getByLabelText("Search");
     expect(searchField).toHaveValue("myTerm");
   });
+
+  it("shows hint about for what specific term showing results currently - on portable", () => {
+    /*
+    GIVEN I opened the search notes page for a specific term
+    WHEN I look at the page
+    THEN I can see a hint about for what specific term showing results currently
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+      term: "myTerm",
+    });
+    render(<AllNotesHeader />);
+    const hint = screen.getByText(
+      "All notes matching ”myTerm” are displayed below."
+    );
+    expect(hint).toBeInTheDocument();
+  });
 });

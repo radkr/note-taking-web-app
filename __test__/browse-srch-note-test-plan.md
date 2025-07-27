@@ -92,3 +92,14 @@ THEN I can see that specific term typed in
 
 - Components to test:
   - AllNotesHeader
+
+### Shows hint about for what specific term showing results currently - on portable
+
+```gherkin
+GIVEN I opened the search notes page for a specific term
+WHEN I look at the page
+THEN I can see a hint about for what specific term showing results currently
+```
+
+- Components to test:
+  - AllNotesHeader
