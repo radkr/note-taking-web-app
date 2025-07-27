@@ -12,7 +12,7 @@ import {
   NOTES,
   NOTE,
   ACTIVE,
-  ARCHIVE,
+  ARCHIVED,
 } from "@/app/_lib/app/use-app-state";
 
 export default function DesktopNavigation({ className }) {
@@ -37,7 +37,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes/archived");
         }}
-        selected={(page === NOTES || page === NOTE) && subPage === ARCHIVE}
+        selected={(page === NOTES || page === NOTE) && subPage === ARCHIVED}
         label="Archived Notes"
       />
     </div>

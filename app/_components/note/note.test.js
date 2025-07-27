@@ -14,6 +14,7 @@ import {
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 import userEvent from "@testing-library/user-event";
 import ApplicationProvider from "@/app/_lib/app/app-ctx";
+import { useSearchParams } from "next/navigation";
 
 jest.mock("@/app/_lib/notes/all-notes-actions.js", () => ({
   deleteNoteAction: jest.fn(),
@@ -22,12 +23,22 @@ jest.mock("@/app/_lib/notes/all-notes-actions.js", () => ({
 
 const pushMock = jest.fn();
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: pushMock,
-  }),
-  usePathname: () => "notes/1",
-}));
+jest.mock("next/navigation", () => {
+  const originalModule = jest.requireActual("next/navigation");
+  return {
+    __esModule: true,
+    ...originalModule,
+    useSearchParams: () => {
+      return {
+        get: () => undefined,
+      };
+    },
+    useRouter: () => ({
+      push: pushMock,
+    }),
+    usePathname: () => "notes/1",
+  };
+});
 
 // Mock IconSettings and IconHome components
 

@@ -10,6 +10,7 @@ import IconInfo from "@/assets/images/icon-info.svg";
 export default function Textinput({
   Icon,
   label,
+  ariaLabel = "",
   id,
   name,
   placeholder,
@@ -48,9 +49,11 @@ export default function Textinput({
         error ? styles.error : ""
       }`}
     >
-      <label htmlFor={id} className={`text-preset-4 text-color-neutral-950`}>
-        {label}
-      </label>
+      {label ? (
+        <label htmlFor={id} className={`text-preset-4 text-color-neutral-950`}>
+          {label}
+        </label>
+      ) : null}
       <div
         className={`${styles.field} ${
           isFocusVisible ? styles.focusVisible : ""
@@ -58,6 +61,7 @@ export default function Textinput({
       >
         {Icon ? <Icon className={styles.icon} /> : null}
         <input
+          aria-label={ariaLabel}
           id={id}
           type={type === "password" ? (isHidden ? "password" : "text") : type}
           name={name}

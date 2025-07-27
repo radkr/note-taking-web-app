@@ -21,6 +21,27 @@ import {
   useAppState,
 } from "@/app/_lib/app/use-app-state";
 
+const push = jest.fn();
+
+jest.mock("next/navigation", () => {
+  const originalModule = jest.requireActual("next/navigation");
+  return {
+    __esModule: true,
+    ...originalModule,
+    useRouter: () => {
+      return {
+        push,
+      };
+    },
+  };
+});
+
+// Mock IconPlus svg import
+jest.mock("@/assets/images/icon-search.svg", () => ({
+  __esModule: true,
+  default: () => <svg data-testid="mock-icon-search" />,
+}));
+
 describe("AllNotesHeader - Browse my notes", () => {
   it("shows the All Notes title", () => {
     /*
@@ -72,5 +93,41 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
 
     render(<AllNotesHeader />);
     expect(screen.getByText("Search")).toBeInTheDocument();
+  });
+
+  it("opens the search notes page for a specific term - on portable", async () => {
+    /*
+    GIVEN I opened the search notes page
+    WHEN I type a specific search term into the search field
+    AND I hit enter
+    THEN I get to the search notes page for that specific term
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+    });
+
+    render(<AllNotesHeader />);
+    const searchField = screen.getByLabelText("Search");
+    await userEvent.type(searchField, "myTerm{enter}");
+    expect(push).toHaveBeenCalledWith("/notes/search?term=myTerm");
+  });
+
+  it("shows the current term in the search field - on portable", () => {
+    /*
+    GIVEN I opened the search notes page for a specific term
+    WHEN I look at the search field
+    THEN I can see that specific term typed in
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+      term: "myTerm",
+    });
+    render(<AllNotesHeader />);
+    const searchField = screen.getByLabelText("Search");
+    expect(searchField).toHaveValue("myTerm");
   });
 });

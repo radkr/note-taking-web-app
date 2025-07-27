@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export const NOTES = "NOTES";
 export const NOTE = "NOTE";
@@ -9,11 +9,13 @@ export const SEARCH = "SEARCH";
 
 export function useAppState() {
   const path = usePathname();
+  const params = useSearchParams();
 
   const pathSegments = path.substring(1, path.length).split("/");
   let page;
   let subPage;
   let noteId;
+  let term = params.get("term");
 
   if (0 < pathSegments.length) {
     switch (pathSegments[0]) {
@@ -49,5 +51,6 @@ export function useAppState() {
     page,
     subPage,
     noteId,
+    term,
   };
 }

@@ -69,3 +69,26 @@ THEN I can see the "Search" title
 
 - Components to test:
   - AllNotesHeader
+
+### Opens the search notes page for a specific term - on portable
+
+```gherkin
+GIVEN I opened the search notes page
+WHEN I type a specific search term into the search field
+AND I hit enter
+THEN I get to the search notes page for that specific term
+```
+
+- Components to test:
+  - AllNotesHeader
+
+### Shows the current term in the search field - on portable
+
+```gherkin
+GIVEN I opened the search notes page for a specific term
+WHEN I look at the search field
+THEN I can see that specific term typed in
+```
+
+- Components to test:
+  - AllNotesHeader
