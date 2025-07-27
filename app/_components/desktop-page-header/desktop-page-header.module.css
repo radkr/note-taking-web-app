@@ -12,6 +12,14 @@
   overflow: visible;
 }
 
+.tools {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+
 .link {
   display: block;
   border-radius: var(--radius-6);
