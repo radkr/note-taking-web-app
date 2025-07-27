@@ -76,7 +76,7 @@ describe("DesktopPageHeader - Browse my archived notes", () => {
   });
 });
 
-describe("AllNotesHeader - Browse my notes with a specific search term", () => {
+describe("DesktopPageHeader - Browse my notes with a specific search term", () => {
   it("opens the search notes page for a specific term - on desktop", async () => {
     /*
     GIVEN I opened the search notes page
@@ -120,5 +120,15 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
     WHEN I look at the page
     THEN I can see a hint about for what specific term showing results currently
     */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+      term: "myTerm",
+    });
+
+    render(<DesktopPageHeader />);
+    const title = screen.getByText("Showing results for: myTerm");
+    expect(title).toBeInTheDocument();
   });
 });

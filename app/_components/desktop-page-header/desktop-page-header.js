@@ -12,6 +12,7 @@ import {
   NOTE,
   ACTIVE,
   SEARCH,
+  ARCHIVED,
 } from "@/app/_lib/app/use-app-state";
 import Textinput from "../text-input/text-input";
 
@@ -28,14 +29,26 @@ export default function DesktopPageHeader() {
     }
   }
 
+  let title;
+
+  switch (subPage) {
+    case ACTIVE:
+      title = "All Notes";
+      break;
+    case ARCHIVED:
+      title = "Archived Notes";
+      break;
+    case SEARCH:
+      title = `Showing results for: ${term || ""}`;
+      break;
+    default:
+      title = "";
+  }
+
   return (
     <div className={styles.header}>
       <h1 className="text-preset-1 text-color-neutral-950">
-        {page === NOTES || page === NOTE
-          ? subPage === ACTIVE
-            ? "All Notes"
-            : "Archived Notes"
-          : "Settings"}
+        {page === NOTES || page === NOTE ? title : "Settings"}
       </h1>
       <div className={styles.tools}>
         <form action={handleSearch} noValidate>
