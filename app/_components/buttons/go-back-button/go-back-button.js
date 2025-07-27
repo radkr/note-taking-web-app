@@ -5,12 +5,34 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import styles from "./go-back-button.module.css";
 import IconLeft from "@/assets/images/icon-arrow-left.svg";
+import {
+  useAppState,
+  ACTIVE,
+  ARCHIVED,
+  SEARCH,
+  sss,
+} from "@/app/_lib/app/use-app-state";
 
 export default function GoBackButton() {
-  const hrefPath = usePathname().split("/").slice(0, -1).join("/");
-  const params = useSearchParams();
-  const term = params.get("term");
-  const href = `${hrefPath}${term ? `?term=${term}` : ""}`;
+  const { subPage, term } = useAppState();
+
+  let href;
+
+  switch (subPage) {
+    case ACTIVE:
+      href = "/notes";
+      break;
+    case ARCHIVED:
+      href = "/notes/archived";
+      break;
+    case SEARCH:
+      href = "/notes/search";
+      break;
+    default:
+      href = "";
+  }
+
+  href = `${href}${term ? `?term=${term}` : ""}`;
 
   return (
     <Link href={href} className={styles.back}>

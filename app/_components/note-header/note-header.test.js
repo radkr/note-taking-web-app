@@ -38,6 +38,27 @@ jest.mock("next/navigation", () => {
   };
 });
 
+// Mock the useAppState hook
+jest.mock("@/app/_lib/app/use-app-state", () => {
+  const originalModule = jest.requireActual("@/app/_lib/app/use-app-state");
+  return {
+    __esModule: true,
+    ...originalModule,
+    useAppState: jest.fn(() => ({
+      page: originalModule.NOTES,
+    })),
+  };
+});
+
+import {
+  useAppState,
+  NOTES,
+  NOTE,
+  ACTIVE,
+  ARCHIVED,
+  SEARCH,
+} from "@/app/_lib/app/use-app-state";
+
 describe("NoteHeader - Archive one of my notes", () => {
   it("shows the archive note button", async () => {
     /*
@@ -47,6 +68,7 @@ describe("NoteHeader - Archive one of my notes", () => {
     THEN I can see the archive note button
     */
 
+    useAppState.mockReturnValue({ subPage: ACTIVE });
     const onArchive = jest.fn();
     render(<NoteHeader isArchived={false} onArchive={onArchive} />);
     //
@@ -67,6 +89,8 @@ describe("NoteHeader - Restore one of my archived notes", () => {
     WHEN I read my note
     THEN I can see the archive note button
     */
+
+    useAppState.mockReturnValue({ subPage: ARCHIVED });
     const onRestore = jest.fn();
     render(<NoteHeader isArchived={true} onRestore={onRestore} />);
     //
