@@ -13,7 +13,12 @@ jest.mock("@/app/_lib/app/use-app-state", () => {
   };
 });
 
-import { NOTES, useAppState } from "@/app/_lib/app/use-app-state";
+import {
+  ACTIVE,
+  ARCHIVED,
+  NOTES,
+  useAppState,
+} from "@/app/_lib/app/use-app-state";
 
 describe("AllNotesHeader - Browse my notes", () => {
   it("shows the All Notes title", () => {
@@ -25,7 +30,7 @@ describe("AllNotesHeader - Browse my notes", () => {
 
     useAppState.mockReturnValue({
       page: NOTES,
-      isArchived: false,
+      subPage: ACTIVE,
     });
 
     render(<AllNotesHeader />);
@@ -43,7 +48,7 @@ describe("AllNotesHeader - Browse my archived notes", () => {
 
     useAppState.mockReturnValue({
       page: NOTES,
-      isArchived: true,
+      subPage: ARCHIVED,
     });
 
     render(<AllNotesHeader />);

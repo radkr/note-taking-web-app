@@ -19,11 +19,24 @@ jest.mock("next/navigation", () => ({
 }));
 
 // Mock the useAppState hook
-jest.mock("@/app/_lib/app/use-app-state", () => ({
-  useAppState: () => ({
-    page: "NOTES",
-  }),
-}));
+jest.mock("@/app/_lib/app/use-app-state", () => {
+  const originalModule = jest.requireActual("@/app/_lib/app/use-app-state");
+  return {
+    __esModule: true,
+    ...originalModule,
+    useAppState: jest.fn(() => ({
+      page: originalModule.NOTES,
+    })),
+  };
+});
+
+import {
+  useAppState,
+  NOTES,
+  NOTE,
+  ACTIVE,
+  ARCHIVED,
+} from "@/app/_lib/app/use-app-state";
 
 // Mock IconPlus svg import
 jest.mock("@/assets/images/icon-plus.svg", () => ({
@@ -41,6 +54,9 @@ describe("AllNotes - Browse all my notes", () => {
     WHEN I browse the list of my notes
     THEN I can see a loading message
     */
+
+    useAppState.mockReturnValueOnce({ page: NOTES, subPage: ACTIVE });
+
     render(
       <MyQueryClientProvider>
         <AllNotes allNotes={{ data: undefined, isLoading: true }} />
@@ -56,6 +72,9 @@ describe("AllNotes - Browse all my notes", () => {
     WHEN I browse the list of my notes
     THEN I can see an info message of not having any notes yet
     */
+
+    useAppState.mockReturnValue({ page: NOTES, subPage: ACTIVE });
+
     render(
       <MyQueryClientProvider>
         <AllNotes allNotes={{ data: [], isLoading: false }} />
@@ -77,9 +96,11 @@ describe("AllNotes - Browse my archived notes", () => {
     THEN I can see some hints about archived notes
     */
 
+    useAppState.mockReturnValueOnce({ page: NOTES, subPage: ARCHIVED });
+
     render(
       <MyQueryClientProvider>
-        <AllNotes allNotes={{ data: [], isLoading: false }} isArchived={true} />
+        <AllNotes allNotes={{ data: [], isLoading: false }} />
       </MyQueryClientProvider>
     );
     expect(
@@ -114,9 +135,11 @@ describe("AllNotes - Browse my archived notes", () => {
     */
     // The info message should be: "No notes have been archived yet. Move notes here for safekeeping, or create a new note."
 
+    useAppState.mockReturnValueOnce({ page: NOTES, subPage: ARCHIVED });
+
     render(
       <MyQueryClientProvider>
-        <AllNotes allNotes={{ data: [], isLoading: false }} isArchived={true} />
+        <AllNotes allNotes={{ data: [], isLoading: false }} />
       </MyQueryClientProvider>
     );
     expect(

@@ -18,7 +18,7 @@ import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
 import IconStatus from "@/assets/images/icon-status.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
-import { useAppState } from "@/app/_lib/app/use-app-state";
+import { ARCHIVED, useAppState } from "@/app/_lib/app/use-app-state";
 
 export default function Note({ id, note }) {
   const { displayToast } = use(AppCtx);
@@ -29,7 +29,7 @@ export default function Note({ id, note }) {
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
   const [isEdited, setIsEdited] = useState("");
-  const { isArchived } = useAppState();
+  const { subPage } = useAppState();
 
   const title = useRef();
   const content = useRef();
@@ -147,7 +147,7 @@ export default function Note({ id, note }) {
         displayToast({
           message: "Note permanently deleted.",
         });
-        router.push(`/notes${isArchived ? "/archived" : ""}`);
+        router.push(`/notes${subPage === ARCHIVED ? "/archived" : ""}`);
       },
       onError: (error) => {
         displayToast(deleteErrorToast);

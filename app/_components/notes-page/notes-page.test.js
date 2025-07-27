@@ -36,7 +36,13 @@ jest.mock("@/app/_lib/app/use-app-state", () => {
   };
 });
 
-import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
+import {
+  useAppState,
+  NOTES,
+  NOTE,
+  ACTIVE,
+  ARCHIVED,
+} from "@/app/_lib/app/use-app-state";
 
 // Import your QueryClientProvider wrapper
 import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
@@ -706,7 +712,7 @@ describe("NotesPage - Browse my archived notes", () => {
     */
     useAppState.mockReturnValue({
       page: NOTES,
-      isArchived: true,
+      subPage: ARCHIVED,
     });
     readAllNotesAction.mockResolvedValueOnce(archivedNotes);
     readNoteAction.mockResolvedValueOnce(archivedNotes[0]);

@@ -4,12 +4,20 @@ import Link from "next/link";
 
 import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
+import IconSearch from "@/assets/images/icon-search.svg";
 import IconArchive from "@/assets/images/icon-archive.svg";
 import IconSettings from "@/assets/images/icon-settings.svg";
-import { useAppState, NOTES, SETTINGS } from "@/app/_lib/app/use-app-state";
+import {
+  useAppState,
+  NOTES,
+  SETTINGS,
+  ACTIVE,
+  SEARCH,
+  ARCHIVED,
+} from "@/app/_lib/app/use-app-state";
 
 export default function BottomNavigation({ className }) {
-  const { page, isArchived } = useAppState();
+  const { page, subPage } = useAppState();
 
   return (
     <ul className={`${className} ${styles.menu}`}>
@@ -17,7 +25,7 @@ export default function BottomNavigation({ className }) {
         <Link
           href="/notes"
           className={`${styles.item} ${
-            page === NOTES && isArchived === false ? styles.selected : ""
+            page === NOTES && subPage === ACTIVE ? styles.selected : ""
           }`}
         >
           <IconHome className={styles.icon} />
@@ -26,9 +34,20 @@ export default function BottomNavigation({ className }) {
       </li>
       <li>
         <Link
+          href="/notes/search"
+          className={`${styles.item} ${
+            page === NOTES && subPage === SEARCH ? styles.selected : ""
+          }`}
+        >
+          <IconSearch className={styles.icon} />
+          <p className="text-preset-6">Search</p>
+        </Link>
+      </li>
+      <li>
+        <Link
           href="/notes/archived"
           className={`${styles.item} ${
-            page === NOTES && isArchived === true ? styles.selected : ""
+            page === NOTES && subPage === ARCHIVED ? styles.selected : ""
           }`}
         >
           <IconArchive className={styles.icon} />

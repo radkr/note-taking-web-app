@@ -13,8 +13,10 @@ import IconPlus from "@/assets/images/icon-plus.svg";
 import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
 import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";
+import { useAppState, ARCHIVED } from "@/app/_lib/app/use-app-state";
 
-export default function AllNotes({ allNotes, isArchived, id }) {
+export default function AllNotes({ allNotes, id }) {
+  const { subPage } = useAppState();
   const { displayToast } = use(AppCtx);
   const { data, isLoading } = allNotes;
   const router = useRouter();
@@ -53,7 +55,7 @@ export default function AllNotes({ allNotes, isArchived, id }) {
   if (data) {
     content =
       data.length == 0 ? (
-        isArchived ? (
+        subPage === ARCHIVED ? (
           <div className={styles.archivedHint}>
             <p className={`text-preset-5 text-color-neutral-700`}>
               All your archived notes are stored here. You can restore or delete

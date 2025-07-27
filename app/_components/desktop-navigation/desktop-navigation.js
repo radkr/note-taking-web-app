@@ -7,10 +7,16 @@ import Logo from "@/assets/images/logo.svg";
 import IconHome from "@/assets/images/icon-home.svg";
 import IconArchive from "@/assets/images/icon-archive.svg";
 import SelectButton from "../buttons/select-button/select-button";
-import { useAppState, NOTES, NOTE } from "@/app/_lib/app/use-app-state";
+import {
+  useAppState,
+  NOTES,
+  NOTE,
+  ACTIVE,
+  ARCHIVE,
+} from "@/app/_lib/app/use-app-state";
 
 export default function DesktopNavigation({ className }) {
-  const { page, isArchived } = useAppState();
+  const { page, subPage } = useAppState();
   const router = useRouter();
 
   return (
@@ -22,7 +28,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes");
         }}
-        selected={(page === NOTES || page === NOTE) && isArchived === false}
+        selected={(page === NOTES || page === NOTE) && subPage === ACTIVE}
         label="All Notes"
       />
       <SelectButton
@@ -31,7 +37,7 @@ export default function DesktopNavigation({ className }) {
         onClick={() => {
           router.push("/notes/archived");
         }}
-        selected={(page === NOTES || page === NOTE) && isArchived === true}
+        selected={(page === NOTES || page === NOTE) && subPage === ARCHIVE}
         label="Archived Notes"
       />
     </div>

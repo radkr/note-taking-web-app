@@ -3,23 +3,32 @@ import { usePathname } from "next/navigation";
 export const NOTES = "NOTES";
 export const NOTE = "NOTE";
 export const SETTINGS = "SETTINGS";
+export const ACTIVE = "ACTIVE";
+export const ARCHIVED = "ARCHIVED";
+export const SEARCH = "SEARCH";
 
 export function useAppState() {
   const path = usePathname();
 
   const pathSegments = path.substring(1, path.length).split("/");
   let page;
-  let isArchived;
+  let subPage;
   let noteId;
 
   if (0 < pathSegments.length) {
     switch (pathSegments[0]) {
       case "notes":
         page = NOTES;
-        isArchived = false;
+        subPage = ACTIVE;
         if (1 < pathSegments.length) {
           if (pathSegments[1] === "archived") {
-            isArchived = true;
+            subPage = ARCHIVED;
+            if (2 < pathSegments.length) {
+              page = NOTE;
+              noteId = pathSegments[2];
+            }
+          } else if (pathSegments[1] === "search") {
+            subPage = SEARCH;
             if (2 < pathSegments.length) {
               page = NOTE;
               noteId = pathSegments[2];
@@ -38,7 +47,7 @@ export function useAppState() {
 
   return {
     page,
-    isArchived,
+    subPage,
     noteId,
   };
 }

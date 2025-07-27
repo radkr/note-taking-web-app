@@ -12,7 +12,12 @@ jest.mock("@/app/_lib/app/use-app-state", () => {
   };
 });
 
-import { NOTE, NOTES, useAppState } from "@/app/_lib/app/use-app-state";
+import {
+  NOTES,
+  ACTIVE,
+  ARCHIVED,
+  useAppState,
+} from "@/app/_lib/app/use-app-state";
 
 jest.mock("@/assets/images/icon-settings.svg", () => ({
   __esModule: true,
@@ -29,7 +34,7 @@ describe("DesktopPageHeader - Browse my notes", () => {
 
     useAppState.mockReturnValue({
       page: NOTES,
-      isArchived: false,
+      subPage: ACTIVE,
     });
 
     render(<DesktopPageHeader />);
@@ -47,7 +52,7 @@ describe("DesktopPageHeader - Browse my archived notes", () => {
 
     useAppState.mockReturnValue({
       page: NOTES,
-      isArchived: true,
+      subPage: ARCHIVED,
     });
 
     render(<DesktopPageHeader />);

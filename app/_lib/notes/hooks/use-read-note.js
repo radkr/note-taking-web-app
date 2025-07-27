@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { readAllNotesAction, readNoteAction } from "../all-notes-actions";
-import { useAppState } from "../../app/use-app-state";
+import { useAppState, ACTIVE, ARCHIVED } from "../../app/use-app-state";
 import { QUERY_KEY } from "./types";
 
 export function useReadNote() {
-  const { noteId: noteIdApp, isArchived } = useAppState();
+  const { noteId: noteIdApp, subPage } = useAppState();
 
-  const key = !isArchived ? QUERY_KEY.ACTIVE : QUERY_KEY.ARCHIVED;
+  const key = subPage === ACTIVE ? QUERY_KEY.ACTIVE : QUERY_KEY.ARCHIVED;
 
   const allNotes = useQuery({
     queryKey: [QUERY_KEY.ALL_NOTES, key],
-    queryFn: () => readAllNotesAction(isArchived),
+    queryFn: () => readAllNotesAction(subPage === ARCHIVED),
   });
 
   const noteId = noteIdApp || allNotes.data?.[0]?._id;
