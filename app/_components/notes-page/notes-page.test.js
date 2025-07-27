@@ -42,6 +42,7 @@ import {
   NOTE,
   ACTIVE,
   ARCHIVED,
+  SEARCH,
 } from "@/app/_lib/app/use-app-state";
 
 // Import your QueryClientProvider wrapper
@@ -724,7 +725,7 @@ describe("NotesPage - Browse my archived notes", () => {
     );
 
     await waitFor(() => {
-      expect(readAllNotesAction).toHaveBeenCalledWith(true);
+      expect(readAllNotesAction).toHaveBeenCalledWith(true, "");
       expect(screen.getByText("First Note")).toBeInTheDocument();
       expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
@@ -887,6 +888,37 @@ describe("NotesPage - Restore one of my archived notes", () => {
       expect(
         screen.getByText("Note restored to active notes.")
       ).toBeInTheDocument();
+    });
+  });
+});
+
+describe("NotesPage - Browse my notes with a specific search term", () => {
+  it("shows my search results", async () => {
+    /*
+    GIVEN I have created some notes already that contains the term
+    AND the list of my notes for the ter is available on the client
+    WHEN I browse the list of my notes for the term
+    THEN I can see all my notes for the term in the list
+    */
+    readAllNotesAction.mockResolvedValueOnce(notes);
+    readNoteAction.mockResolvedValueOnce(notes[0]);
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+      term: "myTerm",
+    });
+
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    expect(readAllNotesAction).toHaveBeenCalledWith(false, "myTerm");
+    await waitFor(() => {
+      expect(screen.getByText("First Note")).toBeInTheDocument();
+      expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
   });
 });

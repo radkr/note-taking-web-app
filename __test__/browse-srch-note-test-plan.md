@@ -103,3 +103,42 @@ THEN I can see a hint about for what specific term showing results currently
 
 - Components to test:
   - AllNotesHeader
+
+### It indicates that the search results are loading
+
+```gherkin
+GIVEN the list of my notes for a term is not yet available on the client
+WHEN I browse the list of my notes for that term
+THEN I can see a loading message
+```
+
+The loading message should be: "Loading..."
+
+- Components to test:
+  - AllNotes
+
+### It shows empty message
+
+```gherkin
+GIVEN I have not created any notes yet that contains the term
+AND the list of my notes for the term is available on the client
+WHEN I browse the list of my notes for the term
+THEN I can see an info message of not having any notes yet for the term
+```
+
+The info message should be: "You don’t have any notes yet. Start a new note to capture your thoughts and ideas."
+
+- Components to test:
+  - AllNotes
+
+### It shows my search results
+
+```gherkin
+GIVEN I have created some notes already that contains the term
+AND the list of my notes for the ter is available on the client
+WHEN I browse the list of my notes for the term
+THEN I can see all my notes for the term in the list
+```
+
+- Components to test:
+  - NotesPage
