@@ -1,5 +1,6 @@
 import "../globals.css";
 import styles from "./layout.module.css";
+import { Suspense } from "react";
 
 import PortablePageHeader from "@/app/_components/portable-page-header/portable-page-header";
 import BottomNavigation from "@/app/_components/bottom-navigation/bottom-navigation";
@@ -14,26 +15,28 @@ export default function RootLayout({ children }) {
       <ApplicationProvider>
         <div id="modal-root" className={styles.modalRoot} />
         <ul id="toasts-root" className={styles.toastRoot} />
-        <div className={styles.appRoot}>
-          <div className={styles.desktopSidebar}>
-            <div className={styles.desktopSidebar_panel}>
-              <nav className={styles.desktopNavigation}>
-                <DesktopNavigation />
-              </nav>
-              <aside className={styles.allTags}></aside>
+        <Suspense>
+          <div className={styles.appRoot}>
+            <div className={styles.desktopSidebar}>
+              <div className={styles.desktopSidebar_panel}>
+                <nav className={styles.desktopNavigation}>
+                  <DesktopNavigation />
+                </nav>
+                <aside className={styles.allTags}></aside>
+              </div>
             </div>
+            <header className={styles.portableHeader}>
+              <PortablePageHeader />
+            </header>
+            <header className={styles.desktopHeader}>
+              <DesktopPageHeader />
+            </header>
+            <main>{children}</main>
+            <nav className={styles.bottomNavigation}>
+              <BottomNavigation />
+            </nav>
           </div>
-          <header className={styles.portableHeader}>
-            <PortablePageHeader />
-          </header>
-          <header className={styles.desktopHeader}>
-            <DesktopPageHeader />
-          </header>
-          <main>{children}</main>
-          <nav className={styles.bottomNavigation}>
-            <BottomNavigation />
-          </nav>
-        </div>
+        </Suspense>
       </ApplicationProvider>
     </MyQueryClientProvider>
   );
