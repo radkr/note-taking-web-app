@@ -71,3 +71,15 @@ THEN I can see a loading message
   - AllTags
 
 The loading message should be: "Loading..."
+
+### It shows my tags
+
+```gherkin
+GIVEN I have created some tags already
+AND the list of my tags is available on the client
+WHEN I browse the list of my tags
+THEN I can see all my tags in the list
+```
+
+- Components to test:
+  - AllTags
