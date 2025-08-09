@@ -22,13 +22,6 @@
   height: 100%;
   background-color: white;
   border-radius: var(--spacing-150) var(--spacing-150) 0 0;
-  padding: var(--spacing-200) var(--spacing-250);
-}
-
-@media (min-width: 768px) {
-  .allTags {
-    padding: var(--spacing-300) var(--spacing-400);
-  }
 }
 
 @media (min-width: 1024px) {
@@ -52,7 +45,6 @@
   }
 
   .allTags {
-    padding: 0;
     border-radius: 0 0 0 0;
   }
 

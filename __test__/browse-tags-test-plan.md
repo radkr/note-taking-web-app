@@ -58,3 +58,16 @@ THEN I can see the "Tags" title
 
 - Components to test:
   - AllTags
+
+### Indicates that the list of my tags is loading
+
+```gherkin
+GIVEN the list of my tags is not yet available on the client
+WHEN I browse the list of my tags
+THEN I can see a loading message
+```
+
+- Components to test:
+  - AllTags
+
+The loading message should be: "Loading..."
