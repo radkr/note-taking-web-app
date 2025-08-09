@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   padding: var(--spacing-150) 0;
-  margin-bottom: var(--spacing-200);
+  margin-bottom: 1px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;

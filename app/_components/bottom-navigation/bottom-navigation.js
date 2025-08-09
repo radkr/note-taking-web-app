@@ -6,6 +6,7 @@ import styles from "./bottom-navigation.module.css";
 import IconHome from "@/assets/images/icon-home.svg";
 import IconSearch from "@/assets/images/icon-search.svg";
 import IconArchive from "@/assets/images/icon-archive.svg";
+import IconTag from "@/assets/images/icon-tag.svg";
 import IconSettings from "@/assets/images/icon-settings.svg";
 import {
   useAppState,
@@ -13,7 +14,9 @@ import {
   SETTINGS,
   ACTIVE,
   SEARCH,
+  TAGGED,
   ARCHIVED,
+  TAGS,
 } from "@/app/_lib/app/use-app-state";
 
 export default function BottomNavigation({ className }) {
@@ -52,6 +55,19 @@ export default function BottomNavigation({ className }) {
         >
           <IconArchive className={styles.icon} />
           <p className="text-preset-6">Archived</p>
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/notes/tagged"
+          className={`${styles.item} ${
+            page === TAGS || (page === NOTES && subPage === TAGGED)
+              ? styles.selected
+              : ""
+          }`}
+        >
+          <IconTag className={styles.icon} />
+          <p className="text-preset-6">Tags</p>
         </Link>
       </li>
       <li>

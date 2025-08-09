@@ -54,10 +54,6 @@
   display: none;
 }
 
-.desktopSidebar {
-  display: none;
-}
-
 .bottomNavigation {
   display: block;
 }
@@ -89,30 +85,6 @@
     background-color: white;
   }
 
-  .desktopSidebar {
-    display: block;
-    grid-area: sidebar-area;
-    padding: var(--spacing-150) var(--spacing-200);
-    background-color: white;
-  }
-
-  .desktopSidebar_panel {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    row-gap: 1px;
-    background-color: var(--color-neutral-200);
-  }
-
-  .desktopNavigation {
-    background-color: white;
-  }
-
-  .allTags {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-  }
-
   .bottomNavigation {
     display: none;
   }
@@ -126,22 +98,6 @@
       border: none;
       background-color: var(--color-neutral-950);
       color: var(--color-neutral-0);
-    }
-
-    .desktopSidebar {
-      background-color: var(--color-neutral-950);
-    }
-
-    .desktopSidebar_panel {
-      background-color: var(--color-neutral-800);
-    }
-
-    .desktopNavigation {
-      background-color: var(--color-neutral-950);
-    }
-
-    .allTags {
-      background-color: var(--color-neutral-950);
     }
 
     .desktopHeader {

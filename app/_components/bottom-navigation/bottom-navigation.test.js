@@ -21,6 +21,7 @@ import {
   NOTES,
   useAppState,
   SEARCH,
+  TAGS,
 } from "@/app/_lib/app/use-app-state";
 
 // Mock IconSettings and IconHome components
@@ -237,5 +238,134 @@ describe("BottomNavigation - Browse my notes with a specific search term", () =>
     render(<BottomNavigation />);
     const searchButton = screen.getByText("Search").closest("a");
     expect(searchButton).not.toHaveClass("selected");
+  });
+});
+
+describe("BottomNavigation - Browse my tags", () => {
+  it("opens tags page from the notes page - on portable", () => {
+    /*
+    GIVEN I opened the notes page
+    WHEN I click on the tags button
+    THEN I get to the tags page
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: ACTIVE,
+    });
+
+    render(<BottomNavigation />);
+    const searchButton = screen.getByText("Tags").closest("a");
+    expect(searchButton).toHaveAttribute("href", "/notes/tagged");
+  });
+
+  it("opens the tags page from the archived notes page - on portable", () => {
+    /*
+    GIVEN I opened the archived notes page
+    WHEN I click on the tags button
+    THEN I get to the tags page
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: ARCHIVED,
+    });
+
+    render(<BottomNavigation />);
+    const searchButton = screen.getByText("Tags").closest("a");
+    expect(searchButton).toHaveAttribute("href", "/notes/tagged");
+  });
+
+  it("opens the tags page from the search notes page - on portable", () => {
+    /*
+    GIVEN I opened the search notes page
+    WHEN I click on the tags button
+    THEN I get to the tags page
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: SEARCH,
+    });
+
+    render(<BottomNavigation />);
+    const searchButton = screen.getByText("Tags").closest("a");
+    expect(searchButton).toHaveAttribute("href", "/notes/tagged");
+  });
+
+  it("opens the notes page", () => {
+    /*
+    GIVEN I opened the tags page
+    WHEN I click on the home button
+    THEN I get to the notes page
+    */
+
+    useAppState.mockReturnValue({
+      page: TAGS,
+    });
+
+    render(<BottomNavigation />);
+    const archivedButton = screen.getByText("Home").closest("a");
+    expect(archivedButton).toHaveAttribute("href", "/notes");
+  });
+
+  it("opens the archived notes page", () => {
+    /*
+    GIVEN I opened the tags page
+    WHEN I click on the archived button
+    THEN I get to the archived notes page
+    */
+
+    useAppState.mockReturnValue({
+      page: TAGS,
+    });
+
+    render(<BottomNavigation />);
+    const homeButton = screen.getByText("Archived").closest("a");
+    expect(homeButton).toHaveAttribute("href", "/notes/archived");
+  });
+
+  it("opens the search notes page", () => {
+    /*
+    GIVEN I opened the tags page
+    WHEN I click on the search button
+    THEN I get to the search notes page
+    */
+
+    useAppState.mockReturnValue({
+      page: TAGS,
+    });
+
+    render(<BottomNavigation />);
+    const searchButton = screen.getByText("Search").closest("a");
+    expect(searchButton).toHaveAttribute("href", "/notes/search");
+  });
+
+  it("shows the tags button selected", () => {
+    useAppState.mockReturnValue({
+      page: TAGS,
+    });
+
+    render(<BottomNavigation />);
+    const homeButton = screen.getByText("Home").closest("a");
+    expect(homeButton).not.toHaveClass("selected");
+    const searchButton = screen.getByText("Search").closest("a");
+    expect(searchButton).not.toHaveClass("selected");
+    const archivedButton = screen.getByText("Archived").closest("a");
+    expect(archivedButton).not.toHaveClass("selected");
+    const tagsButton = screen.getByText("Tags").closest("a");
+    expect(tagsButton).toHaveClass("selected");
+  });
+
+  it("does not show the tags button selected", () => {
+    useAppState.mockReturnValue({
+      page: NOTE,
+      subPage: ACTIVE,
+      noteId: "123",
+    });
+
+    render(<BottomNavigation />);
+    const tagsButton = screen.getByText("Tags").closest("a");
+    expect(tagsButton).not.toHaveClass("selected");
   });
 });

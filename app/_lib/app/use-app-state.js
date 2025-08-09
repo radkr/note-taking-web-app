@@ -5,6 +5,8 @@ export const NOTE = "NOTE";
 export const SETTINGS = "SETTINGS";
 export const ACTIVE = "ACTIVE";
 export const ARCHIVED = "ARCHIVED";
+export const TAGGED = "TAGGED";
+export const TAGS = "TAGS";
 export const SEARCH = "SEARCH";
 
 export function useAppState() {
@@ -16,6 +18,7 @@ export function useAppState() {
   let subPage;
   let noteId;
   let term = params.get("term");
+  let tag = params.get("tag");
 
   if (0 < pathSegments.length) {
     switch (pathSegments[0]) {
@@ -31,6 +34,15 @@ export function useAppState() {
             }
           } else if (pathSegments[1] === "search") {
             subPage = SEARCH;
+            if (2 < pathSegments.length) {
+              page = NOTE;
+              noteId = pathSegments[2];
+            }
+          } else if (pathSegments[1] === "tagged") {
+            subPage = TAGGED;
+            if (!tag) {
+              page = TAGS;
+            }
             if (2 < pathSegments.length) {
               page = NOTE;
               noteId = pathSegments[2];
@@ -52,5 +64,6 @@ export function useAppState() {
     subPage,
     noteId,
     term,
+    tag,
   };
 }
