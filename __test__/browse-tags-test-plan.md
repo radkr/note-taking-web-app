@@ -47,3 +47,14 @@ THEN I get to the tags page
 
 - Components to test:
   - BottomNavigation
+
+### Shows the Tags title
+
+```gherkin
+GIVEN I opened the tags page
+WHEN I look at the page
+THEN I can see the "Tags" title
+```
+
+- Components to test:
+  - AllTags

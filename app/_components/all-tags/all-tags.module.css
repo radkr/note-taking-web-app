@@ -1,0 +1,18 @@
+.portableTitle {
+  display: block;
+}
+
+.desktopTitle {
+  display: none;
+  padding: var(--spacing-100);
+}
+
+@media (min-width: 1024px) {
+  .portableTitle {
+    display: none;
+  }
+
+  .desktopTitle {
+    display: block;
+  }
+}

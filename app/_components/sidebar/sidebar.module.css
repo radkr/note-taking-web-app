@@ -11,17 +11,24 @@
   display: none;
 }
 
-.active > .sidebar_panel {
+.sidebar_panel {
   display: block;
   height: 100%;
 }
 
-.active .allTags {
+.allTags {
   display: block;
   width: 100%;
   height: 100%;
   background-color: white;
   border-radius: var(--spacing-150) var(--spacing-150) 0 0;
+  padding: var(--spacing-200) var(--spacing-250);
+}
+
+@media (min-width: 768px) {
+  .allTags {
+    padding: var(--spacing-300) var(--spacing-400);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -45,10 +52,7 @@
   }
 
   .allTags {
-    border-radius: 0 0 0 0;
-  }
-
-  .active .allTags {
+    padding: 0;
     border-radius: 0 0 0 0;
   }
 
