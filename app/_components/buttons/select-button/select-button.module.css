@@ -10,7 +10,6 @@
   border: none;
   width: 100%;
   height: fit-content;
-  padding: var(--spacing-100);
   border-radius: var(--radius-6);
   display: flex;
   flex-direction: row;
@@ -24,12 +23,13 @@
 
 .button:focus-visible {
   outline: 2px solid var(--color-ol-focus);
+  padding: var(--spacing-125) 0;
   outline-offset: 2px;
 }
 
 .big.button {
-  padding: var(--spacing-125) var(--spacing-150);
   border-radius: var(--radius-8);
+  padding: var(--spacing-125) 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -95,5 +95,15 @@
     --color-ol-focus: var(--color-neutral-500);
     --color-txt-icon: var(--color-neutral-200);
     --color-txt-icon-selected: var(--color-blue-500);
+  }
+}
+
+@media (min-width: 1024px) {
+  .button {
+    padding: var(--spacing-100);
+  }
+
+  .big.button {
+    padding: var(--spacing-125) var(--spacing-150);
   }
 }

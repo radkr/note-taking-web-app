@@ -36,6 +36,7 @@ export default function AllTags() {
                 }
                 label={tag.name}
               />
+              {index < data.length - 1 ? <hr className={styles.rule} /> : null}
             </li>
           );
         })}
