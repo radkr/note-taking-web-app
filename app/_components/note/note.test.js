@@ -974,3 +974,38 @@ describe("Note - Read my archived note", () => {
     expect(screen.queryByText("Archived")).not.toBeInTheDocument();
   });
 });
+
+describe("Note - Add or remove tags to or from my note", () => {
+  it("shows the note tags", () => {
+    /*
+    GIVEN the note is available on the client
+    AND the note has some tags
+    WHEN I read my note
+    THEN I can see all tags of the note
+    */
+    render(
+      <NoteWrapper>
+        <Note
+          id="1"
+          note={{
+            data: {
+              _id: "1",
+              title: "My Note",
+              tags: [
+                { _id: "1", name: "tag1" },
+                { _id: "2", name: "tag2" },
+              ],
+              content: "",
+              updatedAt: new Date("2024-06-01T12:00:00.000Z"),
+            },
+            isLoading: false,
+            isError: false,
+            error: null,
+          }}
+        />
+      </NoteWrapper>
+    );
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+});

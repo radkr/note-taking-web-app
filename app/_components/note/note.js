@@ -192,7 +192,6 @@ export default function Note({ id, note }) {
                 className={styles.details}
                 onSubmit={(event) => {
                   event.preventDefault();
-                  console.log("Submitted...");
                 }}
               >
                 <TextareaAutosize
@@ -213,7 +212,7 @@ export default function Note({ id, note }) {
                       <IconTag className={styles.propertyIcon} />
                       <p className="text-preset-6">Tags</p>
                     </div>
-                    <TagInput />
+                    <TagInput tags={data.tags} />
                   </div>
                   {data.isArchived ? (
                     <div className={styles.property}>

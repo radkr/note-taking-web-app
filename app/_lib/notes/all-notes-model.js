@@ -3,7 +3,12 @@ import mongoose, { Schema, model } from "mongoose";
 const NoteSchema = new Schema(
   {
     title: { type: String, maxlength: 100 },
-    tags: { type: [String] },
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tag",
+      },
+    ],
     content: { type: String },
     isArchived: { type: Boolean, default: false },
     owner: {

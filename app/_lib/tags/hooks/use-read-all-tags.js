@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { readAllTagsAction } from "../all-tags-actions";
 
-export function useReadTag() {
+export function useReadAllTags() {
   const allTags = useQuery({
     queryKey: ["allTags"],
     queryFn: () => readAllTagsAction(),

@@ -3,35 +3,35 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./tag-input.module.css";
 import Chip from "@/app/_components/chip/chip";
 
-export default function TagInput() {
-  const [tags, setTags] = useState([]);
+export default function TagInput({ tags = [] }) {
+  /*const [tags, setTags] = useState([]);*/
   const [newTagName, setNewTagName] = useState("");
   const [inFocus, setInFocus] = useState(false);
 
   function addTag(name) {
-    if (name === "") return;
+    /*if (name === "") return;
     setTags((prev) => {
       return [...prev, name];
-    });
+    });*/
   }
 
   function removeTag(name) {
-    setTags((prev) => {
+    /*setTags((prev) => {
       return prev.filter((tag) => tag !== name);
-    });
+    });*/
   }
 
   return (
     <div className={`${styles.tagInput} ${inFocus ? styles.inFocus : ""}`}>
       <ul className={styles.currentTags}>
-        {tags.map((tag, index) => {
+        {tags.map((tag) => {
           return (
-            <li key={`${tag}_${index}`}>
+            <li key={tag._id}>
               <Chip
-                name={tag}
-                label={`Remove the ${tag} tag`}
+                name={tag.name}
+                label={`Remove the ${tag.name} tag`}
                 onRemove={() => {
-                  removeTag(tag);
+                  removeTag(tag._id);
                 }}
               />
             </li>

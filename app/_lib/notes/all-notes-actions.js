@@ -6,10 +6,17 @@ import { verifySession } from "@/app/_lib/auth/auth-actions";
 import mongoose from "mongoose";
 
 function getPlainNote(note) {
+  const plain = note.toObject();
+
   return {
-    ...note.toObject(),
-    _id: note._id.toString(),
+    ...plain,
+    _id: plain._id.toString(),
     owner: undefined,
+    tags: plain.tags?.map((tag) => ({
+      ...tag,
+      _id: tag._id.toString(),
+      owner: undefined,
+    })),
   };
 }
 
@@ -26,7 +33,9 @@ export async function readAllNotesAction(isArchived, searchTerm) {
       { content: { $regex: searchTerm, $options: "i" } },
     ];
   }
-  const notes = await Note.find(filter).sort({ updatedAt: -1 });
+  const notes = await Note.find(filter)
+    .populate("tags")
+    .sort({ updatedAt: -1 });
   const plainNotes = notes.map((note) => {
     return getPlainNote(note);
   });
@@ -37,7 +46,7 @@ export async function readNoteAction(id) {
   const { userId } = await verifySession();
   await dbConnect();
   try {
-    const note = await Note.findById(id);
+    const note = await Note.findById(id).populate("tags");
     if (!note) throw new Error();
     if (note.owner.toString() !== userId) throw new Error();
     return getPlainNote(note);
@@ -67,7 +76,9 @@ export async function updateNoteAction(note) {
 export async function createNoteAction() {
   const { userId } = await verifySession();
   try {
-    const note = new Note({ owner: new mongoose.Types.ObjectId(userId) });
+    const note = new Note({
+      owner: new mongoose.Types.ObjectId(userId),
+    });
     await note.save();
     return getPlainNote(note);
   } catch (error) {

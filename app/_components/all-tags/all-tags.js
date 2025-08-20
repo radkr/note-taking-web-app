@@ -1,12 +1,12 @@
 import styles from "./all-tags.module.css";
-import { useReadTag } from "@/app/_lib/tags/hooks/use-read-tag";
+import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import { useAppState, NOTE, NOTES, TAGGED } from "@/app/_lib/app/use-app-state";
 import SelectButton from "@/app/_components/buttons/select-button/select-button";
 import IconTag from "@/assets/images/icon-tag.svg";
 
 export default function AllTags() {
   const { page, subPage } = useAppState();
-  const { allTags } = useReadTag();
+  const { allTags } = useReadAllTags();
   const { data, isLoading } = allTags;
 
   let content;
