@@ -9,6 +9,7 @@ import NoteFooter from "@/app/_components/note-footer/note-footer";
 import NoteSiderbar from "@/app/_components/note-sidebar/note-sidebar";
 import Modal from "@/app/_components/modal/modal";
 import InfoBox from "@/app/_components/info-box/info-box";
+import TagInput from "@/app/_components/tag-input/tag-input";
 import { formatDate } from "@/app/_lib/utils";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
@@ -18,6 +19,7 @@ import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
 import IconStatus from "@/assets/images/icon-status.svg";
 import IconDelete from "@/assets/images/icon-delete.svg";
+import IconTag from "@/assets/images/icon-tag.svg";
 import { ARCHIVED, useAppState } from "@/app/_lib/app/use-app-state";
 
 export default function Note({ id, note }) {
@@ -186,7 +188,13 @@ export default function Note({ id, note }) {
                   isArchived={data.isArchived}
                 />
               </header>
-              <form className={styles.details}>
+              <form
+                className={styles.details}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  console.log("Submitted...");
+                }}
+              >
                 <TextareaAutosize
                   ref={title}
                   minRows={1}
@@ -200,6 +208,13 @@ export default function Note({ id, note }) {
                   name="title"
                 />
                 <div className={styles.propertyList}>
+                  <div className={styles.property}>
+                    <div className={styles.propertyName}>
+                      <IconTag className={styles.propertyIcon} />
+                      <p className="text-preset-6">Tags</p>
+                    </div>
+                    <TagInput />
+                  </div>
                   {data.isArchived ? (
                     <div className={styles.property}>
                       <div className={styles.propertyName}>

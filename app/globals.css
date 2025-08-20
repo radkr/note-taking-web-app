@@ -55,7 +55,7 @@
 
   /*Spacing*/
   --spacing-0: 0px;
-  --spacing-025: 2px;
+  --spacing-25: 2px;
   --spacing-50: 4px;
   --spacing-75: 6px;
   --spacing-100: 8px;
@@ -72,6 +72,7 @@
 
   /*Radius*/
   --radius-0: 0;
+  --radius-2: 2px;
   --radius-4: 4px;
   --radius-6: 6px;
   --radius-8: 8px;

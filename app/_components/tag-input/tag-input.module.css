@@ -1,0 +1,43 @@
+.tagInput {
+  --color-bg-text: white;
+
+  width: 100%;
+  border-radius: var(--radius-2);
+}
+
+.tagInput.inFocus {
+  outline: 1px solid var(--color-neutral-500);
+  outline-offset: 4px;
+}
+
+.currentTags {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-75);
+}
+
+.newTag {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 3rem; /* 48px */
+}
+
+.newTagInput {
+  appearance: none;
+  display: block;
+  height: var(--spacing-200);
+  margin: var(--spacing-25) 0;
+  width: 100%;
+  outline: none;
+  border: none;
+  resize: none;
+  background-color: var(--color-bg-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .newTag {
+    --color-bg-text: var(--color-neutral-950);
+  }
+}

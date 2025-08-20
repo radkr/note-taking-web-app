@@ -1,0 +1,43 @@
+.chip {
+  --color-bg: var(--color-neutral-200);
+  --color-text: var(--color-neutral-800);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: var(--spacing-25);
+  width: fit-content;
+  align-items: center;
+  padding: var(--spacing-25) var(--spacing-75);
+  border-radius: var(--spacing-50);
+  background-color: var(--color-bg);
+}
+
+.name {
+  display: block;
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deleteButton {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.deleteIcon {
+  width: var(--spacing-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip {
+    --color-bg: var(--color-neutral-700);
+  }
+}
