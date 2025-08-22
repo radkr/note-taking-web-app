@@ -3,17 +3,10 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./tag-input.module.css";
 import Chip from "@/app/_components/chip/chip";
 
-export default function TagInput({ tags = [] }) {
+export default function TagInput({ tags = [], onAddTag }) {
   /*const [tags, setTags] = useState([]);*/
   const [newTagName, setNewTagName] = useState("");
   const [inFocus, setInFocus] = useState(false);
-
-  function addTag(name) {
-    /*if (name === "") return;
-    setTags((prev) => {
-      return [...prev, name];
-    });*/
-  }
 
   function removeTag(name) {
     /*setTags((prev) => {
@@ -53,7 +46,7 @@ export default function TagInput({ tags = [] }) {
                 event.key === ";"
               ) {
                 event.preventDefault();
-                addTag(event.target.value);
+                onAddTag(event.target.value);
                 setNewTagName("");
               }
             }}

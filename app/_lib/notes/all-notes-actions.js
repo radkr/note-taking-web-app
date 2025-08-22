@@ -2,6 +2,7 @@
 
 import dbConnect from "@/app/_lib/database/database";
 import Note from "./all-notes-model";
+import Tag from "@/app/_lib/tags/all-tags-model";
 import { verifySession } from "@/app/_lib/auth/auth-actions";
 import mongoose from "mongoose";
 
@@ -94,4 +95,38 @@ export async function archiveNoteAction(note) {
 export async function restoreNoteAction(note) {
   note.isArchived = false;
   return updateNoteAction(note);
+}
+
+export async function addTagAction({ note, tagName }) {
+  const { userId } = await verifySession();
+  try {
+    // Find the existing tag if any
+    let filter = {
+      owner: new mongoose.Types.ObjectId(userId),
+      name: tagName,
+    };
+    let tag = await Tag.findOne(filter);
+    // Create a new tag if does not exist
+    if (!tag) {
+      tag = new Tag({
+        owner: new mongoose.Types.ObjectId(userId),
+        name: tagName,
+      });
+      await tag.save();
+    }
+    // Find the note
+    const noteToUpdate = await Note.findById(note._id);
+    // If the tag has been already added
+    if (noteToUpdate.tags.some((id) => id.equals(tag._id))) {
+      // Do not add again
+      return { message: "Tag added already!" };
+    }
+    // Add the tag to the note
+    noteToUpdate.tags.push(tag._id);
+    // Save the note
+    noteToUpdate.save();
+    return { message: "Tag added successfully!" };
+  } catch (error) {
+    return { error: "The tag can not be added." };
+  }
 }

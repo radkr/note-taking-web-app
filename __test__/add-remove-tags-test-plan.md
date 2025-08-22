@@ -52,3 +52,54 @@ THEN I can see all tags of the note
 
 - Components to test:
   - Note
+
+### Adds a tag to the note
+
+```gherkin
+GIVEN the note is available on the client
+WHEN I add a new tag to the note
+THEN I can see the new tag amongst the note's tags
+AND the note is updated in the database with the new tag
+AND I can see a successfully added toast message
+```
+
+- Components to test:
+  - NotesPage
+
+### Does not add an already added tag to the note
+
+```gherkin
+GIVEN the note is available on the client
+AND the note has some tags
+WHEN I add a tag to the note that has been added already
+THEN I can see the tag amongst the note's tags only once
+AND I can see an already added toast message
+```
+
+- Components to test:
+  - NotesPage
+
+### Shows an error toast message on fail to add a new tag
+
+```gherkin
+GIVEN the note is available on the client
+WHEN I add a new tag to the note
+AND the note fails to be updated in the database with the new tag
+THEN I can see a tag failed to add toast message
+```
+
+- Components to test:
+  - NotesPage
+
+### Removes a tag from the note
+
+```gherkin
+GIVEN the note is available on the client
+AND the note has some tags
+WHEN I remove a tag from the note
+THEN I no longer see the removed tag among the note's tags
+AND the note is updated in the database without the removed tag
+```
+
+- Components to test:
+  - NotesPage

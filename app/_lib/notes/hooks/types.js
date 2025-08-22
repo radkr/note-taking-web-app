@@ -4,4 +4,5 @@ export const QUERY_KEY = {
   ARCHIVED: "archived",
   SEARCH: "search",
   CURRENT: "current",
+  ALL_TAGS: "allTags",
 };

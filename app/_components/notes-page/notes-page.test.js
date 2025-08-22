@@ -13,6 +13,7 @@ jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
   createNoteAction: jest.fn(),
   archiveNoteAction: jest.fn(),
   restoreNoteAction: jest.fn(),
+  addTagAction: jest.fn(),
 }));
 
 import {
@@ -22,6 +23,7 @@ import {
   createNoteAction,
   archiveNoteAction,
   restoreNoteAction,
+  addTagAction,
 } from "@/app/_lib/notes/all-notes-actions";
 
 // Mock the useAppState hook
@@ -98,6 +100,25 @@ const archivedNotes = [
     title: "Second Note",
     content: "World",
     isArchived: true,
+    updatedAt: new Date("2024-06-02T15:30:00.000Z"),
+  },
+];
+
+const taggedNotes = [
+  {
+    _id: "1",
+    title: "First Note",
+    content: "Hello",
+    isArchived: true,
+    tags: [],
+    updatedAt: new Date("2024-06-01T12:00:00.000Z"),
+  },
+  {
+    _id: "2",
+    title: "Second Note",
+    content: "World",
+    isArchived: true,
+    tags: [{ _id: "1", name: "tag1" }],
     updatedAt: new Date("2024-06-02T15:30:00.000Z"),
   },
 ];
@@ -898,6 +919,147 @@ describe("NotesPage - Browse my notes with a specific search term", () => {
     await waitFor(() => {
       expect(screen.getByText("First Note")).toBeInTheDocument();
       expect(screen.getByText("Second Note")).toBeInTheDocument();
+    });
+  });
+});
+
+describe("NotesPage - Add or remove tags to or from my note", () => {
+  it("adds a tag to the note", async () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I add a new tag to the note
+    THEN I can see the new tag amongst the note's tags
+    AND the note is updated in the database with the new tag
+    AND I can see a successfully added toast message
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValueOnce(taggedNotes);
+    readNoteAction.mockResolvedValueOnce(taggedNotes[0]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "1" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    let addNewTagInput;
+
+    await waitFor(() => {
+      addNewTagInput = screen.getByLabelText("Add tag");
+      expect(addNewTagInput).toBeInTheDocument();
+    });
+
+    addTagAction.mockResolvedValue({ message: "Tag added successfully!" });
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue({
+      ...taggedNotes[0],
+      tags: [...taggedNotes[0].tags, { _id: "2", name: "testTag" }],
+    });
+
+    // Act
+    await userEvent.type(addNewTagInput, "testTag{enter}");
+
+    await waitFor(() => {
+      expect(screen.getByText("testTag")).toBeInTheDocument();
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(addTagAction).toHaveBeenCalledWith({
+        note: taggedNotes[0],
+        tagName: "testTag",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Tag added successfully!")).toBeInTheDocument();
+    });
+  });
+
+  it("does not add an already added tag to the note", async () => {
+    /*
+    GIVEN the note is available on the client
+    AND the note has some tags
+    WHEN I add a tag to the note that has been added already
+    THEN I can see the tag amongst the note's tags only once
+    AND I can see an already added toast message
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValueOnce(taggedNotes);
+    readNoteAction.mockResolvedValueOnce(taggedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    let addNewTagInput;
+
+    await waitFor(() => {
+      addNewTagInput = screen.getByLabelText("Add tag");
+      expect(addNewTagInput).toBeInTheDocument();
+    });
+
+    addTagAction.mockResolvedValue({ message: "Tag added already!" });
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue(taggedNotes[1]);
+
+    // Act
+    await userEvent.type(addNewTagInput, "tag1{enter}");
+
+    // Assert
+    await waitFor(() => {
+      expect(screen.getAllByText("tag1").length).toBe(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Tag added already!")).toBeInTheDocument();
+    });
+  });
+
+  it("shows an error toast message on fail to add a new tag", async () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I add a new tag to the note
+    AND the note fails to be updated in the database with the new tag
+    THEN I can see a tag failed to add toast message
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue(taggedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    let addNewTagInput;
+
+    await waitFor(() => {
+      addNewTagInput = screen.getByLabelText("Add tag");
+      expect(addNewTagInput).toBeInTheDocument();
+    });
+
+    addTagAction.mockResolvedValue({ error: "Error" });
+
+    // Act
+    await userEvent.type(addNewTagInput, "tag1{enter}");
+
+    // Assert
+    await waitFor(() => {
+      expect(addTagAction).toHaveBeenCalledWith({
+        note: taggedNotes[1],
+        tagName: "tag1",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("The tag can not be added.")).toBeInTheDocument();
     });
   });
 });

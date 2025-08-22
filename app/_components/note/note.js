@@ -14,6 +14,7 @@ import { formatDate } from "@/app/_lib/utils";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
+import { useAddTag } from "@/app/_lib/notes/hooks/use-add-tag";
 import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
@@ -28,6 +29,7 @@ export default function Note({ id, note }) {
   const { archiveNote } = useArchiveNote();
   const { restoreNote } = useRestoreNote();
   const { deleteNote, deleteIsPending } = useDeleteNote();
+  const { addTag } = useAddTag();
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
   const [isEdited, setIsEdited] = useState("");
@@ -158,6 +160,33 @@ export default function Note({ id, note }) {
     setToDelete(false);
   }
 
+  const addTagErrorToast = {
+    message: "The tag can not be added.",
+    isError: true,
+  };
+
+  function handleAddTag(name) {
+    addTag(
+      { note: data, tagName: name },
+      {
+        onSuccess: (reply) => {
+          if (reply?.error) {
+            displayToast(addTagErrorToast);
+            return;
+          }
+
+          displayToast({
+            message: reply.message,
+          });
+          router.push(`/notes${subPage === ARCHIVED ? "/archived" : ""}`);
+        },
+        onError: (error) => {
+          displayToast(addTagErrorToast);
+        },
+      }
+    );
+  }
+
   if (isLoading) {
     return (
       <div className={styles.alternative}>
@@ -212,7 +241,7 @@ export default function Note({ id, note }) {
                       <IconTag className={styles.propertyIcon} />
                       <p className="text-preset-6">Tags</p>
                     </div>
-                    <TagInput tags={data.tags} />
+                    <TagInput tags={data.tags} onAddTag={handleAddTag} />
                   </div>
                   {data.isArchived ? (
                     <div className={styles.property}>
