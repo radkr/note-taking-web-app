@@ -1,3 +1,7 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 import styles from "./all-tags.module.css";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import { useAppState, NOTE, NOTES, TAGGED } from "@/app/_lib/app/use-app-state";
@@ -5,8 +9,9 @@ import SelectButton from "@/app/_components/buttons/select-button/select-button"
 import IconTag from "@/assets/images/icon-tag.svg";
 
 export default function AllTags() {
-  const { page, subPage } = useAppState();
+  const { page, subPage, tag: openedTag } = useAppState();
   const { allTags } = useReadAllTags();
+  const router = useRouter();
   const { data, isLoading } = allTags;
 
   let content;
@@ -30,9 +35,12 @@ export default function AllTags() {
                 big
                 onClick={() => {
                   console.log(`Open tag: ${tag.name}`);
+                  router.push(`/notes/tagged/?tag=${tag._id}`);
                 }}
                 selected={
-                  (page === NOTES || page === NOTE) && subPage === TAGGED
+                  (page === NOTES || page === NOTE) &&
+                  subPage === TAGGED &&
+                  openedTag === tag._id
                 }
                 label={tag.name}
               />

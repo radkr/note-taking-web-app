@@ -1,6 +1,15 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import AllTags from "./all-tags";
+
+const pushMock = jest.fn();
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: pushMock,
+  }),
+}));
 
 // Mock server actions
 jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
@@ -104,5 +113,35 @@ describe("AllTags - Browse my tags", () => {
       expect(screen.getByText("tag1")).toBeInTheDocument();
       expect(screen.getByText("tag2")).toBeInTheDocument();
     });
+  });
+});
+
+describe("AllTags - Browse my notes with a specific tag", () => {
+  it("opens the notes page filtered to a tag", async () => {
+    /*
+    GIVEN I created some tags already
+    And I opened the tags page
+    WHEN I click on one of my tags
+    THEN I get to the notes page filtered to a tag
+    */
+
+    readAllTagsAction.mockResolvedValueOnce(tags);
+    useAppState.mockReturnValueOnce({ page: TAGS });
+
+    render(
+      <MyQueryClientProvider>
+        <AllTags />
+      </MyQueryClientProvider>
+    );
+
+    let tagButton;
+
+    await waitFor(() => {
+      tagButton = screen.getByText(/tag1/i).closest("button");
+      expect(tagButton).toBeInTheDocument();
+    });
+
+    await userEvent.click(tagButton);
+    expect(pushMock).toHaveBeenCalledWith("/notes/tagged/?tag=1");
   });
 });
