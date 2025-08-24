@@ -14,6 +14,7 @@ jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
   archiveNoteAction: jest.fn(),
   restoreNoteAction: jest.fn(),
   addTagAction: jest.fn(),
+  removeTagAction: jest.fn(),
 }));
 
 import {
@@ -24,7 +25,15 @@ import {
   archiveNoteAction,
   restoreNoteAction,
   addTagAction,
+  removeTagAction,
 } from "@/app/_lib/notes/all-notes-actions";
+
+// Mock server actions
+jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
+  readAllTagsAction: jest.fn(),
+}));
+
+import { readAllTagsAction } from "@/app/_lib/tags/all-tags-actions";
 
 // Mock the useAppState hook
 jest.mock("@/app/_lib/app/use-app-state", () => {
@@ -1060,6 +1069,114 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     await waitFor(() => {
       expect(screen.getByText("The tag can not be added.")).toBeInTheDocument();
+    });
+  });
+
+  it("removes a tag from the note", async () => {
+    /*
+    GIVEN the note is available on the client
+    AND the note has some tags
+    WHEN I remove a tag from the note
+    THEN I no longer see the removed tag among the note's tags
+    AND the tag is removed from the note in the database
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue(taggedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    let removeTagButton;
+
+    await waitFor(() => {
+      expect(screen.getByText("tag1")).toBeInTheDocument();
+      removeTagButton = screen.getByLabelText(/Remove the tag1 tag/i);
+      expect(removeTagButton).toBeInTheDocument();
+    });
+
+    removeTagAction.mockResolvedValue({ message: "Tag removed successfully!" });
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue({
+      ...taggedNotes[1],
+      tags: [],
+    });
+
+    // Act
+    await userEvent.click(removeTagButton);
+
+    await waitFor(() => {
+      expect(screen.queryByText("tag1")).not.toBeInTheDocument();
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(removeTagAction).toHaveBeenCalledWith({
+        note: taggedNotes[1],
+        tagId: "1",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Tag removed successfully!")).toBeInTheDocument();
+    });
+  });
+
+  it("shows an error toast message on fail to remove a tag", async () => {
+    /*
+    GIVEN the note is available on the client
+    WHEN I add a new tag to the note
+    AND the note fails to be updated in the database with the new tag
+    THEN I can see a tag failed to add toast message
+    */
+
+    // Arrange
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue(taggedNotes[1]);
+    useAppState.mockReturnValue({ page: NOTE, noteId: "2" });
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    let removeTagButton;
+
+    await waitFor(() => {
+      expect(screen.getByText("tag1")).toBeInTheDocument();
+      removeTagButton = screen.getByLabelText(/Remove the tag1 tag/i);
+      expect(removeTagButton).toBeInTheDocument();
+    });
+
+    removeTagAction.mockResolvedValue({ error: "Error" });
+    readAllNotesAction.mockResolvedValue(taggedNotes);
+    readNoteAction.mockResolvedValue({
+      ...taggedNotes[1],
+      tags: [],
+    });
+
+    // Act
+    await userEvent.click(removeTagButton);
+
+    // Assert
+    await waitFor(() => {
+      expect(removeTagAction).toHaveBeenCalledWith({
+        note: taggedNotes[1],
+        tagId: "1",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("tag1")).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByText("The tag can not be removed.")
+      ).toBeInTheDocument();
     });
   });
 });

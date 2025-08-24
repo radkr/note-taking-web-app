@@ -3,16 +3,9 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./tag-input.module.css";
 import Chip from "@/app/_components/chip/chip";
 
-export default function TagInput({ tags = [], onAddTag }) {
-  /*const [tags, setTags] = useState([]);*/
+export default function TagInput({ tags = [], onAddTag, onRemoveTag }) {
   const [newTagName, setNewTagName] = useState("");
   const [inFocus, setInFocus] = useState(false);
-
-  function removeTag(name) {
-    /*setTags((prev) => {
-      return prev.filter((tag) => tag !== name);
-    });*/
-  }
 
   return (
     <div className={`${styles.tagInput} ${inFocus ? styles.inFocus : ""}`}>
@@ -24,7 +17,7 @@ export default function TagInput({ tags = [], onAddTag }) {
                 name={tag.name}
                 label={`Remove the ${tag.name} tag`}
                 onRemove={() => {
-                  removeTag(tag._id);
+                  onRemoveTag(tag._id);
                 }}
               />
             </li>

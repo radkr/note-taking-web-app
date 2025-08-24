@@ -130,3 +130,33 @@ export async function addTagAction({ note, tagName }) {
     return { error: "The tag can not be added." };
   }
 }
+
+export async function removeTagAction({ note, tagId }) {
+  const { userId } = await verifySession();
+  try {
+    // Find the note
+    const noteFilter = {
+      owner: new mongoose.Types.ObjectId(userId),
+      _id: new mongoose.Types.ObjectId(note._id),
+    };
+    const noteToUpdate = await Note.findById(noteFilter);
+    // Remove the tag from the note
+    noteToUpdate.tags.pull(new mongoose.Types.ObjectId(tagId));
+    // Save the note
+    await noteToUpdate.save();
+    // Find out how many note has the tag
+    let allNotesCntfilter = {
+      owner: new mongoose.Types.ObjectId(userId),
+      tags: new mongoose.Types.ObjectId(tagId),
+    };
+    const allNotesCnt = await Note.countDocuments(allNotesCntfilter);
+    // If there are non of them
+    if (allNotesCnt === 0) {
+      // Delete tag if any
+      let tag = await Tag.deleteOne(new mongoose.Types.ObjectId(tagId));
+    }
+    return { message: "Tag removed successfully!" };
+  } catch (error) {
+    return { error: "The tag can not be removed." };
+  }
+}

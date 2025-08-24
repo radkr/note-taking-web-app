@@ -98,7 +98,19 @@ GIVEN the note is available on the client
 AND the note has some tags
 WHEN I remove a tag from the note
 THEN I no longer see the removed tag among the note's tags
-AND the note is updated in the database without the removed tag
+AND the tag is removed from the note in the database
+```
+
+- Components to test:
+  - NotesPage
+
+### Shows an error toast message on fail to remove a tag
+
+```gherkin
+GIVEN the note is available on the client
+WHEN I add a new tag to the note
+AND the note fails to be updated in the database with the new tag
+THEN I can see a tag failed to add toast message
 ```
 
 - Components to test:

@@ -15,6 +15,7 @@ import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
 import { useAddTag } from "@/app/_lib/notes/hooks/use-add-tag";
+import { useRemoveTag } from "@/app/_lib/notes/hooks/use-remove-tag";
 import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import IconClock from "@/assets/images/icon-clock.svg";
@@ -30,6 +31,7 @@ export default function Note({ id, note }) {
   const { restoreNote } = useRestoreNote();
   const { deleteNote, deleteIsPending } = useDeleteNote();
   const { addTag } = useAddTag();
+  const { removeTag } = useRemoveTag();
   const { saveNote } = useUpdateNote(() => setIsEdited("")); //
   const [toDelete, setToDelete] = useState(false);
   const [isEdited, setIsEdited] = useState("");
@@ -178,10 +180,35 @@ export default function Note({ id, note }) {
           displayToast({
             message: reply.message,
           });
-          router.push(`/notes${subPage === ARCHIVED ? "/archived" : ""}`);
         },
         onError: (error) => {
           displayToast(addTagErrorToast);
+        },
+      }
+    );
+  }
+
+  const removeTagErrorToast = {
+    message: "The tag can not be removed.",
+    isError: true,
+  };
+
+  function handleRemoveTag(id) {
+    removeTag(
+      { note: data, tagId: id },
+      {
+        onSuccess: (reply) => {
+          if (!reply || reply.error) {
+            displayToast(removeTagErrorToast);
+            return;
+          }
+
+          displayToast({
+            message: reply.message,
+          });
+        },
+        onError: (error) => {
+          displayToast(removeTagErrorToast);
         },
       }
     );
@@ -241,7 +268,11 @@ export default function Note({ id, note }) {
                       <IconTag className={styles.propertyIcon} />
                       <p className="text-preset-6">Tags</p>
                     </div>
-                    <TagInput tags={data.tags} onAddTag={handleAddTag} />
+                    <TagInput
+                      tags={data.tags}
+                      onAddTag={handleAddTag}
+                      onRemoveTag={handleRemoveTag}
+                    />
                   </div>
                   {data.isArchived ? (
                     <div className={styles.property}>
