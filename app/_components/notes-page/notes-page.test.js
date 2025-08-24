@@ -1021,7 +1021,9 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(screen.getAllByText("tag1").length).toBe(1);
+      expect(
+        within(screen.getByTestId("Note")).getAllByText("tag1").length
+      ).toBe(1);
     });
 
     await waitFor(() => {
@@ -1094,7 +1096,9 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
     let removeTagButton;
 
     await waitFor(() => {
-      expect(screen.getByText("tag1")).toBeInTheDocument();
+      expect(
+        within(screen.getByTestId("Note")).getByText("tag1")
+      ).toBeInTheDocument();
       removeTagButton = screen.getByLabelText(/Remove the tag1 tag/i);
       expect(removeTagButton).toBeInTheDocument();
     });
@@ -1110,7 +1114,9 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
     await userEvent.click(removeTagButton);
 
     await waitFor(() => {
-      expect(screen.queryByText("tag1")).not.toBeInTheDocument();
+      expect(
+        within(screen.getByTestId("Note")).queryByText("tag1")
+      ).not.toBeInTheDocument();
     });
 
     // Assert
@@ -1147,7 +1153,9 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
     let removeTagButton;
 
     await waitFor(() => {
-      expect(screen.getByText("tag1")).toBeInTheDocument();
+      expect(
+        within(screen.getByTestId("Note")).getByText("tag1")
+      ).toBeInTheDocument();
       removeTagButton = screen.getByLabelText(/Remove the tag1 tag/i);
       expect(removeTagButton).toBeInTheDocument();
     });
@@ -1171,7 +1179,9 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("tag1")).toBeInTheDocument();
+      expect(
+        within(screen.getByTestId("Note")).getByText("tag1")
+      ).toBeInTheDocument();
     });
     await waitFor(() => {
       expect(

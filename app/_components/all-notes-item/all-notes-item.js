@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import styles from "./all-notes-item.module.css";
+import Chip from "@/app/_components/chip/chip";
 import { formatDate } from "@/app/_lib/utils";
 import {
   ACTIVE,
@@ -42,6 +43,17 @@ export default function AllNotesItem({ note, id }) {
         <h2 className="text-preset-3 text-color-neutral-950">
           {note.title || "Untitled Note"}
         </h2>
+        {note.tags ? (
+          <ul className={styles.currentTags}>
+            {note.tags.map((tag) => {
+              return (
+                <li key={tag._id}>
+                  <Chip name={tag.name} />
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
         <p className="text-preset-6 text-color-neutral-700">{formattedDate}</p>
       </Link>
     </li>

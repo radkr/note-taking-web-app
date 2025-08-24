@@ -115,3 +115,15 @@ THEN I can see a tag failed to add toast message
 
 - Components to test:
   - NotesPage
+
+### Shows the tags on all notes
+
+```gherkin
+GIVEN the note is available on the client
+AND the note has some tags
+WHEN I browse the list of my notes
+THEN I can see the tags of each note that has one
+```
+
+- Components to test:
+  - AllNotesItem

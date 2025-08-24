@@ -15,7 +15,8 @@ export default function TagInput({ tags = [], onAddTag, onRemoveTag }) {
             <li key={tag._id}>
               <Chip
                 name={tag.name}
-                label={`Remove the ${tag.name} tag`}
+                removable
+                removeBtnLabel={`Remove the ${tag.name} tag`}
                 onRemove={() => {
                   onRemoveTag(tag._id);
                 }}

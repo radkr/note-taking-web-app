@@ -19,6 +19,14 @@
   border: 2px solid var(--color-neutral-400);
 }
 
+.currentTags {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-75);
+}
+
 @media (prefers-color-scheme: dark) {
   .noteList {
     background-color: var(--color-neutral-800);

@@ -145,3 +145,29 @@ describe("AllNotesItem - Browse my notes with a specific search term", () => {
     );
   });
 });
+
+describe("AllNotesItem - Add or remove tags to or from my note", () => {
+  it("shows the tags on all notes", () => {
+    /*
+    GIVEN the note is available on the client
+    AND the note has some tags
+    WHEN I browse the list of my notes
+    THEN I can see the tags of each note that has one
+    */
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: ACTIVE,
+    });
+
+    const note = {
+      _id: "3",
+      title: "Another Note",
+      tags: [{ _id: "1", name: "myTag" }],
+      updatedAt: date,
+    };
+    render(<AllNotesItem note={note} />);
+    // Should navigate to the note's page
+    expect(screen.getByText("myTag")).toBeInTheDocument();
+  });
+});
