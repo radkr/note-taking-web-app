@@ -21,7 +21,7 @@ function getPlainNote(note) {
   };
 }
 
-export async function readAllNotesAction(isArchived, searchTerm) {
+export async function readAllNotesAction(isArchived, searchTerm, tag) {
   const { userId } = await verifySession();
   await dbConnect();
   let filter = {
@@ -33,6 +33,10 @@ export async function readAllNotesAction(isArchived, searchTerm) {
       { title: { $regex: searchTerm, $options: "i" } },
       { content: { $regex: searchTerm, $options: "i" } },
     ];
+  }
+  if (tag) {
+    console.log("tag: ", tag);
+    filter.tags = new mongoose.Types.ObjectId(tag);
   }
   const notes = await Note.find(filter)
     .populate("tags")

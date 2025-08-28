@@ -54,6 +54,7 @@ import {
   ACTIVE,
   ARCHIVED,
   SEARCH,
+  TAGGED,
 } from "@/app/_lib/app/use-app-state";
 
 // Import your QueryClientProvider wrapper
@@ -734,7 +735,7 @@ describe("NotesPage - Browse my archived notes", () => {
     );
 
     await waitFor(() => {
-      expect(readAllNotesAction).toHaveBeenCalledWith(true, "");
+      expect(readAllNotesAction).toHaveBeenCalledWith(true, "", undefined);
       expect(screen.getByText("First Note")).toBeInTheDocument();
       expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
@@ -924,7 +925,7 @@ describe("NotesPage - Browse my notes with a specific search term", () => {
       </NotesPageWrapper>
     );
 
-    expect(readAllNotesAction).toHaveBeenCalledWith(false, "myTerm");
+    expect(readAllNotesAction).toHaveBeenCalledWith(false, "myTerm", undefined);
     await waitFor(() => {
       expect(screen.getByText("First Note")).toBeInTheDocument();
       expect(screen.getByText("Second Note")).toBeInTheDocument();
@@ -1187,6 +1188,37 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
       expect(
         screen.getByText("The tag can not be removed.")
       ).toBeInTheDocument();
+    });
+  });
+});
+
+describe("NotesPage - Browse my notes with a specific tag", () => {
+  it("shows my tagged notes", async () => {
+    /*
+    GIVEN I have created some notes already that have the tag
+    AND the list of my notes for the tag is available on the client
+    WHEN I browse the list of my notes for the tag
+    THEN I can see all my notes for the tag in the list
+    */
+    readAllNotesAction.mockResolvedValueOnce(notes);
+    readNoteAction.mockResolvedValueOnce(notes[0]);
+
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: TAGGED,
+      tag: "1",
+    });
+
+    render(
+      <NotesPageWrapper>
+        <NotesPage />
+      </NotesPageWrapper>
+    );
+
+    expect(readAllNotesAction).toHaveBeenCalledWith(false, "", "1");
+    await waitFor(() => {
+      expect(screen.getByText("First Note")).toBeInTheDocument();
+      expect(screen.getByText("Second Note")).toBeInTheDocument();
     });
   });
 });

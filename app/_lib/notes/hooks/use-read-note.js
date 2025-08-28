@@ -1,11 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { readAllNotesAction, readNoteAction } from "../all-notes-actions";
-import { useAppState, ACTIVE, ARCHIVED, SEARCH } from "../../app/use-app-state";
+import {
+  useAppState,
+  ACTIVE,
+  ARCHIVED,
+  SEARCH,
+  TAGGED,
+} from "../../app/use-app-state";
 import { QUERY_KEY } from "./types";
 
 export function useReadNote() {
-  const { noteId: noteIdApp, subPage, term } = useAppState();
+  const { noteId: noteIdApp, subPage, term, tag } = useAppState();
 
   let key = subPage === ACTIVE ? QUERY_KEY.ACTIVE : QUERY_KEY.ARCHIVED;
 
@@ -19,11 +25,14 @@ export function useReadNote() {
     case SEARCH:
       key = { term: term || "" };
       break;
+    case TAGGED:
+      key = { tag: tag };
+      break;
   }
 
   const allNotes = useQuery({
     queryKey: [QUERY_KEY.ALL_NOTES, key],
-    queryFn: () => readAllNotesAction(subPage === ARCHIVED, term || ""),
+    queryFn: () => readAllNotesAction(subPage === ARCHIVED, term || "", tag),
   });
 
   const noteId = noteIdApp || allNotes.data?.[0]?._id;

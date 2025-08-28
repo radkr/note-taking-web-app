@@ -74,3 +74,15 @@ THEN I can see a hint about for what specific tag showing results currently
 
 - Components to test:
   - AllNotesHeader
+
+### It shows my tagged notes
+
+```gherkin
+GIVEN I have created some notes already that have the tag
+AND the list of my notes for the tag is available on the client
+WHEN I browse the list of my notes for the tag
+THEN I can see all my notes for the tag in the list
+```
+
+- Components to test:
+  - NotesPage
