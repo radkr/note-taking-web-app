@@ -217,4 +217,30 @@ describe("AllNotesHeader - Browse my notes with a specific tag", () => {
       expect(screen.getByText(/Notes Tagged: myTag/i)).toBeInTheDocument();
     });
   });
+  it("shows hint about for what specific tag showing results currently - on portable", () => {
+    /*
+    GIVEN I opened the tagged notes page for a specific tag
+    WHEN I look at the page
+    THEN I can see a hint about for what specific tag showing results currently
+    */
+
+    readTagAction.mockResolvedValue({ _id: "2", name: "myTag" });
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: TAGGED,
+      tag: "1",
+    });
+
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
+
+    waitFor(() => {
+      expect(
+        screen.getByText(/All notes with the ”myTag” tag are shown here./i)
+      ).toBeInTheDocument();
+    });
+  });
 });

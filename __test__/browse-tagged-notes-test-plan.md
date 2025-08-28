@@ -63,3 +63,14 @@ THEN I can see the "Notes Tagged:..." title for that spacific tag
 
 - Components to test:
   - AllNotesHeader
+
+### Shows hint about for what specific tag showing results currently - on portable
+
+```gherkin
+GIVEN I opened the tagged notes page for a specific tag
+WHEN I look at the page
+THEN I can see a hint about for what specific tag showing results currently
+```
+
+- Components to test:
+  - AllNotesHeader

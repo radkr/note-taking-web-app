@@ -60,6 +60,13 @@ export default function AllNotesHeader() {
           >{`All notes matching ”${term || ""}” are displayed below.`}</p>
         </>
       ) : null}
+      {page === NOTES && subPage === TAGGED ? (
+        <p
+          className={"text-preset-5 text-color-neutral-700"}
+        >{`All notes with the ”${
+          tag.data?.name || "..."
+        }” tag are shown here.`}</p>
+      ) : null}
     </div>
   );
 }
