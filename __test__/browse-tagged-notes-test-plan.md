@@ -52,3 +52,14 @@ THEN I get to the notes page filtered to a tag
 
 - Components to test:
   - AllTags
+
+### Shows the Tagged Notes title
+
+```gherkin
+GIVEN I opened the tagged notes page for a specific tag
+WHEN I look at the page
+THEN I can see the "Notes Tagged:..." title for that spacific tag
+```
+
+- Components to test:
+  - AllNotesHeader

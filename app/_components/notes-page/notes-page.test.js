@@ -30,7 +30,7 @@ import {
 
 // Mock server actions
 jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
-  readAllTagsAction: jest.fn(),
+  readAllTagsAction: jest.fn(Promise.resolve([])),
 }));
 
 import { readAllTagsAction } from "@/app/_lib/tags/all-tags-actions";

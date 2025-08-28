@@ -1,8 +1,20 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import AllNotesHeader from "./all-notes-header";
+import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
+
+// Mock server actions
+jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
+  readAllTagsAction: jest.fn(Promise.resolve([])),
+  readTagAction: jest.fn(Promise.resolve({})),
+}));
+
+import {
+  readAllTagsAction,
+  readTagAction,
+} from "@/app/_lib/tags/all-tags-actions";
 
 jest.mock("@/app/_lib/app/use-app-state", () => {
   const originalModule = jest.requireActual("@/app/_lib/app/use-app-state");
@@ -18,6 +30,7 @@ import {
   ARCHIVED,
   NOTES,
   SEARCH,
+  TAGGED,
   useAppState,
 } from "@/app/_lib/app/use-app-state";
 
@@ -42,6 +55,10 @@ jest.mock("@/assets/images/icon-search.svg", () => ({
   default: () => <svg data-testid="mock-icon-search" />,
 }));
 
+const NotesPageWrapper = ({ children }) => {
+  return <MyQueryClientProvider>{children}</MyQueryClientProvider>;
+};
+
 describe("AllNotesHeader - Browse my notes", () => {
   it("shows the All Notes title", () => {
     /*
@@ -55,7 +72,11 @@ describe("AllNotesHeader - Browse my notes", () => {
       subPage: ACTIVE,
     });
 
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     expect(screen.getByText("All Notes")).toBeInTheDocument();
   });
 });
@@ -73,7 +94,11 @@ describe("AllNotesHeader - Browse my archived notes", () => {
       subPage: ARCHIVED,
     });
 
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     expect(screen.getByText("Archived Notes")).toBeInTheDocument();
   });
 });
@@ -91,7 +116,11 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
       subPage: SEARCH,
     });
 
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     expect(screen.getByText("Search")).toBeInTheDocument();
   });
 
@@ -108,7 +137,11 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
       subPage: SEARCH,
     });
 
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     const searchField = screen.getByLabelText("Search");
     await userEvent.type(searchField, "myTerm{enter}");
     expect(push).toHaveBeenCalledWith("/notes/search?term=myTerm");
@@ -126,7 +159,11 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
       subPage: SEARCH,
       term: "myTerm",
     });
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     const searchField = screen.getByLabelText("Search");
     expect(searchField).toHaveValue("myTerm");
   });
@@ -143,10 +180,41 @@ describe("AllNotesHeader - Browse my notes with a specific search term", () => {
       subPage: SEARCH,
       term: "myTerm",
     });
-    render(<AllNotesHeader />);
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
     const hint = screen.getByText(
       "All notes matching ”myTerm” are displayed below."
     );
     expect(hint).toBeInTheDocument();
+  });
+});
+
+describe("AllNotesHeader - Browse my notes with a specific tag", () => {
+  it("shows the Search Notes title", () => {
+    /*
+    GIVEN I opened the tagged notes page for a specific tag
+    WHEN I look at the page
+    THEN I can see the "Notes Tagged:..." title for that spacific tag
+    */
+
+    readTagAction.mockResolvedValue({ _id: "2", name: "myTag" });
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: TAGGED,
+      tag: "1",
+    });
+
+    render(
+      <NotesPageWrapper>
+        <AllNotesHeader />
+      </NotesPageWrapper>
+    );
+
+    waitFor(() => {
+      expect(screen.getByText(/Notes Tagged: myTag/i)).toBeInTheDocument();
+    });
   });
 });

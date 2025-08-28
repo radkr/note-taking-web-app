@@ -34,7 +34,6 @@ export default function AllTags() {
                 Icon={IconTag}
                 big
                 onClick={() => {
-                  console.log(`Open tag: ${tag.name}`);
                   router.push(`/notes/tagged/?tag=${tag._id}`);
                 }}
                 selected={

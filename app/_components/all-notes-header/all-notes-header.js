@@ -10,12 +10,15 @@ import {
   ARCHIVED,
   ACTIVE,
   SEARCH,
+  TAGGED,
 } from "@/app/_lib/app/use-app-state";
+import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import Textinput from "../text-input/text-input";
 import IconSearch from "@/assets/images/icon-search.svg";
 
 export default function AllNotesHeader() {
   const { page, subPage, term } = useAppState();
+  const { tag } = useReadAllTags();
   const { push } = useRouter();
 
   function handleSearch(formData) {
@@ -37,6 +40,9 @@ export default function AllNotesHeader() {
         {page === NOTES && subPage === ACTIVE ? "All Notes" : null}
         {page === NOTES && subPage === ARCHIVED ? "Archived Notes" : null}
         {page === NOTES && subPage === SEARCH ? "Search" : null}
+        {page === NOTES && subPage === TAGGED
+          ? `Notes Tagged: ${tag.data?.name || "..."}`
+          : null}
       </h1>
       {page === NOTES && subPage === SEARCH ? (
         <>

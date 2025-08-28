@@ -25,3 +25,14 @@ export async function readAllTagsAction() {
   });
   return plainTags;
 }
+
+export async function readTagAction(tagId) {
+  const { userId } = await verifySession();
+  await dbConnect();
+  let filter = {
+    owner: new mongoose.Types.ObjectId(userId),
+    _id: new mongoose.Types.ObjectId(tagId),
+  };
+  const tag = await Tag.findOne(filter);
+  return getPlainTag(tag);
+}

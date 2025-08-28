@@ -5,6 +5,11 @@ import AllNotes from "./all-notes";
 // Mock server actions if used in AllNotes
 jest.mock("@/app/_lib/notes/all-notes-model", () => ({}));
 jest.mock("@/app/_lib/database/database", () => ({}));
+// Mock server actions
+jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
+  readAllTagsAction: jest.fn(Promise.resolve([])),
+  readTagAction: jest.fn(Promise.resolve({})),
+}));
 
 // Mock the createNoteAction action
 jest.mock("@/app/_lib/notes/all-notes-actions", () => ({
