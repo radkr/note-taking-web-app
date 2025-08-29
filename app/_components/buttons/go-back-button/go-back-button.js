@@ -10,13 +10,15 @@ import {
   ACTIVE,
   ARCHIVED,
   SEARCH,
-  sss,
+  TAGGED,
+  NOTE,
 } from "@/app/_lib/app/use-app-state";
 
 export default function GoBackButton() {
-  const { subPage, term } = useAppState();
+  const { page, subPage, term, tag } = useAppState();
 
   let href;
+  let params = "";
 
   switch (subPage) {
     case ACTIVE:
@@ -27,12 +29,17 @@ export default function GoBackButton() {
       break;
     case SEARCH:
       href = "/notes/search";
+      params = term ? `?term=${term}` : "";
+      break;
+    case TAGGED:
+      href = "/notes/tagged";
+      params = page === NOTE ? (tag ? `?tag=${tag}` : "") : "";
       break;
     default:
       href = "";
   }
 
-  href = `${href}${term ? `?term=${term}` : ""}`;
+  href = `${href}${params}`;
 
   return (
     <Link href={href} className={styles.back}>

@@ -14,6 +14,7 @@ import {
 } from "@/app/_lib/app/use-app-state";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import Textinput from "../text-input/text-input";
+import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-button";
 import IconSearch from "@/assets/images/icon-search.svg";
 
 export default function AllNotesHeader() {
@@ -32,6 +33,7 @@ export default function AllNotesHeader() {
 
   return (
     <div className={styles.header}>
+      {subPage === TAGGED ? <GoBackButton /> : null}
       <h1
         className={`text-preset-1 text-color-neutral-950 ${styles.home} ${
           page === NOTES ? styles.visible : ""

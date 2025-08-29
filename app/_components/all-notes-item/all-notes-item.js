@@ -7,11 +7,12 @@ import {
   ACTIVE,
   ARCHIVED,
   SEARCH,
+  TAGGED,
   useAppState,
 } from "@/app/_lib/app/use-app-state";
 
 export default function AllNotesItem({ note, id }) {
-  const { subPage, term } = useAppState();
+  const { subPage, term, tag } = useAppState();
   const isSelected = note._id == id;
 
   const formattedDate = note?.updatedAt
@@ -30,14 +31,19 @@ export default function AllNotesItem({ note, id }) {
     case SEARCH:
       hrefSubPage = "search/";
       break;
+    case TAGGED:
+      hrefSubPage = "tagged/";
+      break;
     default:
       hrefSubPage = "";
   }
 
+  let params = term ? `?term=${term}` : tag ? `?tag=${tag}` : "";
+
   return (
     <li className={`${styles.note} ${isSelected ? styles.selected : ""}`}>
       <Link
-        href={`/notes/${hrefSubPage}${note._id}${term ? `?term=${term}` : ""}`}
+        href={`/notes/${hrefSubPage}${note._id}${params}`}
         className={styles.noteCard}
       >
         <h2 className="text-preset-3 text-color-neutral-950">

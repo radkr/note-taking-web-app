@@ -35,7 +35,6 @@ export async function readAllNotesAction(isArchived, searchTerm, tag) {
     ];
   }
   if (tag) {
-    console.log("tag: ", tag);
     filter.tags = new mongoose.Types.ObjectId(tag);
   }
   const notes = await Note.find(filter)
