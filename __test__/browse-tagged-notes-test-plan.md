@@ -63,6 +63,7 @@ THEN I can see the "Notes Tagged:..." title for that spacific tag
 
 - Components to test:
   - AllNotesHeader
+  - DesktopPageHeader
 
 ### Shows hint about for what specific tag showing results currently - on portable
 

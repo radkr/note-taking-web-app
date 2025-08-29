@@ -13,11 +13,14 @@ import {
   ACTIVE,
   SEARCH,
   ARCHIVED,
+  TAGGED,
 } from "@/app/_lib/app/use-app-state";
+import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import Textinput from "../text-input/text-input";
 
 export default function DesktopPageHeader() {
   const { page, subPage, term } = useAppState();
+  const { tag } = useReadAllTags();
   const { push } = useRouter();
 
   function handleSearch(formData) {
@@ -40,6 +43,9 @@ export default function DesktopPageHeader() {
       break;
     case SEARCH:
       title = `Showing results for: ${term || ""}`;
+      break;
+    case TAGGED:
+      title = `Notes Tagged: ${tag.data?.name || "..."}`;
       break;
     default:
       title = "";

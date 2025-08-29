@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DesktopPageHeader from "./desktop-page-header";
+import MyQueryClientProvider from "@/app/_lib/my-query-client/my-query-client";
 
 jest.mock("@/app/_lib/app/use-app-state", () => {
   const originalModule = jest.requireActual("@/app/_lib/app/use-app-state");
@@ -18,7 +19,19 @@ import {
   ARCHIVED,
   SEARCH,
   useAppState,
+  TAGGED,
 } from "@/app/_lib/app/use-app-state";
+
+// Mock server actions
+jest.mock("@/app/_lib/tags/all-tags-actions", () => ({
+  readAllTagsAction: jest.fn(Promise.resolve([])),
+  readTagAction: jest.fn(Promise.resolve({})),
+}));
+
+import {
+  readAllTagsAction,
+  readTagAction,
+} from "@/app/_lib/tags/all-tags-actions";
 
 const push = jest.fn();
 
@@ -40,6 +53,10 @@ jest.mock("@/assets/images/icon-settings.svg", () => ({
   default: () => <svg data-testid="logo" />,
 }));
 
+const NotesPageWrapper = ({ children }) => {
+  return <MyQueryClientProvider>{children}</MyQueryClientProvider>;
+};
+
 describe("DesktopPageHeader - Browse my notes", () => {
   it("shows the All Notes title", () => {
     /*
@@ -53,7 +70,11 @@ describe("DesktopPageHeader - Browse my notes", () => {
       subPage: ACTIVE,
     });
 
-    render(<DesktopPageHeader />);
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
     expect(screen.getByText("All Notes")).toBeInTheDocument();
   });
 });
@@ -71,7 +92,11 @@ describe("DesktopPageHeader - Browse my archived notes", () => {
       subPage: ARCHIVED,
     });
 
-    render(<DesktopPageHeader />);
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
     expect(screen.getByText("Archived Notes")).toBeInTheDocument();
   });
 });
@@ -90,7 +115,11 @@ describe("DesktopPageHeader - Browse my notes with a specific search term", () =
       subPage: SEARCH,
     });
 
-    render(<DesktopPageHeader />);
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
     const searchField = screen.getByLabelText("Search");
     await userEvent.type(searchField, "myTerm{enter}");
     expect(push).toHaveBeenCalledWith("/notes/search?term=myTerm");
@@ -109,7 +138,11 @@ describe("DesktopPageHeader - Browse my notes with a specific search term", () =
       term: "myTerm",
     });
 
-    render(<DesktopPageHeader />);
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
     const searchField = screen.getByLabelText("Search");
     expect(searchField).toHaveValue("myTerm");
   });
@@ -127,8 +160,39 @@ describe("DesktopPageHeader - Browse my notes with a specific search term", () =
       term: "myTerm",
     });
 
-    render(<DesktopPageHeader />);
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
     const title = screen.getByText("Showing results for: myTerm");
     expect(title).toBeInTheDocument();
+  });
+});
+
+describe("DesktopPageHeader - Browse my notes with a specific tag", () => {
+  it("shows the Tagged Notes title", () => {
+    /*
+    GIVEN I opened the tagged notes page for a specific tag
+    WHEN I look at the page
+    THEN I can see the "Notes Tagged:..." title for that spacific tag
+    */
+
+    readTagAction.mockResolvedValue({ _id: "2", name: "myTag" });
+    useAppState.mockReturnValue({
+      page: NOTES,
+      subPage: TAGGED,
+      tag: "1",
+    });
+
+    render(
+      <NotesPageWrapper>
+        <DesktopPageHeader />
+      </NotesPageWrapper>
+    );
+
+    waitFor(() => {
+      expect(screen.getByText(/Notes Tagged: myTag/i)).toBeInTheDocument();
+    });
   });
 });
