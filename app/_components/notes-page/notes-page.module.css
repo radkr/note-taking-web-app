@@ -9,7 +9,7 @@
   min-height: 0;
   display: none;
   background-color: white;
-  overflow: auto;
+  border-radius: var(--spacing-150) var(--spacing-150) 0 0;
 }
 
 .note {

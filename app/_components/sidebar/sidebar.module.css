@@ -1,6 +1,7 @@
 .sidebar {
   --color-bg: white;
   display: none;
+  min-height: 0;
 }
 
 .sidebar.active {

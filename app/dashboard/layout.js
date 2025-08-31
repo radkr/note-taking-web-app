@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             <header className={styles.desktopHeader}>
               <DesktopPageHeader />
             </header>
-            <main>{children}</main>
+            <main className={styles.main}>{children}</main>
             <nav className={styles.bottomNavigation}>
               <BottomNavigation />
             </nav>

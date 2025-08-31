@@ -37,10 +37,10 @@
 }
 
 .noteList {
-  height: fit-content;
+  height: 100%;
   min-height: 0;
   list-style: none;
-  background-color: var(--color-neutral-200);
+  background-color: white; /*var(--color-neutral-200);*/
   display: grid;
   grid-template-columns: 1fr;
   align-items: start;

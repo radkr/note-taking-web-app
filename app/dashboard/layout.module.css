@@ -32,18 +32,18 @@
 .main {
   height: 100%;
   min-height: 0;
-  display: block;
+  /*display: block;
   border-radius: var(--radius-8) var(--radius-8) 0 0;
   background-color: var(--color-neutral-0);
-  overflow: hidden;
+  overflow: hidden;*/
 }
 
 @media (prefers-color-scheme: dark) {
-  .main {
+  /*  .main {
     background-color: var(--color-neutral-950);
     border: 1px solid var(--color-neutral-800);
     color: var(--color-neutral-0);
-  }
+  }*/
 }
 
 .portableHeader {
@@ -69,11 +69,11 @@
     background-color: var(--color-neutral-200);
   }
 
-  .main {
+  /*.main {
     border-radius: 0;
     grid-area: main-area;
     background-color: white;
-  }
+  }*/
 
   .portableHeader {
     display: none;
@@ -94,11 +94,11 @@
       background-color: var(--color-neutral-800);
     }
 
-    .main {
+    /* .main {
       border: none;
       background-color: var(--color-neutral-950);
       color: var(--color-neutral-0);
-    }
+    }*/
 
     .desktopHeader {
       background-color: var(--color-neutral-950);
