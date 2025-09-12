@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ import {
 
 export default function AllNotes({ allNotes, id }) {
   const { subPage } = useAppState();
-  const { displayToast } = use(AppCtx);
+  const { displayToast } = useContext(AppCtx);
   const { data, isLoading } = allNotes;
   const router = useRouter();
   const { createNote } = useCreateNote();

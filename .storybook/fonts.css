@@ -1,0 +1,12 @@
+/* .storybook/fonts.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans&family=Source+Code+Pro&display=swap");
+
+:root {
+  --font-inter-sans-serif: "Inter", sans-serif;
+  --font-noto-sans: "Noto Sans", sans-serif;
+  --font-source-mono: "Source Code Pro", monospace;
+}
+
+body {
+  font-family: var(--font-inter-sans-serif);
+}
