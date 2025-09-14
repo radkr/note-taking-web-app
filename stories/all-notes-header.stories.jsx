@@ -25,7 +25,6 @@ export default {
 
   beforeEach: async () => {
     // 👇 Force known, consistent behavior for mocked modules
-    console.log("Mock useAppState: ", mocked(useReadAllTags));
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: "ARCHIVED" });
     mocked(useReadAllTags).mockReturnValue({});
   },
