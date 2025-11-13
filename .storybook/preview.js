@@ -6,7 +6,7 @@ import "./fonts.css";
 import { sb } from "storybook/test";
 
 sb.mock("../app/_lib/app/use-app-state.js");
-//sb.mock("../app/_lib/tags/hooks/use-read-all-tags.js");
+sb.mock("../app/_lib/tags/hooks/use-read-all-tags.js");
 
 export const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",

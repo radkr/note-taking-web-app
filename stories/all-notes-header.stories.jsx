@@ -5,6 +5,7 @@ import { NOTES } from "@/app/_lib/app/use-app-state";
 import { useAppState } from "@/app/_lib/app/use-app-state";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import { expect, mocked } from "storybook/test";
+import { useEffect } from "react";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
@@ -32,5 +33,14 @@ export default {
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const AllNotesHeaderDefault = {
-  render: () => <AllNotesHeader />,
+  args: { width: 300 },
+  render: (args) => {
+    return (
+      <iframe
+        style={{ width: args.width, height: 500, border: "1px solid black" }}
+      >
+        <AllNotesHeader />
+      </iframe>
+    );
+  },
 };
