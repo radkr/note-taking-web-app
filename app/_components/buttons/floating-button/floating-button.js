@@ -1,12 +1,6 @@
 import styles from "./floating-button.module.css";
 
-export default function FloatingButton({
-  Icon,
-  variant,
-  className,
-  children,
-  ...props
-}) {
+export default function FloatingButton({ Icon, variant, className, ...props }) {
   return (
     <button
       className={`text-preset-4 ${styles.button} ${

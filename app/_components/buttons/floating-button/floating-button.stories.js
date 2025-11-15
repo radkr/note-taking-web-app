@@ -1,11 +1,12 @@
 import { fn } from "storybook/test";
 
-import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
+import FloatingButton from "./floating-button";
+import { IconPlus } from "@/app/_components/icons";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
-  title: "Buttons/PrimaryButton",
-  component: PrimaryButton,
+  title: "Buttons/FloatingButton",
+  component: FloatingButton,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
@@ -17,14 +18,16 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
   args: {
-    children: "Save Note",
+    //Icon: () => <img width="24px" height="24px" src={IconHome.src} />,
+    Icon: IconPlus,
     variant: false,
   },
 };
 
 export const Variant = {
   args: {
-    children: "Delete Note",
+    //Icon: () => <img width="24px" height="24px" src={IconHome.src} />,
+    Icon: IconPlus,
     variant: true,
   },
 };
