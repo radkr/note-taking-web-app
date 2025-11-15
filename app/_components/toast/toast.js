@@ -5,9 +5,9 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 
 import styles from "./toast.module.css";
-import IconCheckmark from "@/assets/images/icon-checkmark.svg";
-import IconX from "@/assets/images/icon-x.svg";
-import IconCross from "@/assets/images/icon-cross.svg";
+import { IconCheckmark } from "@/app/_components/icons";
+import { IconX } from "@/app/_components/icons";
+import { IconCross } from "@/app/_components/icons";
 
 export default function Toast({
   open,

@@ -3,9 +3,9 @@
 import { useState, useRef } from "react";
 
 import styles from "./text-input.module.css";
-import IconShowPassword from "@/assets/images/icon-show-password.svg";
-import IconHidePassword from "@/assets/images/icon-hide-password.svg";
-import IconInfo from "@/assets/images/icon-info.svg";
+import { IconShowPassword } from "@/app/_components/icons";
+import { IconHidePassword } from "@/app/_components/icons";
+import { IconInfo } from "@/app/_components/icons";
 
 export default function Textinput({
   Icon,
