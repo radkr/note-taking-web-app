@@ -9,7 +9,7 @@ import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header"
 import AllNotesItem from "@/app/_components/all-notes-item/all-notes-item";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 import FloatingButton from "@/app/_components/buttons/floating-button/floating-button";
-import IconPlus from "@/assets/images/icon-plus.svg";
+import { IconPlus } from "@/app/_components/icons";
 import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
 import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";

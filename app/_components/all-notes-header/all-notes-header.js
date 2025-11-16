@@ -15,7 +15,7 @@ import {
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import Textinput from "../text-input/text-input";
 import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-button";
-import IconSearch from "@/assets/images/icon-search.svg";
+import { IconSearch } from "@/app/_components/icons";
 
 export default function AllNotesHeader() {
   const { page, subPage, term } = useAppState();
