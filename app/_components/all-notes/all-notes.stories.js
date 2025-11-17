@@ -109,6 +109,20 @@ export const Default = {
   },
 };
 
+export const Loading = {
+  args: {
+    allNotes: { isLoading: true },
+    id: "1",
+  },
+};
+
+export const Empty = {
+  args: {
+    allNotes: { data: [], isLoading: false },
+    id: "1",
+  },
+};
+
 export const Archived = {
   args: {
     allNotes: { data: notes, isLoading: false },

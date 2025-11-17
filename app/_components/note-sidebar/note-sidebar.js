@@ -1,8 +1,8 @@
 import styles from "./note-sidebar.module.css";
 import BorderButton from "@/app/_components/buttons/border-button/border-button";
-import IconArchive from "@/assets/images/icon-archive.svg";
-import IconRestore from "@/assets/images/icon-restore.svg";
-import IconDelete from "@/assets/images/icon-delete.svg";
+import { IconArchive } from "@/app/_components/icons";
+import { IconRestore } from "@/app/_components/icons";
+import { IconDelete } from "@/app/_components/icons";
 
 export default function NoteSiderbar({
   onArchive,
