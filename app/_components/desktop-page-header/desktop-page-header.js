@@ -4,8 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import styles from "./desktop-page-header.module.css";
-import IconSettings from "@/assets/images/icon-settings.svg";
-import IconSearch from "@/assets/images/icon-search.svg";
+import { IconSettings, IconSearch } from "@/app/_components/icons";
 import {
   useAppState,
   NOTES,
