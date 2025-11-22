@@ -18,6 +18,7 @@ sb.mock("../app/_lib/database/database.js");
 sb.mock("../app/_lib/notes/all-notes-model.js");
 sb.mock("../app/_lib/tags/all-tags-model.js");
 sb.mock("../app/_lib/auth/user-model.js");
+sb.mock("../app/_lib/auth/auth-actions");
 sb.mock("bcrypt");
 
 export const interSansSerif = Inter({

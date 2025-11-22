@@ -7,6 +7,7 @@ import {
   ACTIVE,
   TAGGED,
   SEARCH,
+  SETTINGS,
 } from "@/app/_lib/app/use-app-state";
 import { useAppState } from "@/app/_lib/app/use-app-state";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
@@ -67,5 +68,12 @@ export const Tagged = {
     mocked(useReadAllTags).mockReturnValue({
       tag: { data: tag, isLoading: false },
     });
+  },
+};
+
+export const Settings = {
+  beforeEach: async () => {
+    // 👇 Force known, consistent behavior for mocked modules
+    mocked(useAppState).mockReturnValue({ page: NOTES, subPage: SETTINGS });
   },
 };

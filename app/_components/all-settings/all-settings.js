@@ -2,7 +2,7 @@
 
 import styles from "./all-settings.module.css";
 import SelectButton from "../buttons/select-button/select-button";
-import IconLogout from "@/assets/images/icon-logout.svg";
+import { IconLogout } from "@/app/_components/icons";
 import { logoutAction } from "@/app/_lib/auth/auth-actions";
 
 export default function AllSettings() {
