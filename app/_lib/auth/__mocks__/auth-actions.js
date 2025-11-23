@@ -2,6 +2,8 @@ export async function encrypt(payload) {}
 
 export async function decrypt(session) {}
 
+export async function verifySession() {}
+
 export async function createSession(userId) {}
 
 export async function deleteSession() {}

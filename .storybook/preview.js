@@ -21,6 +21,50 @@ sb.mock("../app/_lib/auth/user-model.js");
 sb.mock("../app/_lib/auth/auth-actions");
 sb.mock("bcrypt");
 
+/*
+Layout breakpoints:
+- desktop: 1440 - 1024px x 900px
+- tablet: 1023px - 576px x 1024px
+- mobile: 575px - 375px x 812px 
+*/
+const customViewports = {
+  mobile1: {
+    name: "mobile",
+    styles: {
+      width: "375px",
+      height: "812px",
+    },
+  },
+  mobile2: {
+    name: "mobile max",
+    styles: {
+      width: "575px",
+      height: "812px",
+    },
+  },
+  tablet1: {
+    name: "tablet",
+    styles: {
+      width: "768px",
+      height: "1024px",
+    },
+  },
+  tablet2: {
+    name: "tablet max",
+    styles: {
+      width: "1023px",
+      height: "1024px",
+    },
+  },
+  desktop: {
+    name: "desktop",
+    styles: {
+      width: "1440px",
+      height: "900px",
+    },
+  },
+};
+
 export const interSansSerif = Inter({
   variable: "--font-inter-sans-serif",
   subsets: ["latin"],
@@ -51,6 +95,10 @@ const preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: "todo",
+    },
+
+    viewport: {
+      options: customViewports,
     },
   },
 
