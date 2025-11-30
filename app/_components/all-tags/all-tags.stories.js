@@ -61,15 +61,11 @@ export default {
   component: AllTags,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: "centered",
+    layout: "fullscreen",
   },
   /*globals: {
     viewport: { value: "mobile1", isRotated: false },
   },*/
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
 
   beforeEach: async () => {
     // 👇 Force known, consistent behavior for mocked modules

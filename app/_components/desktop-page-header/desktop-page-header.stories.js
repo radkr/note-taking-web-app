@@ -24,11 +24,7 @@ export default {
   component: DesktopPageHeader,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: "centered",
-  },
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {
-    backgroundColor: { control: "color" },
+    layout: "fullscreen",
   },
 
   beforeEach: async () => {
@@ -37,6 +33,10 @@ export default {
     mocked(useReadAllTags).mockReturnValue({
       tag: { data: tag, isLoading: false },
     });
+  },
+
+  args: {
+    parentHPadding: 272,
   },
 };
 
