@@ -976,10 +976,13 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(addTagAction).toHaveBeenCalledWith({
-        note: taggedNotes[0],
-        tagName: "testTag",
-      });
+      expect(addTagAction).toHaveBeenCalledWith(
+        {
+          note: taggedNotes[0],
+          tagName: "testTag",
+        },
+        { client: {}, meta: undefined, mutationKey: undefined }
+      );
     });
 
     await waitFor(() => {
@@ -1064,10 +1067,13 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(addTagAction).toHaveBeenCalledWith({
-        note: taggedNotes[1],
-        tagName: "tag1",
-      });
+      expect(addTagAction).toHaveBeenCalledWith(
+        {
+          note: taggedNotes[1],
+          tagName: "tag1",
+        },
+        { client: {}, meta: undefined, mutationKey: undefined }
+      );
     });
 
     await waitFor(() => {
@@ -1122,10 +1128,13 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(removeTagAction).toHaveBeenCalledWith({
-        note: taggedNotes[1],
-        tagId: "1",
-      });
+      expect(removeTagAction).toHaveBeenCalledWith(
+        {
+          note: taggedNotes[1],
+          tagId: "1",
+        },
+        { client: {}, meta: undefined, mutationKey: undefined }
+      );
     });
 
     await waitFor(() => {
@@ -1173,10 +1182,13 @@ describe("NotesPage - Add or remove tags to or from my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(removeTagAction).toHaveBeenCalledWith({
-        note: taggedNotes[1],
-        tagId: "1",
-      });
+      expect(removeTagAction).toHaveBeenCalledWith(
+        {
+          note: taggedNotes[1],
+          tagId: "1",
+        },
+        { client: {}, meta: undefined, mutationKey: undefined }
+      );
     });
 
     await waitFor(() => {
