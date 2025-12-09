@@ -122,13 +122,17 @@ const preview = {
   },
 
   decorators: [
-    (Story, { args }) => {
-      const widthType = args.widthType || "child";
-      const fixedWidth = args.fixedWidth || 100;
-      const parentHPadding = args.parentHPadding || 0;
-      const heightType = args.heightType || "child";
-      const fixedHeight = args.fixedHeight || 100;
-      const parentVPadding = args.parentVPadding || 0;
+    (Story, { args, parameters, globals }) => {
+      const viewport = globals.viewport?.value || "default";
+      const parent = parameters.parent[viewport];
+      const widthType = args.widthType || parent?.widthType || "child";
+      const fixedWidth = args.fixedWidth || parent?.fixedWidth || 100;
+      const parentHPadding =
+        (parent?.parentHPadding || 0) + (args.parentHPadding || 0);
+      const heightType = args.heightType || parent?.heightType || "child";
+      const fixedHeight = args.fixedHeight || parent?.fixedHeight || 100;
+      const parentVPadding =
+        (parent?.parentVPadding || 0) + (args.parentVPadding || 0);
       const paddingColor = args.paddingColor || "white";
 
       let cssGridTemplateColumns = getTemplate(
@@ -142,7 +146,7 @@ const preview = {
         parentVPadding
       );
       let cssHeight = heightType == "parent" ? "100vh" : "auto";
-      let padding = heightType == "parent" ? "0" : "32px 0";
+      let cssPadding = heightType == "parent" ? "0" : "32px 0";
       return (
         <div
           style={{
@@ -150,7 +154,7 @@ const preview = {
             width: "100vw",
             height: cssHeight,
             margin: "auto",
-            padding: padding,
+            padding: cssPadding,
             gridTemplateRows: cssGridTemplateRows,
             gridTemplateColumns: cssGridTemplateColumns,
           }}
