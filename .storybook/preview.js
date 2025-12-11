@@ -124,7 +124,7 @@ const preview = {
   decorators: [
     (Story, { args, parameters, globals }) => {
       const viewport = globals.viewport?.value || "default";
-      const parent = parameters.parent[viewport];
+      const parent = parameters.parent?.[viewport];
       const widthType = args.widthType || parent?.widthType || "child";
       const fixedWidth = args.fixedWidth || parent?.fixedWidth || 100;
       const parentHPadding =

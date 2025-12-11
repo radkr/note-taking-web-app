@@ -5,6 +5,18 @@ import { NOTES, ACTIVE } from "@/app/_lib/app/use-app-state";
 import { useAppState } from "@/app/_lib/app/use-app-state";
 import { expect, mocked } from "storybook/test";
 
+const parentDesktop = {
+  widthType: "fixed",
+  fixedWidth: 290,
+  heightType: "child",
+};
+
+const parentPortable = {
+  widthType: "parent",
+  parentHPadding: 0,
+  heightType: "child",
+};
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/AllNotes/AllNotesItem",
@@ -12,6 +24,14 @@ export default {
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
+    parent: {
+      default: parentDesktop,
+      mobile1: parentPortable,
+      mobile2: parentPortable,
+      tablet1: parentPortable,
+      tablet2: parentPortable,
+      desktop: parentDesktop,
+    },
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
