@@ -18,6 +18,12 @@ const tag = {
   name: "Dev",
 };
 
+const parentDesktop = {
+  widthType: "parent",
+  parentHPadding: 20,
+  heightType: "child",
+};
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/Navigation/DesktopPageHeader",
@@ -25,6 +31,14 @@ export default {
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
+    parent: {
+      default: parentDesktop,
+      mobile1: parentDesktop,
+      mobile2: parentDesktop,
+      tablet1: parentDesktop,
+      tablet2: parentDesktop,
+      desktop: parentDesktop,
+    },
   },
 
   beforeEach: async () => {
@@ -36,7 +50,7 @@ export default {
   },
 
   args: {
-    parentHPadding: 272,
+    parentHPadding: 0,
   },
 };
 
