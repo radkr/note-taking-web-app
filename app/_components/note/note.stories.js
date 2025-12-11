@@ -18,6 +18,20 @@ import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
 import { expect, mocked } from "storybook/test";
 
+const parentDesktop = {
+  widthType: "parent",
+  parentHPadding: 40,
+  heightType: "parent",
+  parentVPadding: 0,
+};
+
+const parentPortable = {
+  widthType: "parent",
+  parentHPadding: 0,
+  heightType: "parent",
+  parentVPadding: 0,
+};
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/Note/Note",
@@ -25,9 +39,15 @@ export default {
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
+    parent: {
+      default: parentDesktop,
+      mobile1: parentPortable,
+      mobile2: parentPortable,
+      tablet1: parentPortable,
+      tablet2: parentPortable,
+      desktop: parentDesktop,
+    },
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ["autodocs"],
 
   decorators: [
     (Story) => (
@@ -48,6 +68,9 @@ export default {
     mocked(useRemoveTag).mockReturnValue({ removeTag: fn() });
     mocked(useRestoreNote).mockReturnValue({ restoreNote: fn() });
     mocked(useArchiveNote).mockReturnValue({ archiveNote: fn() });
+  },
+  args: {
+    parentHPadding: 0,
   },
 };
 
