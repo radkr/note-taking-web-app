@@ -18,5 +18,7 @@ export default {
 export const Default = {
   args: {
     children: "Cancel",
+    widthType: "child",
+    heightType: "child",
   },
 };

@@ -19,6 +19,8 @@ export const Default = {
   args: {
     children: "Save Note",
     variant: false,
+    widthType: "child",
+    heightType: "child",
   },
 };
 

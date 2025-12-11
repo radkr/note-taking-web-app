@@ -30,6 +30,8 @@ export const Default = {
     error: "",
     onFocus: fn(),
     onBlur: fn(),
+    widthType: "child",
+    heightType: "child",
   },
 };
 

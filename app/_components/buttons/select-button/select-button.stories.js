@@ -23,6 +23,8 @@ export const Default = {
     label: "All Notes",
     selected: false,
     big: false,
+    widthType: "child",
+    heightType: "child",
   },
 };
 

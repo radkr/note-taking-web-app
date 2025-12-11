@@ -19,6 +19,8 @@ export const Default = {
   args: {
     name: "myTag",
     removable: false,
+    widthType: "child",
+    heightType: "child",
   },
 };
 

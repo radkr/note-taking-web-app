@@ -24,5 +24,7 @@ export const Default = {
     ],
     onAddTag: fn(),
     onRemoveTag: fn(),
+    widthType: "child",
+    heightType: "child",
   },
 };

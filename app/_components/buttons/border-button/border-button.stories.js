@@ -21,5 +21,7 @@ export const Default = {
     //Icon: () => <img width="24px" height="24px" src={IconHome.src} />,
     Icon: IconArchive,
     children: "Archive Note",
+    widthType: "child",
+    heightType: "child",
   },
 };

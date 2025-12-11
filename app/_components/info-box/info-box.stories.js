@@ -23,5 +23,7 @@ export const Default = {
         <a href="#">create a new note</a>.
       </p>
     ),
+    widthType: "child",
+    heightType: "child",
   },
 };
