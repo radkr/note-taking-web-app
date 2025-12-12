@@ -4,6 +4,7 @@ import { Inter, Noto_Sans, Source_Code_Pro } from "next/font/google";
 import "../app/globals.css";
 import "./fonts.css";
 import { sb } from "storybook/test";
+import { withThemeByDataAttribute } from "@storybook/addon-themes";
 
 sb.mock("../app/_lib/app/use-app-state.js");
 sb.mock("../app/_lib/tags/hooks/use-read-all-tags.js");
@@ -159,15 +160,15 @@ const preview = {
             gridTemplateColumns: cssGridTemplateColumns,
           }}
         >
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
+          <div />
+          <div />
+          <div />
+          <div />
           <Story />
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
-          <div style={{ backgroundColor: paddingColor }} />
+          <div />
+          <div />
+          <div />
+          <div />
         </div>
       );
     },
@@ -180,6 +181,14 @@ const preview = {
         <Story />
       </div>
     ),
+    withThemeByDataAttribute({
+      themes: {
+        light: "light",
+        dark: "dark",
+      },
+      defaultTheme: "light",
+      attributeName: "data-theme",
+    }),
   ],
   args: {},
   argTypes: {
