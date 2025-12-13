@@ -39,13 +39,14 @@ export default function Decorator(Story, { args, parameters, globals }) {
     fixedHeight,
     parentVPadding
   );
+  let cssWidth = widthType == "parent" ? "100vw" : "100%";
   let cssHeight = heightType == "parent" ? "100vh" : "auto";
   let cssPadding = heightType == "parent" ? "0" : "32px 0";
   return (
     <div
       style={{
         display: "grid",
-        width: "100vw",
+        width: cssWidth,
         height: cssHeight,
         margin: "auto",
         padding: cssPadding,
