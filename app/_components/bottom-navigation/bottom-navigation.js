@@ -3,11 +3,13 @@
 import Link from "next/link";
 
 import styles from "./bottom-navigation.module.css";
-import IconHome from "@/assets/images/icon-home.svg";
-import IconSearch from "@/assets/images/icon-search.svg";
-import IconArchive from "@/assets/images/icon-archive.svg";
-import IconTag from "@/assets/images/icon-tag.svg";
-import IconSettings from "@/assets/images/icon-settings.svg";
+import {
+  IconHome,
+  IconSearch,
+  IconArchive,
+  IconTag,
+  IconSettings,
+} from "@/app/_components/icons";
 import {
   useAppState,
   NOTES,

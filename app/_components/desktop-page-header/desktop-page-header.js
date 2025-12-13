@@ -4,8 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import styles from "./desktop-page-header.module.css";
-import IconSettings from "@/assets/images/icon-settings.svg";
-import IconSearch from "@/assets/images/icon-search.svg";
+import { IconSettings, IconSearch } from "@/app/_components/icons";
 import {
   useAppState,
   NOTES,
@@ -14,6 +13,7 @@ import {
   SEARCH,
   ARCHIVED,
   TAGGED,
+  SETTINGS,
 } from "@/app/_lib/app/use-app-state";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import Textinput from "../text-input/text-input";
@@ -46,6 +46,9 @@ export default function DesktopPageHeader() {
       break;
     case TAGGED:
       title = `Notes Tagged: ${tag.data?.name || "..."}`;
+      break;
+    case SETTINGS:
+      title = `Settings`;
       break;
     default:
       title = "";

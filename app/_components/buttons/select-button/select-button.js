@@ -1,5 +1,5 @@
 import styles from "./select-button.module.css";
-import IconChevronRight from "@/assets/images/icon-chevron-right.svg";
+import IconChevronRight from "@/app/_components/icons/IconChevronRight";
 
 export default function SelectButton({ Icon, selected, big, onClick, label }) {
   return (

@@ -18,10 +18,10 @@ import { useAddTag } from "@/app/_lib/notes/hooks/use-add-tag";
 import { useRemoveTag } from "@/app/_lib/notes/hooks/use-remove-tag";
 import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
-import IconClock from "@/assets/images/icon-clock.svg";
-import IconStatus from "@/assets/images/icon-status.svg";
-import IconDelete from "@/assets/images/icon-delete.svg";
-import IconTag from "@/assets/images/icon-tag.svg";
+import { IconClock } from "@/app/_components/icons";
+import { IconStatus } from "@/app/_components/icons";
+import { IconDelete } from "@/app/_components/icons";
+import { IconTag } from "@/app/_components/icons";
 import { ARCHIVED, useAppState } from "@/app/_lib/app/use-app-state";
 
 export default function Note({ id, note }) {

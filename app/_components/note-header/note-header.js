@@ -1,8 +1,8 @@
 import styles from "./note-header.module.css";
 import GoBackButton from "@/app/_components/buttons/go-back-button/go-back-button";
-import IconDelete from "@/assets/images/icon-delete.svg";
-import IconArchive from "@/assets/images/icon-archive.svg";
-import IconRestore from "@/assets/images/icon-restore.svg";
+import { IconDelete } from "@/app/_components/icons";
+import { IconArchive } from "@/app/_components/icons";
+import { IconRestore } from "@/app/_components/icons";
 
 export default function NoteHeader({
   onSave,

@@ -485,7 +485,11 @@ describe("Note - Delete my note", () => {
 
     // Assert
     await waitFor(() => {
-      expect(deleteNoteAction).toHaveBeenCalledWith(mockNote.data._id);
+      expect(deleteNoteAction).toHaveBeenCalledWith(mockNote.data._id, {
+        client: {},
+        meta: undefined,
+        mutationKey: undefined,
+      });
     });
   });
 
@@ -853,10 +857,13 @@ describe("Note - Update my note", () => {
 
       // Assert
       await waitFor(() => {
-        expect(updateNoteAction).toHaveBeenCalledWith({
-          ...mockNote.data,
-          title: titleNew,
-        });
+        expect(updateNoteAction).toHaveBeenCalledWith(
+          {
+            ...mockNote.data,
+            title: titleNew,
+          },
+          { client: {}, meta: undefined, mutationKey: undefined }
+        );
       });
       const toastText = /Note saved successfully/i;
       await waitFor(() => {
@@ -902,10 +909,13 @@ describe("Note - Update my note", () => {
 
       // Assert
       await waitFor(() => {
-        expect(updateNoteAction).toHaveBeenCalledWith({
-          ...mockNote.data,
-          content: contentNew,
-        });
+        expect(updateNoteAction).toHaveBeenCalledWith(
+          {
+            ...mockNote.data,
+            content: contentNew,
+          },
+          { client: {}, meta: undefined, mutationKey: undefined }
+        );
       });
       const toastText = /Note saved successfully/i;
       await waitFor(() => {

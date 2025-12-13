@@ -1,5 +1,5 @@
 import styles from "./chip.module.css";
-import IconCross from "@/assets/images/icon-cross.svg";
+import { IconCross } from "@/app/_components/icons";
 
 export default function Chip({ name, removeBtnLabel, removable, onRemove }) {
   return (

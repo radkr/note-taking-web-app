@@ -6,7 +6,7 @@ import styles from "./all-tags.module.css";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
 import { useAppState, NOTE, NOTES, TAGGED } from "@/app/_lib/app/use-app-state";
 import SelectButton from "@/app/_components/buttons/select-button/select-button";
-import IconTag from "@/assets/images/icon-tag.svg";
+import { IconTag } from "@/app/_components/icons";
 
 export default function AllTags() {
   const { page, subPage, tag: openedTag } = useAppState();

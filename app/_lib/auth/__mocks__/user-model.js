@@ -1,6 +1,6 @@
 const User = {
-  find: jest.fn(() => Promise.resolve([])),
-  findById: jest.fn(() => Promise.resolve([])),
+  find: () => Promise.resolve([]),
+  findById: () => Promise.resolve([]),
 };
 
 export default User;

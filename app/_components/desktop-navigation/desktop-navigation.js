@@ -3,9 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import styles from "./desktop-navigation.module.css";
-import Logo from "@/assets/images/logo.svg";
-import IconHome from "@/assets/images/icon-home.svg";
-import IconArchive from "@/assets/images/icon-archive.svg";
+import { Logo, IconHome, IconArchive } from "@/app/_components/icons";
 import SelectButton from "../buttons/select-button/select-button";
 import {
   useAppState,

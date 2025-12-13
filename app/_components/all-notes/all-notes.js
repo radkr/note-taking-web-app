@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -9,7 +9,7 @@ import AllNotesHeader from "@/app/_components/all-notes-header/all-notes-header"
 import AllNotesItem from "@/app/_components/all-notes-item/all-notes-item";
 import PrimaryButton from "@/app/_components/buttons/primary-button/primary-button";
 import FloatingButton from "@/app/_components/buttons/floating-button/floating-button";
-import IconPlus from "@/assets/images/icon-plus.svg";
+import { IconPlus } from "@/app/_components/icons";
 import { useCreateNote } from "@/app/_lib/notes/hooks/use-create-note";
 import InfoBox from "@/app/_components/info-box/info-box";
 import styles from "./all-notes.module.css";
@@ -22,7 +22,7 @@ import {
 
 export default function AllNotes({ allNotes, id }) {
   const { subPage } = useAppState();
-  const { displayToast } = use(AppCtx);
+  const { displayToast } = useContext(AppCtx);
   const { data, isLoading } = allNotes;
   const router = useRouter();
   const { createNote } = useCreateNote();

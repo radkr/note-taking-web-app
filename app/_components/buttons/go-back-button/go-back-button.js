@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
 import styles from "./go-back-button.module.css";
-import IconLeft from "@/assets/images/icon-arrow-left.svg";
+import { IconArrowLeft } from "@/app/_components/icons";
 import {
   useAppState,
   ACTIVE,
@@ -43,7 +43,7 @@ export default function GoBackButton() {
 
   return (
     <Link href={href} className={styles.back}>
-      <IconLeft className={styles.arrow} />
+      <IconArrowLeft className={styles.arrow} />
       <p className="text-preset-5 text-color-neutral-600">Go Back</p>
     </Link>
   );

@@ -32,6 +32,8 @@
 .icon {
   display: block;
   color: var(--color-txt-icon);
+  width: 24px;
+  height: 24px;
 }
 
 @media (prefers-color-scheme: dark) {
