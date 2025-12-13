@@ -3,7 +3,7 @@ import { fn } from "storybook/test";
 import NoteHeader from "./note-header";
 import { NOTES, ACTIVE } from "@/app/_lib/app/use-app-state";
 import { useAppState } from "@/app/_lib/app/use-app-state";
-import { expect, mocked } from "storybook/test";
+import { mocked } from "storybook/test";
 
 const parentDesktop = {
   widthType: "parent",
@@ -17,12 +17,10 @@ const parentPortable = {
   heightType: "child",
 };
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/Note/NoteHeader",
   component: NoteHeader,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
     parent: {
       default: parentDesktop,
@@ -33,10 +31,8 @@ export default {
       desktop: parentDesktop,
     },
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: ACTIVE });
   },
   args: {
@@ -44,7 +40,6 @@ export default {
   },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const ForActiveNote = {
   args: {
     onSave: fn(),

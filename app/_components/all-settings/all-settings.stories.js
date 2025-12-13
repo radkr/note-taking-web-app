@@ -1,5 +1,3 @@
-import { fn } from "storybook/test";
-
 import AllSettings from "./all-settings";
 
 const parentDesktop = {
@@ -16,12 +14,10 @@ const parentPortable = {
   parentVPadding: 0,
 };
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/AllSettings",
   component: AllSettings,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
     parent: {
       default: parentDesktop,
@@ -34,5 +30,4 @@ export default {
   },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {};

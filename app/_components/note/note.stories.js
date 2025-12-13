@@ -1,14 +1,7 @@
 import { fn } from "storybook/test";
 
 import Note from "./note";
-import {
-  NOTES,
-  ARCHIVED,
-  ACTIVE,
-  TAGGED,
-  SEARCH,
-  useAppState,
-} from "@/app/_lib/app/use-app-state";
+import { NOTES, ACTIVE, useAppState } from "@/app/_lib/app/use-app-state";
 import { AppCtx } from "@/app/_lib/app/app-ctx";
 import { useDeleteNote } from "@/app/_lib/notes/hooks/use-delete-note";
 import { useUpdateNote } from "@/app/_lib/notes/hooks/use-update-note";
@@ -16,7 +9,7 @@ import { useAddTag } from "@/app/_lib/notes/hooks/use-add-tag";
 import { useRemoveTag } from "@/app/_lib/notes/hooks/use-remove-tag";
 import useRestoreNote from "@/app/_lib/notes/hooks/use-restore-note";
 import useArchiveNote from "@/app/_lib/notes/hooks/use-archive-note";
-import { expect, mocked } from "storybook/test";
+import { mocked } from "storybook/test";
 
 const parentDesktop = {
   widthType: "parent",
@@ -32,12 +25,10 @@ const parentPortable = {
   parentVPadding: 0,
 };
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/Note/Note",
   component: Note,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
     parent: {
       default: parentDesktop,
@@ -60,7 +51,6 @@ export default {
   ],
 
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: ACTIVE });
     mocked(useDeleteNote).mockReturnValue({ deleteNote: fn() });
     mocked(useUpdateNote).mockReturnValue({ saveNote: fn() });
@@ -74,7 +64,6 @@ export default {
   },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
   args: {
     note: {

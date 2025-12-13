@@ -1,5 +1,3 @@
-import { fn } from "storybook/test";
-
 import DesktopPageHeader from "./desktop-page-header";
 import {
   NOTES,
@@ -11,7 +9,7 @@ import {
 } from "@/app/_lib/app/use-app-state";
 import { useAppState } from "@/app/_lib/app/use-app-state";
 import { useReadAllTags } from "@/app/_lib/tags/hooks/use-read-all-tags";
-import { expect, mocked } from "storybook/test";
+import { mocked } from "storybook/test";
 
 const tag = {
   _id: "2",
@@ -24,12 +22,10 @@ const parentDesktop = {
   heightType: "child",
 };
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
   title: "App/Navigation/DesktopPageHeader",
   component: DesktopPageHeader,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
     parent: {
       default: parentDesktop,
@@ -42,7 +38,6 @@ export default {
   },
 
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: ACTIVE });
     mocked(useReadAllTags).mockReturnValue({
       tag: { data: tag, isLoading: false },
@@ -54,19 +49,16 @@ export default {
   },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {};
 
 export const Archived = {
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: ARCHIVED });
   },
 };
 
 export const Search = {
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({
       page: NOTES,
       subPage: SEARCH,
@@ -77,7 +69,6 @@ export const Search = {
 
 export const Tagged = {
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: TAGGED });
     mocked(useReadAllTags).mockReturnValue({
       tag: { data: tag, isLoading: false },
@@ -87,7 +78,6 @@ export const Tagged = {
 
 export const Settings = {
   beforeEach: async () => {
-    // 👇 Force known, consistent behavior for mocked modules
     mocked(useAppState).mockReturnValue({ page: NOTES, subPage: SETTINGS });
   },
 };
